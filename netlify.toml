@@ -1,0 +1,27 @@
+# Netlify configuration for bluestemadvisoryllc.com
+# Static site — no build step. Everything deployable lives in /site.
+
+[build]
+  publish = "site"
+
+# Clean URL for the About page: /about works alongside /about.html
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 200
+
+# Long-cache the image assets; HTML always revalidates
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
