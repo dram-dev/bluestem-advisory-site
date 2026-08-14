@@ -400,6 +400,144 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
   .rv{opacity:1;transform:none}
   .w{opacity:1;transform:none}
 }
+
+/* ===== in hand: minimized element + drawer ===== */
+.inhand-mini{
+  margin-top:96px;width:100%;display:flex;align-items:center;gap:34px;text-align:left;
+  background:var(--paper);border:1px solid rgba(35,42,32,.08);border-radius:22px;
+  padding:30px 34px;cursor:pointer;font-family:inherit;color:inherit;
+  box-shadow:0 1px 2px rgba(22,27,20,.05),0 12px 28px rgba(22,27,20,.07);
+  transition:transform .3s,box-shadow .3s;
+}
+.inhand-mini:hover{transform:translateY(-4px);box-shadow:0 2px 4px rgba(22,27,20,.05),0 20px 40px rgba(22,27,20,.1)}
+.inhand-mini:focus-visible{outline:2px solid var(--copper);outline-offset:3px}
+.inhand-mini .fan{position:relative;flex:none;width:118px;height:96px}
+.inhand-mini .thumb{position:absolute;top:6px;display:block;border-radius:4px;overflow:hidden;
+  border:1px solid rgba(35,42,32,.15);box-shadow:0 4px 10px rgba(22,27,20,.14);background:var(--paper)}
+.inhand-mini .thumb svg{display:block;width:100%;height:auto}
+.inhand-mini .t0{left:0;width:70px;transform:rotate(-7deg)}
+.inhand-mini .t1{left:26px;width:74px;transform:rotate(1deg);z-index:1}
+.inhand-mini .t2{left:56px;width:58px;transform:rotate(8deg)}
+.inhand-mini .mini-text{flex:1;min-width:0}
+.inhand-mini .fx-eyebrow{display:block;color:var(--stem);margin-bottom:8px}
+.inhand-mini h3,.inhand-mini h4{font-size:clamp(21px,2.2vw,26px);margin:0 0 6px}
+.inhand-mini .mini-line{display:block;font-size:15.5px;color:rgba(35,42,32,.7)}
+.inhand-mini .mini-cta{
+  flex:none;display:inline-flex;align-items:center;gap:9px;
+  font-family:'Karla',sans-serif;font-size:13.5px;font-weight:600;letter-spacing:.05em;
+  color:var(--copper);border:1px solid var(--copper);border-radius:999px;padding:12px 22px;
+  transition:background .25s,color .25s;
+}
+.inhand-mini:hover .mini-cta{background:var(--copper);color:var(--paper)}
+
+#drawer{
+  position:fixed;inset:0;z-index:60;background:var(--paper);
+  display:none;opacity:0;transform:translateY(26px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+#drawer.open{display:block}
+#drawer.in{opacity:1;transform:none}
+.drawer-scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.drawer-wrap{max-width:1160px;margin:0 auto;padding:110px clamp(24px,6vw,80px) 130px}
+.drawer-close{
+  position:fixed;top:22px;right:26px;z-index:8;width:48px;height:48px;border-radius:999px;
+  border:1px solid rgba(35,42,32,.25);background:var(--paper);color:var(--ink);
+  font-size:22px;line-height:1;cursor:pointer;font-family:'Karla',sans-serif;
+  box-shadow:0 4px 14px rgba(22,27,20,.12);
+  transition:background .25s,color .25s,border-color .25s;
+}
+.drawer-close:hover{background:var(--copper);border-color:var(--copper);color:var(--paper)}
+.drawer-close:focus-visible{outline:2px solid var(--copper);outline-offset:3px}
+#drawer .fx-eyebrow{color:var(--stem);margin-bottom:18px}
+#drawer .fx-h{font-size:clamp(30px,3.8vw,46px);margin-bottom:14px}
+#drawer .fx-lede{font-size:18px;color:rgba(35,42,32,.75);max-width:37em;margin-bottom:64px}
+#drawer .sub-label{color:var(--copper);margin-bottom:26px;display:flex;align-items:center;gap:16px}
+#drawer .sub-label::after{content:'';flex:1;height:1px;background:var(--rule)}
+.pcards{display:grid;grid-template-columns:1fr 1fr;gap:44px 40px;margin-bottom:0}
+.pcard .k{display:block;color:var(--copper);margin:16px 0 8px}
+.pcard p{font-size:15.5px;color:rgba(35,42,32,.75);line-height:1.65;max-width:34em}
+#drawer .undernote{
+  margin-top:64px;padding-top:26px;border-top:1px solid var(--rule);
+  font-style:italic;font-size:16.5px;color:var(--grass);max-width:40em;
+}
+.acards{display:grid;grid-template-columns:repeat(4,1fr);gap:28px 24px}
+.acard{text-align:left;display:flex;flex-direction:column}
+.aframe{
+  display:block;width:100%;border:none;padding:0;background:transparent;font-family:inherit;color:inherit;
+  cursor:zoom-in;position:relative;border-radius:14px;
+  transition:transform .35s cubic-bezier(.2,.7,.3,1);
+}
+.aframe:hover,.aframe:focus-visible{transform:translateY(-5px) rotate(-.35deg)}
+.aframe:focus-visible{outline:2px solid var(--copper);outline-offset:4px}
+.artifact-shot{
+  display:block;width:100%;background:var(--paper);border:1px solid rgba(35,42,32,.12);
+  border-radius:10px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(22,27,20,.07),0 14px 30px rgba(22,27,20,.1);
+  transition:box-shadow .35s;
+}
+.aframe:hover .artifact-shot{box-shadow:0 2px 5px rgba(22,27,20,.07),0 24px 46px rgba(22,27,20,.15)}
+.artifact-shot svg,.artifact-shot img{display:block;width:100%;height:100%}
+.aframe .peek{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:10px;
+  background:rgba(22,27,20,0);transition:background .35s;
+}
+.aframe .peek span{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Karla',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:.05em;
+  color:var(--light);background:rgba(33,39,30,.85);border-radius:999px;padding:9px 16px;
+  opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;
+}
+.aframe:hover .peek{background:rgba(22,27,20,.12)}
+.aframe:hover .peek span,.aframe:focus-visible .peek span{opacity:1;transform:none}
+.acard h3{font-size:19px;margin:18px 0 6px;display:flex;align-items:center}
+.acard h3 .seedmark{margin-right:9px;flex:none}
+.acard p{font-size:14.5px;color:rgba(35,42,32,.72);line-height:1.55;margin-bottom:10px}
+.acard .tag{color:rgba(35,42,32,.45);font-size:11.5px;margin-top:auto}
+.acard.featured .artifact-shot{border-color:rgba(161,78,36,.5)}
+
+/* lens viewer */
+#lens{position:fixed;inset:0;z-index:90;background:rgba(22,27,20,.92);display:none;opacity:0;transition:opacity .35s}
+#lens.open{display:block}
+#lens.in{opacity:1}
+#lens .stage{position:absolute;inset:0;overflow:hidden;cursor:grab;touch-action:none}
+#lens .stage.panning{cursor:grabbing}
+#lens .canvas{position:absolute;top:0;left:0;transform-origin:0 0;will-change:transform;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.45))}
+#lens .canvas svg{display:block;background:var(--paper);border-radius:8px}
+#lens .bar{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;align-items:center;
+  justify-content:space-between;gap:18px;padding:18px clamp(20px,4vw,44px);
+  background:linear-gradient(to top,rgba(15,19,13,.85),rgba(15,19,13,0))}
+#lens .cap{color:var(--straw);font-family:'Literata',serif;font-size:17px}
+#lens .cap small{display:block;font-family:'Karla',sans-serif;font-size:12px;font-weight:500;
+  letter-spacing:.06em;color:rgba(205,190,147,.65);margin-top:4px;font-style:italic}
+#lens .ctrl{display:flex;gap:10px}
+#lens .ctrl button,#lens .lens-close{
+  width:44px;height:44px;border-radius:999px;border:1px solid rgba(205,190,147,.4);
+  background:rgba(33,39,30,.6);color:var(--straw);cursor:pointer;
+  font-family:'Karla',sans-serif;font-size:19px;font-weight:500;line-height:1;
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:background .25s,border-color .25s,color .25s;
+}
+#lens .ctrl button:hover,#lens .lens-close:hover{background:var(--copper);border-color:var(--copper);color:var(--paper)}
+#lens .lens-close{position:absolute;top:22px;right:22px;z-index:6}
+#lens .hint{position:absolute;top:26px;left:50%;transform:translateX(-50%);z-index:5;
+  font-family:'Karla',sans-serif;font-size:12.5px;font-weight:500;letter-spacing:.06em;
+  color:rgba(205,190,147,.7);background:rgba(33,39,30,.55);border-radius:999px;padding:9px 18px}
+
+
+@media(max-width:1100px){.acards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){
+  .pcards{grid-template-columns:1fr}
+  .inhand-mini{flex-wrap:wrap;gap:22px}
+  .inhand-mini .mini-cta{margin-left:auto}
+}
+@media(max-width:760px){
+  .acards{grid-template-columns:1fr}
+  #lens .hint{display:none}
+  .inhand-mini .fan{display:none}
+  .drawer-wrap{padding-top:90px}
+}
+
 </style>
 </head>
 <body>
@@ -474,6 +612,46 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
 </section>
 
 
+<section id="in-hand" style="background:var(--paper);padding-top:0">
+  <div class="wrap">
+    <button class="inhand-mini rv" id="inhand-open" aria-haspopup="dialog" aria-controls="drawer">
+      <span class="fan" aria-hidden="true"><span class="thumb t0"><svg viewBox="0 0 792 612" role="img" aria-label="The scorecard: measure rows against eight quarter columns and a target column, with status marks distinguished by shape as well as color." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="64" y="64" width="260" height="16" rx="8.0" fill="#1E4230" opacity="0.8"/>
+<text x="64" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">MEASURE</text><text x="260" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q1</text><text x="312" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q2</text><text x="364" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q3</text><text x="416" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q4</text><text x="468" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q5</text><text x="520" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q6</text><text x="572" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q7</text><text x="624" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q8</text><text x="732" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#A14E24" opacity="0.85" text-anchor="middle">TARGET</text>
+<line x1="64" y1="188" x2="728" y2="188" stroke="#232A20" stroke-opacity=".2"/>
+<rect x="64" y="204" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="240" x2="728" y2="240" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="210" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><rect x="305" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="357" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><path d="M416 203 L423 216 L409 216 Z" fill="#A14E24"/><rect x="461" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="513" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="572" cy="210" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><rect x="617" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="204" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="270" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="306" x2="728" y2="306" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="276" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="312" cy="276" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="364" cy="276" r="6.5" fill="#4A5B4C"/><circle cx="416" cy="276" r="6.5" fill="#4A5B4C"/><path d="M468 269 L475 282 L461 282 Z" fill="#A14E24"/><rect x="513" y="274" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="565" y="274" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="624" cy="276" r="6.5" fill="#4A5B4C"/><rect x="710" y="270" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="336" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="372" x2="728" y2="372" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="342" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="312" cy="342" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="364" cy="342" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="416" cy="342" r="6.5" fill="#4A5B4C"/><rect x="461" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="513" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="565" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="617" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="336" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="402" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="438" x2="728" y2="438" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="408" r="6.5" fill="#4A5B4C"/><path d="M312 401 L319 414 L305 414 Z" fill="#A14E24"/><rect x="357" y="406" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="416" cy="408" r="6.5" fill="#4A5B4C"/><path d="M468 401 L475 414 L461 414 Z" fill="#A14E24"/><circle cx="520" cy="408" r="6.5" fill="#4A5B4C"/><circle cx="572" cy="408" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><rect x="617" y="406" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="402" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="468" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="504" x2="728" y2="504" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="474" r="6.5" fill="#4A5B4C"/><circle cx="312" cy="474" r="6.5" fill="#4A5B4C"/><circle cx="364" cy="474" r="6.5" fill="#4A5B4C"/><rect x="409" y="472" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="468" cy="474" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><path d="M520 467 L527 480 L513 480 Z" fill="#A14E24"/><rect x="565" y="472" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="617" y="472" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="468" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/></svg></span><span class="thumb t1"><svg viewBox="0 0 792 612" role="img" aria-label="Root map: a horizon line with a stated goal above it, root-like curves branching downward through captured notes into theme nodes, converging on a single node at the bottom — with two notes floating unattached to one side." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<line x1="64" y1="150" x2="728" y2="150" stroke="#232A20" stroke-opacity=".35" stroke-width="1.6"/>
+<rect x="240" y="116" width="180" height="12" rx="6.0" fill="#1E4230" opacity="0.6"/><text x="240" y="104" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.45" text-anchor="start">STATED GOAL</text>
+<path d="M300 150 C270 230 226 290 208 356" stroke="#4A5B4C" stroke-width="2.2" fill="none"/><path d="M300 150 C316 230 334 280 350 352" stroke="#4A5B4C" stroke-width="2.2" fill="none"/><path d="M300 150 C380 220 460 260 512 348" stroke="#5F6E8C" stroke-width="2" fill="none"/><path d="M208 356 C230 420 268 452 306 486" stroke="#4A5B4C" stroke-width="2" fill="none"/><path d="M350 352 C346 412 330 452 318 484" stroke="#4A5B4C" stroke-width="2" fill="none"/><path d="M512 348 C470 420 380 462 330 488" stroke="#5F6E8C" stroke-width="1.8" fill="none"/>
+<rect x="196" y="238" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="205" y="244" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="318" y="222" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="327" y="228" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="408" y="262" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="417" y="268" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="150" y="300" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="159" y="306" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="360" y="300" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="369" y="306" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="474" y="300" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="483" y="306" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/>
+<circle cx="208" cy="356" r="17" fill="#4A5B4C" opacity=".8"/>
+<circle cx="350" cy="352" r="15" fill="#4A5B4C" opacity=".65"/>
+<circle cx="512" cy="348" r="14" fill="#5F6E8C" opacity=".7"/>
+<circle cx="318" cy="490" r="20" fill="#A14E24"/>
+<rect x="636" y="210" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="645" y="216" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="652" y="252" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="661" y="258" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/>
+<text x="64" y="560" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">FIRST SESSION · DRAWN AS FOUND</text></svg></span><span class="thumb t2"><svg viewBox="0 0 612 792" role="img" aria-label="The strategic plan: a portrait narrative document with a title block, a rule, and two columns of body text under a numbered section heading." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="610" height="790" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="70" y="110" width="300" height="20" rx="10.0" fill="#1E4230" opacity="0.85"/><rect x="70" y="146" width="190" height="11" rx="5.5" fill="#232A20" opacity="0.4"/>
+<line x1="70" y1="210" x2="542" y2="210" stroke="#232A20" stroke-opacity=".2"/>
+<text x="70" y="290" font-family="Literata,serif" font-weight="500" font-size="34" fill="#A14E24">02</text>
+<rect x="126" y="268" width="210" height="13" rx="6.5" fill="#232A20" opacity="0.6"/>
+<rect x="70" y="340" width="219" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="352" width="218" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="364" width="191" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="376" width="192" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="388" width="215" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="400" width="212" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="412" width="210" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="424" width="199" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="436" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="340" width="197" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="352" width="206" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="364" width="201" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="376" width="208" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="388" width="208" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="400" width="191" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="412" width="190" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="424" width="215" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="436" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="470" width="196" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="482" width="192" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="494" width="201" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="506" width="194" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="518" width="191" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="530" width="202" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="542" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="500" width="208" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="512" width="212" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="524" width="214" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="536" width="218" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="548" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/>
+<rect x="70" y="600" width="458" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="612" width="460" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="624" width="438" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="636" width="423" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="648" width="406" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="660" width="260" height="5" rx="2.5" fill="#232A20" opacity="0.3"/>
+<rect x="70" y="726" width="120" height="6" rx="3.0" fill="#232A20" opacity="0.3"/></svg></span></span>
+      <span class="mini-text">
+        <span class="fx-eyebrow mono">In hand</span>
+        <h3>What you're holding at the end.</h3>
+        <span class="mini-line">The documents an engagement leaves behind — and the work underneath them.</span>
+      </span>
+      <span class="mini-cta">Dig in
+        <svg width="13" height="13" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </span>
+    </button>
+  </div>
+</section>
+
 <section class="dark" style="background:var(--loam-2);padding-top:90px;padding-bottom:90px">
   <div class="wrap">
     <h2 class="rv">Start at the root.</h2>
@@ -488,6 +666,234 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
     <span class="mono">© 2026 · All rights reserved</span>
   </div>
 </footer>
+
+<div id="drawer" role="dialog" aria-modal="true" aria-label="What you're holding at the end">
+  <button class="drawer-close" aria-label="Close">&times;</button>
+  <div class="drawer-scroll">
+    <div class="drawer-wrap">
+      <div class="fx-eyebrow mono">In hand</div>
+      <h2 class="fx-h">What you're holding at the end.</h2>
+      <p class="fx-lede">An engagement ends with things you can hold — documents made to be used, yours to keep, edit, and re-use, in your organization's colors and type, not ours. Press any piece to look closer.</p>
+
+      <div class="sub-label mono">Where it comes from</div>
+      <div class="pcards">
+        <div class="pcard rv">
+          <button class="aframe" data-title="Frame" data-sub="Sample fragment — details stay with our clients" aria-label="Open a closer view of the Frame fragment">
+            <span class="artifact-shot" data-artifact="snip-frame" style="aspect-ratio:560/360"><svg viewBox="0 0 560 360" role="img" aria-label="Frame, shown as a document fragment: a numbered strategic question list, a stakeholder map with weighted rings and one missed voice flagged outside them, and a session calendar strip." xmlns="http://www.w3.org/2000/svg">
+<g transform="rotate(-2 120 40)"><rect x="-30" y="-40" width="300" height="110" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/></g>
+<rect x="0" y="0" width="560" height="360" rx="10" fill="#F2F0E6" stroke="rgba(35,42,32,.16)"/>
+<text x="44" y="52" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">THE QUESTIONS WORTH ANSWERING</text>
+<text x="44" y="106" font-family="Literata,serif" font-weight="500" font-size="26" fill="#A14E24">01</text><rect x="92" y="90" width="168" height="10" rx="5.0" fill="#232A20" opacity="0.6"/><rect x="92" y="112.0" width="152" height="4.5" rx="2.25" fill="#232A20" opacity="0.28"/><rect x="92" y="122.5" width="118" height="4.5" rx="2.25" fill="#232A20" opacity="0.28"/><text x="44" y="196" font-family="Literata,serif" font-weight="500" font-size="26" fill="#A14E24">02</text><rect x="92" y="180" width="168" height="10" rx="5.0" fill="#232A20" opacity="0.6"/><rect x="92" y="202.0" width="156" height="4.5" rx="2.25" fill="#232A20" opacity="0.28"/><rect x="92" y="212.5" width="118" height="4.5" rx="2.25" fill="#232A20" opacity="0.28"/><text x="44" y="286" font-family="Literata,serif" font-weight="500" font-size="26" fill="#A14E24">03</text><rect x="92" y="270" width="168" height="10" rx="5.0" fill="#232A20" opacity="0.6"/><rect x="92" y="292.0" width="166" height="4.5" rx="2.25" fill="#232A20" opacity="0.28"/><rect x="92" y="302.5" width="118" height="4.5" rx="2.25" fill="#232A20" opacity="0.28"/>
+<circle cx="416" cy="118" r="66" fill="none" stroke="#4A5B4C" stroke-opacity=".4" stroke-width="1.2" stroke-dasharray="3 5"/><circle cx="416" cy="118" r="38" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.2"/><circle cx="416" cy="118" r="7" fill="#5F6E8C" opacity="0.85"/><circle cx="406" cy="155" r="5" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="379" cy="128" r="5" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="441" cy="147" r="5" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="454" cy="117" r="5" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="437" cy="149" r="5" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="386" cy="59" r="3.2" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="362" cy="80" r="3.2" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="401" cy="54" r="3.2" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="360" cy="153" r="3.2" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="368" cy="163" r="3.2" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="363" cy="157" r="3.2" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="475" cy="147" r="3.2" fill="#5F6E8C" opacity="0.6699999999999999"/><circle cx="516" cy="70" r="6" fill="#A14E24"/><circle cx="516" cy="70" r="12" fill="none" stroke="#A14E24" stroke-width="1.4" stroke-dasharray="3 4"/>
+<line x1="320" y1="298" x2="560" y2="298" stroke="#232A20" stroke-opacity=".25"/>
+<line x1="320" y1="292" x2="320" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="350" y1="292" x2="350" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="380" y1="292" x2="380" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="410" y1="292" x2="410" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="440" y1="292" x2="440" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="470" y1="292" x2="470" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="500" y1="292" x2="500" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="530" y1="292" x2="530" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="560" y1="292" x2="560" y2="304" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><circle cx="350" cy="316" r="4.5" fill="#5F6E8C" stroke="#4A5B4C" stroke-opacity="0.0" stroke-width="1"/><circle cx="410" cy="316" r="4.5" fill="#5F6E8C" stroke="#4A5B4C" stroke-opacity="0.0" stroke-width="1"/><circle cx="470" cy="316" r="4.5" fill="#CDBE93" stroke="#4A5B4C" stroke-opacity="0.8" stroke-width="1"/>
+<text x="320" y="278" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">SESSIONS</text>
+</svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+          </button>
+          <span class="k mono">Frame</span>
+          <p>Before anything is drafted, the conversation gets set up to produce something worth acting on: the questions the organization actually needs to answer, a map of who should be heard, a calendar for the whole process, and sessions designed to evoke real discussion.</p>
+        </div>
+        <div class="pcard rv d1">
+          <button class="aframe" data-title="Listen" data-sub="Sample fragment — details stay with our clients" aria-label="Open a closer view of the Listen fragment">
+            <span class="artifact-shot" data-artifact="snip-listen" style="aspect-ratio:560/360"><svg viewBox="0 0 560 360" role="img" aria-label="Listen, shown as a document fragment: survey bars, a verbatim quote block, interview themes gathering into one node, and a foresight timeline with signal flags running off the edge." xmlns="http://www.w3.org/2000/svg">
+<g transform="rotate(2.4 480 330)"><rect x="330" y="300" width="260" height="90" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/></g>
+<rect x="0" y="0" width="560" height="360" rx="10" fill="#F2F0E6" stroke="rgba(35,42,32,.16)"/>
+<text x="46" y="52" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">WHAT THE NUMBERS SAY</text>
+<line x1="40" y1="212" x2="210" y2="212" stroke="#232A20" stroke-opacity=".3"/>
+<rect x="46" y="158" width="14" height="54" rx="7" fill="#5F6E8C" opacity="0.6"/><rect x="72" y="124" width="14" height="88" rx="7" fill="#5F6E8C" opacity="0.6"/><rect x="98" y="142" width="14" height="70" rx="7" fill="#5F6E8C" opacity="0.6"/><rect x="124" y="100" width="14" height="112" rx="7" fill="#A14E24" opacity="0.9"/><rect x="150" y="150" width="14" height="62" rx="7" fill="#5F6E8C" opacity="0.6"/><rect x="176" y="116" width="14" height="96" rx="7" fill="#5F6E8C" opacity="0.6"/>
+<text x="46" y="258" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">IN THEIR WORDS</text>
+<rect x="46" y="272" width="132" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="46" y="284" width="139" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="46" y="296" width="82" height="5" rx="2.5" fill="#232A20" opacity="0.26"/>
+<text x="238" y="118" font-family="Literata,serif" font-size="72" fill="#CDBE93">“</text><rect x="252" y="104" width="186" height="6" rx="3.0" fill="#232A20" opacity="0.34"/><rect x="252" y="119" width="185" height="6" rx="3.0" fill="#232A20" opacity="0.34"/><rect x="252" y="134" width="160" height="6" rx="3.0" fill="#232A20" opacity="0.34"/><line x1="252" y1="168" x2="284" y2="168" stroke="#232A20" stroke-opacity=".4" stroke-width="2"/><rect x="292" y="163" width="74" height="7" rx="3.5" fill="#232A20" opacity="0.3"/>
+<text x="238" y="224" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">THEMES, GATHERING</text>
+<circle cx="300" cy="252" r="15" fill="#4A5B4C" opacity=".7"/><circle cx="356" cy="238" r="11" fill="#5F6E8C" opacity=".7"/><circle cx="404" cy="256" r="9" fill="#A14E24" opacity=".75"/><path d="M300 267 C316 296 336 308 352 316 M356 249 C356 280 354 300 352 316 M404 265 C392 292 372 308 352 316" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.6" fill="none"/><circle cx="352" cy="322" r="8" fill="#1E4230"/>
+<line x1="452" y1="300" x2="560" y2="300" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><path d="M546 295 l10 5 -10 5 Z" fill="#232A20" opacity=".35"/><path d="M474 300 V276 l16 6 -16 6 Z" fill="#5F6E8C" opacity=".8"/><path d="M516 300 V268 l16 6 -16 6 Z" fill="#CDBE93"/>
+<text x="452" y="264" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">AHEAD</text>
+</svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+          </button>
+          <span class="k mono">Listen</span>
+          <p>Then comes evidence — from inside, outside, and ahead: survey results you keep and can re-run, themes and verbatim quotes from interviews, a clear look at how peers position and where the open ground sits, and the trends the plan has to hold up against.</p>
+        </div>
+        <div class="pcard rv">
+          <button class="aframe" data-title="Decide" data-sub="Sample fragment — details stay with our clients" aria-label="Open a closer view of the Decide fragment">
+            <span class="artifact-shot" data-artifact="snip-decide" style="aspect-ratio:560/300"><svg viewBox="0 0 560 300" role="img" aria-label="Decide, shown as a document fragment: a two-by-two priority matrix with one option ringed, and a column of option chips where a declined one is struck through with its written reason noted in the margin." xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="560" height="300" rx="10" fill="#F2F0E6" stroke="rgba(35,42,32,.16)"/>
+<text x="46" y="48" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">RANKED AGAINST AGREED CRITERIA</text>
+<line x1="66" y1="70" x2="66" y2="232" stroke="#232A20" stroke-opacity=".3"/>
+<line x1="66" y1="232" x2="252" y2="232" stroke="#232A20" stroke-opacity=".3"/>
+<line x1="159" y1="70" x2="159" y2="232" stroke="#232A20" stroke-opacity=".12"/>
+<line x1="66" y1="151" x2="252" y2="151" stroke="#232A20" stroke-opacity=".12"/>
+<circle cx="117" cy="98" r="6" fill="#4A5B4C" opacity=".7"/><circle cx="185" cy="162" r="6" fill="#4A5B4C" opacity=".7"/><circle cx="181" cy="132" r="6" fill="#4A5B4C" opacity=".7"/><circle cx="154" cy="201" r="6" fill="#4A5B4C" opacity=".7"/><circle cx="209" cy="120" r="6" fill="#4A5B4C" opacity=".7"/><circle cx="196" cy="112" r="7" fill="#4A5B4C"/><circle cx="196" cy="112" r="13" fill="none" stroke="#A14E24" stroke-width="1.8"/>
+<text x="336" y="62" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">DIRECTIONS · KEPT AND DECLINED</text>
+<rect x="336" y="84" width="150" height="34" rx="17" fill="none" stroke="#4A5B4C" stroke-opacity="0.6" stroke-width="1.3"/><rect x="354" y="97" width="100" height="7" rx="3.5" fill="#232A20" opacity="0.32"/><rect x="336" y="152" width="150" height="34" rx="17" fill="none" stroke="#232A20" stroke-opacity="0.35" stroke-width="1.3"/><rect x="354" y="165" width="96" height="7" rx="3.5" fill="#232A20" opacity="0.32"/><line x1="344" y1="169" x2="478" y2="169" stroke="#A14E24" stroke-width="1.8"/><path d="M486 169 C506 169 512 154 512 142" stroke="#A14E24" stroke-opacity=".8" stroke-width="1.2" fill="none"/><rect x="500" y="100" width="45" height="4" rx="2.0" fill="#232A20" opacity="0.3"/><rect x="500" y="109" width="46" height="4" rx="2.0" fill="#232A20" opacity="0.3"/><rect x="500" y="118" width="42" height="4" rx="2.0" fill="#232A20" opacity="0.3"/><rect x="336" y="220" width="150" height="34" rx="17" fill="none" stroke="#4A5B4C" stroke-opacity="0.6" stroke-width="1.3"/><rect x="354" y="233" width="100" height="7" rx="3.5" fill="#232A20" opacity="0.32"/>
+</svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+          </button>
+          <span class="k mono">Decide</span>
+          <p>Wide input becomes choices leadership will stand behind: facilitated sessions where nothing said in the room is lost, a synthesis of where alignment already exists, the directions the organization commits to — with written reasons for the ones declined — and priorities ranked against criteria agreed to in advance.</p>
+        </div>
+        <div class="pcard rv d1">
+          <button class="aframe" data-title="Advance" data-sub="Sample fragment — details stay with our clients" aria-label="Open a closer view of the Advance fragment">
+            <span class="artifact-shot" data-artifact="snip-advance" style="aspect-ratio:560/300"><svg viewBox="0 0 560 300" role="img" aria-label="Advance, shown as a document fragment: a workplan lane with a single named owner and a milestone, a scorecard row with shape-coded quarter marks and a target, and a steady meeting-cadence strip." xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="560" height="300" rx="10" fill="#F2F0E6" stroke="rgba(35,42,32,.16)"/>
+<text x="46" y="48" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">ONE NAMED OWNER</text>
+<circle cx="56" cy="82" r="7" fill="#1E4230"/>
+<rect x="74" y="77" width="70" height="8" rx="4.0" fill="#232A20" opacity="0.45"/>
+<rect x="196" y="70" width="180" height="20" rx="10" fill="#5F6E8C" opacity=".5"/>
+<path d="M392 72 l8 10 -8 10 -8 -10 Z" fill="#A14E24"/>
+<line x1="46" y1="108" x2="514" y2="108" stroke="#232A20" stroke-opacity=".12"/>
+<text x="46" y="148" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">MEASURE</text><rect x="46" y="158" width="120" height="8" rx="4.0" fill="#232A20" opacity="0.45"/>
+<circle cx="330" cy="176" r="6" fill="#4A5B4C"/><circle cx="366" cy="176" r="6" fill="none" stroke="#5F6E8C" stroke-width="2"/><path d="M402 169 L409 182 L395 182 Z" fill="#A14E24"/><rect x="431" y="174" width="13" height="4" rx="2" fill="#232A20" opacity=".4"/>
+<rect x="474" y="168" width="44" height="12" rx="6.0" fill="#1E4230" opacity="0.55"/><text x="474" y="158" font-family="Karla,sans-serif" font-weight="600" font-size="8.5" letter-spacing="1.5" fill="#A14E24" opacity="0.85" text-anchor="start">TARGET</text>
+<line x1="46" y1="210" x2="514" y2="210" stroke="#232A20" stroke-opacity=".12"/>
+<text x="46" y="236" font-family="Karla,sans-serif" font-weight="600" font-size="9.5" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">THE RHYTHM THAT KEEPS IT ALIVE</text>
+<line x1="60" y1="252" x2="60" y2="238" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="98" y1="252" x2="98" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="136" y1="252" x2="136" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="174" y1="252" x2="174" y2="238" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="212" y1="252" x2="212" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="250" y1="252" x2="250" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="288" y1="252" x2="288" y2="238" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="326" y1="252" x2="326" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="364" y1="252" x2="364" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="402" y1="252" x2="402" y2="238" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="440" y1="252" x2="440" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="478" y1="252" x2="478" y2="244" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><line x1="516" y1="252" x2="516" y2="238" stroke="#232A20" stroke-opacity=".3" stroke-width="1.4"/><circle cx="60" cy="262" r="4" fill="#1E4230"/><circle cx="174" cy="262" r="4" fill="#1E4230"/><circle cx="288" cy="262" r="4" fill="#1E4230"/><circle cx="402" cy="262" r="4" fill="#1E4230"/><circle cx="516" cy="262" r="4" fill="#1E4230"/>
+</svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+          </button>
+          <span class="k mono">Advance</span>
+          <p>The plan made real inside your organization: roles and a meeting cadence that keep it alive, messages tuned to each audience, a workplan where every initiative can be monitored, and a scoring rhythm that shows where progress is made.</p>
+        </div>
+      </div>
+
+      <div class="sub-label mono" style="margin-top:84px">Yours to keep</div>
+      <div class="acards">
+      <div class="acard">
+        <button class="aframe" data-title="The strategic plan" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of The strategic plan">
+          <span class="artifact-shot" data-artifact="strategic-plan" style="aspect-ratio:612/792"><svg viewBox="0 0 612 792" role="img" aria-label="The strategic plan: a portrait narrative document with a title block, a rule, and two columns of body text under a numbered section heading." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="610" height="790" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="70" y="110" width="300" height="20" rx="10.0" fill="#1E4230" opacity="0.85"/><rect x="70" y="146" width="190" height="11" rx="5.5" fill="#232A20" opacity="0.4"/>
+<line x1="70" y1="210" x2="542" y2="210" stroke="#232A20" stroke-opacity=".2"/>
+<text x="70" y="290" font-family="Literata,serif" font-weight="500" font-size="34" fill="#A14E24">02</text>
+<rect x="126" y="268" width="210" height="13" rx="6.5" fill="#232A20" opacity="0.6"/>
+<rect x="70" y="340" width="219" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="352" width="218" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="364" width="191" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="376" width="192" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="388" width="215" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="400" width="212" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="412" width="210" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="424" width="199" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="436" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="340" width="197" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="352" width="206" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="364" width="201" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="376" width="208" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="388" width="208" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="400" width="191" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="412" width="190" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="424" width="215" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="436" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="470" width="196" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="482" width="192" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="494" width="201" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="506" width="194" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="518" width="191" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="530" width="202" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="542" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="500" width="208" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="512" width="212" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="524" width="214" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="536" width="218" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="322" y="548" width="121" height="5" rx="2.5" fill="#232A20" opacity="0.3"/>
+<rect x="70" y="600" width="458" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="612" width="460" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="624" width="438" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="636" width="423" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="648" width="406" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="70" y="660" width="260" height="5" rx="2.5" fill="#232A20" opacity="0.3"/>
+<rect x="70" y="726" width="120" height="6" rx="3.0" fill="#232A20" opacity="0.3"/></svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3>The strategic plan</h3>
+        <p>The complete board-ready narrative document. Developed to stand on its own, over time, and be understood both now and in the future.</p>
+      </div>
+      <div class="acard">
+        <button class="aframe" data-title="Plan on a page" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of Plan on a page">
+          <span class="artifact-shot" data-artifact="plan-on-a-page" style="aspect-ratio:792/612"><svg viewBox="0 0 792 612" role="img" aria-label="Plan on a page: a landscape sheet with a title band, four goal columns of initiative chips, and a measures strip along the bottom." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="64" y="70" width="340" height="18" rx="9.0" fill="#1E4230" opacity="0.85"/><rect x="64" y="98" width="200" height="9" rx="4.5" fill="#232A20" opacity="0.35"/>
+<line x1="64" y1="140" x2="728" y2="140" stroke="#A14E24" stroke-opacity=".7" stroke-width="2"/>
+<text x="64" y="208" font-family="Karla,sans-serif" font-weight="600" font-size="11" letter-spacing="1.5" fill="#5F6E8C" opacity="0.85" text-anchor="start">GOAL 01</text><rect x="64" y="222" width="140" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="64" y="252" width="118" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="76" y="262" width="80" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><rect x="64" y="288" width="104" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="76" y="298" width="68" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><rect x="64" y="324" width="90" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="76" y="334" width="56" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><text x="246" y="208" font-family="Karla,sans-serif" font-weight="600" font-size="11" letter-spacing="1.5" fill="#5F6E8C" opacity="0.85" text-anchor="start">GOAL 02</text><rect x="246" y="222" width="140" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="246" y="252" width="118" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="258" y="262" width="80" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><rect x="246" y="288" width="104" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="258" y="298" width="68" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><text x="428" y="208" font-family="Karla,sans-serif" font-weight="600" font-size="11" letter-spacing="1.5" fill="#5F6E8C" opacity="0.85" text-anchor="start">GOAL 03</text><rect x="428" y="222" width="140" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="428" y="252" width="118" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="440" y="262" width="80" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><rect x="428" y="288" width="104" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="440" y="298" width="68" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><rect x="428" y="324" width="90" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="440" y="334" width="56" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><text x="610" y="208" font-family="Karla,sans-serif" font-weight="600" font-size="11" letter-spacing="1.5" fill="#5F6E8C" opacity="0.85" text-anchor="start">GOAL 04</text><rect x="610" y="222" width="140" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="610" y="252" width="118" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="622" y="262" width="80" height="5" rx="2.5" fill="#232A20" opacity="0.32"/><rect x="610" y="288" width="104" height="24" rx="12" fill="none" stroke="#4A5B4C" stroke-opacity=".55" stroke-width="1.3"/><rect x="622" y="298" width="68" height="5" rx="2.5" fill="#232A20" opacity="0.32"/>
+<line x1="64" y1="508" x2="728" y2="508" stroke="#232A20" stroke-opacity=".16"/>
+<rect x="64" y="540" width="64" height="7" rx="3.5" fill="#5F6E8C" opacity="0.4"/><text x="64" y="530" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">MEASURE</text><rect x="246" y="540" width="64" height="7" rx="3.5" fill="#5F6E8C" opacity="0.4"/><text x="246" y="530" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">MEASURE</text><rect x="428" y="540" width="64" height="7" rx="3.5" fill="#5F6E8C" opacity="0.4"/><text x="428" y="530" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">MEASURE</text><rect x="610" y="540" width="64" height="7" rx="3.5" fill="#5F6E8C" opacity="0.4"/><text x="610" y="530" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">MEASURE</text></svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3>Plan on a page</h3>
+        <p>The version people can easily remember and own. The whole plan, simplified.</p>
+      </div>
+      <div class="acard featured">
+        <button class="aframe" data-title="Root map" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of Root map">
+          <span class="artifact-shot" data-artifact="root-map" style="aspect-ratio:792/612"><svg viewBox="0 0 792 612" role="img" aria-label="Root map: a horizon line with a stated goal above it, root-like curves branching downward through captured notes into theme nodes, converging on a single node at the bottom — with two notes floating unattached to one side." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<line x1="64" y1="150" x2="728" y2="150" stroke="#232A20" stroke-opacity=".35" stroke-width="1.6"/>
+<rect x="240" y="116" width="180" height="12" rx="6.0" fill="#1E4230" opacity="0.6"/><text x="240" y="104" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.45" text-anchor="start">STATED GOAL</text>
+<path d="M300 150 C270 230 226 290 208 356" stroke="#4A5B4C" stroke-width="2.2" fill="none"/><path d="M300 150 C316 230 334 280 350 352" stroke="#4A5B4C" stroke-width="2.2" fill="none"/><path d="M300 150 C380 220 460 260 512 348" stroke="#5F6E8C" stroke-width="2" fill="none"/><path d="M208 356 C230 420 268 452 306 486" stroke="#4A5B4C" stroke-width="2" fill="none"/><path d="M350 352 C346 412 330 452 318 484" stroke="#4A5B4C" stroke-width="2" fill="none"/><path d="M512 348 C470 420 380 462 330 488" stroke="#5F6E8C" stroke-width="1.8" fill="none"/>
+<rect x="196" y="238" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="205" y="244" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="318" y="222" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="327" y="228" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="408" y="262" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="417" y="268" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="150" y="300" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="159" y="306" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="360" y="300" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="369" y="306" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="474" y="300" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="483" y="306" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/>
+<circle cx="208" cy="356" r="17" fill="#4A5B4C" opacity=".8"/>
+<circle cx="350" cy="352" r="15" fill="#4A5B4C" opacity=".65"/>
+<circle cx="512" cy="348" r="14" fill="#5F6E8C" opacity=".7"/>
+<circle cx="318" cy="490" r="20" fill="#A14E24"/>
+<rect x="636" y="210" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="645" y="216" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/><rect x="652" y="252" width="54" height="18" rx="9" fill="#F2F0E6" stroke="#4A5B4C" stroke-opacity=".6" stroke-width="1.2"/><rect x="661" y="258" width="34" height="5" rx="2.5" fill="#232A20" opacity="0.35"/>
+<text x="64" y="560" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">FIRST SESSION · DRAWN AS FOUND</text></svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3><svg class="seedmark" width="22" height="17" viewBox="0 0 22 17" aria-hidden="true"><ellipse cx="7" cy="11.5" rx="5.4" ry="2" transform="rotate(-24 7 11.5)" fill="#A14E24"/><path d="M11.6 9.2 C14.2 7.4 16.4 5 17.8 1.8" stroke="#B85D2E" stroke-width="1.2" stroke-linecap="round" fill="none"/></svg>Root map</h3>
+        <p>The first stakeholder mapping session drawn as a root system — what was said at the surface, the themes gathering underneath, and the shared idea that everything else came from.</p>
+      </div>
+      <div class="acard">
+        <button class="aframe" data-title="Implementation workplan" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of Implementation workplan">
+          <span class="artifact-shot" data-artifact="implementation-workplan" style="aspect-ratio:792/612"><svg viewBox="0 0 792 612" role="img" aria-label="Implementation workplan: owner lanes crossed by three year columns, with horizontal initiative bars and a faint unassigned lane at the bottom." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="64" y="64" width="300" height="16" rx="8.0" fill="#1E4230" opacity="0.8"/>
+<text x="64" y="166" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">OWNER</text><line x1="170" y1="150" x2="170" y2="560" stroke="#232A20" stroke-opacity=".12"/><line x1="356" y1="150" x2="356" y2="560" stroke="#232A20" stroke-opacity=".12"/><line x1="542" y1="150" x2="542" y2="560" stroke="#232A20" stroke-opacity=".12"/><line x1="728" y1="150" x2="728" y2="560" stroke="#232A20" stroke-opacity=".12"/>
+<line x1="64" y1="246" x2="728" y2="246" stroke="#232A20" stroke-opacity=".1"/><rect x="64" y="206" width="86" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="330" x2="728" y2="330" stroke="#232A20" stroke-opacity=".1"/><rect x="64" y="290" width="86" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="414" x2="728" y2="414" stroke="#232A20" stroke-opacity=".1"/><rect x="64" y="374" width="86" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="498" x2="728" y2="498" stroke="#232A20" stroke-opacity=".1"/><rect x="64" y="458" width="86" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><rect x="290" y="200" width="90" height="20" rx="10" fill="#4A5B4C" opacity=".5"/><rect x="470" y="200" width="150" height="20" rx="10" fill="#5F6E8C" opacity=".5"/><rect x="320" y="284" width="200" height="20" rx="10" fill="#5F6E8C" opacity=".5"/><rect x="640" y="284" width="120" height="20" rx="10" fill="#4A5B4C" opacity=".5"/><rect x="290" y="368" width="260" height="20" rx="10" fill="#5F6E8C" opacity=".5"/><rect x="600" y="368" width="170" height="20" rx="10" fill="#4A5B4C" opacity=".5"/><rect x="410" y="452" width="190" height="20" rx="10" fill="#5F6E8C" opacity=".5"/><path d="M562 284 l9 12 -9 12 -9 -12 Z" fill="#A14E24"/>
+<g opacity=".45"><text x="64" y="548" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.6" text-anchor="start">UNASSIGNED</text><rect x="170" y="530" width="96" height="18" rx="9" fill="none" stroke="#232A20" stroke-opacity=".35" stroke-width="1.2" stroke-dasharray="4 4"/></g></svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3>Implementation workplan</h3>
+        <p>Owners, milestones, and dependencies, laid out by year.</p>
+      </div>
+      <div class="acard">
+        <button class="aframe" data-title="The scorecard" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of The scorecard">
+          <span class="artifact-shot" data-artifact="scorecard" style="aspect-ratio:792/612"><svg viewBox="0 0 792 612" role="img" aria-label="The scorecard: measure rows against eight quarter columns and a target column, with status marks distinguished by shape as well as color." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="64" y="64" width="260" height="16" rx="8.0" fill="#1E4230" opacity="0.8"/>
+<text x="64" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.5" text-anchor="start">MEASURE</text><text x="260" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q1</text><text x="312" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q2</text><text x="364" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q3</text><text x="416" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q4</text><text x="468" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q5</text><text x="520" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q6</text><text x="572" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q7</text><text x="624" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#232A20" opacity="0.55" text-anchor="middle">Q8</text><text x="732" y="178" font-family="Karla,sans-serif" font-weight="600" font-size="10" letter-spacing="1.5" fill="#A14E24" opacity="0.85" text-anchor="middle">TARGET</text>
+<line x1="64" y1="188" x2="728" y2="188" stroke="#232A20" stroke-opacity=".2"/>
+<rect x="64" y="204" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="240" x2="728" y2="240" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="210" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><rect x="305" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="357" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><path d="M416 203 L423 216 L409 216 Z" fill="#A14E24"/><rect x="461" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="513" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="572" cy="210" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><rect x="617" y="208" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="204" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="270" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="306" x2="728" y2="306" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="276" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="312" cy="276" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="364" cy="276" r="6.5" fill="#4A5B4C"/><circle cx="416" cy="276" r="6.5" fill="#4A5B4C"/><path d="M468 269 L475 282 L461 282 Z" fill="#A14E24"/><rect x="513" y="274" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="565" y="274" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="624" cy="276" r="6.5" fill="#4A5B4C"/><rect x="710" y="270" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="336" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="372" x2="728" y2="372" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="342" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="312" cy="342" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="364" cy="342" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><circle cx="416" cy="342" r="6.5" fill="#4A5B4C"/><rect x="461" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="513" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="565" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="617" y="340" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="336" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="402" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="438" x2="728" y2="438" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="408" r="6.5" fill="#4A5B4C"/><path d="M312 401 L319 414 L305 414 Z" fill="#A14E24"/><rect x="357" y="406" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="416" cy="408" r="6.5" fill="#4A5B4C"/><path d="M468 401 L475 414 L461 414 Z" fill="#A14E24"/><circle cx="520" cy="408" r="6.5" fill="#4A5B4C"/><circle cx="572" cy="408" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><rect x="617" y="406" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="402" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/><rect x="64" y="468" width="150" height="8" rx="4.0" fill="#232A20" opacity="0.45"/><line x1="64" y1="504" x2="728" y2="504" stroke="#232A20" stroke-opacity=".08"/><circle cx="260" cy="474" r="6.5" fill="#4A5B4C"/><circle cx="312" cy="474" r="6.5" fill="#4A5B4C"/><circle cx="364" cy="474" r="6.5" fill="#4A5B4C"/><rect x="409" y="472" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><circle cx="468" cy="474" r="6.5" fill="none" stroke="#5F6E8C" stroke-width="2"/><path d="M520 467 L527 480 L513 480 Z" fill="#A14E24"/><rect x="565" y="472" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="617" y="472" width="14" height="4" rx="2" fill="#232A20" opacity=".4"/><rect x="710" y="468" width="44" height="10" rx="5.0" fill="#1E4230" opacity="0.5"/></svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3>The scorecard</h3>
+        <p>Quarterly proof the plan is moving — eight quarters against the glide path, and the target you set out for.</p>
+      </div>
+      <div class="acard">
+        <button class="aframe" data-title="Board pack" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of Board pack">
+          <span class="artifact-shot" data-artifact="board-pack" style="aspect-ratio:792/612"><svg viewBox="0 0 792 612" role="img" aria-label="Board pack: three sheets fanned slightly, the front one showing a section heading over a two-column body." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<g transform="rotate(-3 396 306)"><rect x="120" y="120" width="512" height="430" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/></g>
+<g transform="rotate(2.4 396 306)"><rect x="132" y="108" width="512" height="430" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.16)"/></g>
+<g transform="translate(140,96)">
+  <rect width="512" height="430" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.18)"/>
+  <rect x="40" y="44" width="220" height="14" rx="7.0" fill="#A14E24" opacity="0.8"/>
+  <line x1="40" y1="86" x2="472" y2="86" stroke="#232A20" stroke-opacity=".16"/>
+  <rect x="40" y="110" width="169" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="122" width="172" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="134" width="179" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="146" width="187" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="158" width="172" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="170" width="172" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="182" width="175" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="194" width="108" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="110" width="171" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="122" width="174" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="134" width="177" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="146" width="193" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="158" width="182" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="170" width="188" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="182" width="171" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="194" width="108" height="5" rx="2.5" fill="#232A20" opacity="0.3"/>
+  <rect x="40" y="230" width="184" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="242" width="186" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="254" width="191" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="266" width="176" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="278" width="186" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="40" y="290" width="108" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="214" width="183" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="226" width="185" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="238" width="192" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="250" width="193" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="262" width="193" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="274" width="179" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="266" y="286" width="108" height="5" rx="2.5" fill="#232A20" opacity="0.3"/>
+  <rect x="40" y="382" width="110" height="6" rx="3.0" fill="#232A20" opacity="0.3"/>
+</g></svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3>Board pack</h3>
+        <p>The plan you can deliver to your board. Built as a presentation you can be proud of. We'll put in the labor, and you enjoy the yield.</p>
+      </div>
+      <div class="acard">
+        <button class="aframe" data-title="Quarterly review" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of Quarterly review">
+          <span class="artifact-shot" data-artifact="quarterly-review" style="aspect-ratio:792/612"><svg viewBox="0 0 792 612" role="img" aria-label="Quarterly review: a report sheet with a small glide-path chart — a straight target line and a wandering actual line crossing it." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="64" y="64" width="280" height="16" rx="8.0" fill="#1E4230" opacity="0.8"/><rect x="64" y="92" width="160" height="9" rx="4.5" fill="#232A20" opacity="0.35"/>
+<line x1="64" y1="130" x2="728" y2="130" stroke="#232A20" stroke-opacity=".16"/>
+<rect x="64" y="160" width="285" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="172" width="259" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="184" width="270" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="196" width="267" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="208" width="289" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="220" width="286" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="232" width="165" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="270" width="260" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="282" width="287" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="294" width="264" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="306" width="277" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="318" width="286" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="330" width="165" height="5" rx="2.5" fill="#232A20" opacity="0.3"/>
+<g>
+  <line x1="410" y1="200" x2="410" y2="500" stroke="#232A20" stroke-opacity=".2"/>
+  <line x1="410" y1="500" x2="730" y2="500" stroke="#232A20" stroke-opacity=".2"/>
+  <line x1="418" y1="452" x2="722" y2="256" stroke="#232A20" stroke-opacity=".35" stroke-dasharray="6 6" stroke-width="1.6"/>
+  <path d="M418 467 L456 438 L494 412 L532 413 L570 378 L608 357 L646 329 L684 299 L722 287" fill="none" stroke="#A14E24" stroke-width="2.6" stroke-linejoin="round"/>
+  <text x="418" y="530" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">Q1</text><text x="700" y="530" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.4" text-anchor="start">Q8</text><text x="716" y="246" font-family="Karla,sans-serif" font-weight="600" font-size="9" letter-spacing="1.5" fill="#232A20" opacity="0.45" text-anchor="start">TARGET</text>
+</g>
+<rect x="64" y="380" width="275" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="392" width="281" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="404" width="294" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="416" width="265" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="428" width="267" height="5" rx="2.5" fill="#232A20" opacity="0.3"/><rect x="64" y="440" width="165" height="5" rx="2.5" fill="#232A20" opacity="0.3"/></svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3>Quarterly review</h3>
+        <p>A consistent report out every quarter, measuring progress against the strategy decisions. Reliable shape each time, so you can detect any drift.</p>
+      </div>
+      <div class="acard">
+        <button class="aframe" data-title="Activation pack" data-sub="Yours to keep — sample layout, no client material" aria-label="Open a closer view of Activation pack">
+          <span class="artifact-shot" data-artifact="activation-pack" style="aspect-ratio:792/612"><svg viewBox="0 0 792 612" role="img" aria-label="Activation pack: a landscape sheet with a title block and five short talking-point blocks laid out in two columns, each a heavier line with a lighter supporting line beneath." xmlns="http://www.w3.org/2000/svg">
+<rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
+<rect x="70" y="84" width="340" height="20" rx="10.0" fill="#1E4230" opacity="0.85"/><rect x="70" y="118" width="200" height="10" rx="5.0" fill="#232A20" opacity="0.4"/>
+<line x1="70" y1="164" x2="722" y2="164" stroke="#A14E24" stroke-opacity=".6" stroke-width="2"/>
+<circle cx="70" cy="208" r="4.5" fill="#A14E24"/><rect x="90" y="200" width="250" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="90" y="224" width="280" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="90" y="236" width="210" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><circle cx="70" cy="328" r="4.5" fill="#A14E24"/><rect x="90" y="320" width="250" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="90" y="344" width="262" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="90" y="356" width="210" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><circle cx="70" cy="448" r="4.5" fill="#A14E24"/><rect x="90" y="440" width="250" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="90" y="464" width="279" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="90" y="476" width="210" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><circle cx="430" cy="208" r="4.5" fill="#A14E24"/><rect x="450" y="200" width="250" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="450" y="224" width="280" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="450" y="236" width="210" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><circle cx="430" cy="328" r="4.5" fill="#A14E24"/><rect x="450" y="320" width="250" height="11" rx="5.5" fill="#232A20" opacity="0.6"/><rect x="450" y="344" width="271" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="450" y="356" width="210" height="5" rx="2.5" fill="#232A20" opacity="0.26"/><rect x="450" y="440" width="271" height="5" rx="2.5" fill="#232A20" opacity="0.2"/><rect x="450" y="452" width="245" height="5" rx="2.5" fill="#232A20" opacity="0.2"/><rect x="450" y="464" width="168" height="5" rx="2.5" fill="#232A20" opacity="0.2"/>
+</svg></span><span class="peek" aria-hidden="true"><span><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Look closer</span></span>
+        </button>
+        <h3>Activation pack</h3>
+        <p>For the leaders who have to stand behind the plan.</p>
+      </div>
+    </div>
+
+      <p class="undernote">Underneath everything, deeply rooted discipline: facts captured diagnosing the landscape, saved not lost, and the record keeps every idea — those ready for today and tomorrow.</p>
+    </div>
+  </div>
+</div>
+
+<div id="lens" role="dialog" aria-modal="true" aria-label="Document viewer">
+  <div class="stage"><div class="canvas"></div></div>
+  <button class="lens-close" aria-label="Close viewer">&times;</button>
+  <div class="hint">Scroll to zoom · drag to pan · double-tap to magnify</div>
+  <div class="bar">
+    <div class="cap"><span class="cap-title"></span><small class="cap-sub"></small></div>
+    <div class="ctrl">
+      <button data-zoom="out" aria-label="Zoom out">&minus;</button>
+      <button data-zoom="reset" aria-label="Reset zoom" style="font-size:13px;letter-spacing:.04em">1:1</button>
+      <button data-zoom="in" aria-label="Zoom in">+</button>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -525,6 +931,165 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
   } else {
     rv.forEach(function(el){ el.classList.add('in'); });
   }
+
+// ---- document lens (zoom viewer) ----
+  var lens = document.getElementById('lens');
+  var stage = lens.querySelector('.stage');
+  var canvas = lens.querySelector('.canvas');
+  var capT = lens.querySelector('.cap-title');
+  var capS = lens.querySelector('.cap-sub');
+  var lensClose = lens.querySelector('.lens-close');
+  var lastFocus = null;
+  var s = 1, tx = 0, ty = 0, baseW = 0, baseH = 0, vbW = 612, vbH = 792;
+  var MIN = 1, MAX = 5;
+
+  function lApply(){ canvas.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + s + ')'; }
+  function lClamp(){
+    var vw = stage.clientWidth, vh = stage.clientHeight;
+    var cw = baseW * s, ch = baseH * s;
+    var minX = Math.min(0, vw - cw) - 60, maxX = Math.max(0, vw - cw) + 60;
+    var minY = Math.min(0, vh - ch) - 60, maxY = Math.max(0, vh - ch) + 60;
+    tx = Math.max(minX, Math.min(maxX, tx));
+    ty = Math.max(minY, Math.min(maxY, ty));
+  }
+  function lFit(){
+    var vw = stage.clientWidth, vh = stage.clientHeight;
+    var pad = Math.min(vw, vh) < 700 ? 20 : 60;
+    var fitS = Math.min((vw - pad*2) / vbW, (vh - pad*2 - 70) / vbH);
+    baseW = vbW * fitS; baseH = vbH * fitS;
+    var svg = canvas.querySelector('svg');
+    svg.setAttribute('width', baseW);
+    svg.setAttribute('height', baseH);
+    s = 1; tx = (vw - baseW) / 2; ty = (vh - baseH - 40) / 2;
+    lApply();
+  }
+  function lZoomAt(px, py, factor){
+    var ns = Math.max(MIN, Math.min(MAX, s * factor));
+    var k = ns / s;
+    tx = px - k * (px - tx);
+    ty = py - k * (py - ty);
+    s = ns;
+    if (s === MIN) { tx = (stage.clientWidth - baseW) / 2; ty = (stage.clientHeight - baseH - 40) / 2; }
+    else lClamp();
+    lApply();
+  }
+  function lOpen(btn){
+    lastFocus = btn;
+    var src = btn.querySelector('.artifact-shot svg');
+    var svg = src.cloneNode(true);
+    var vb = (svg.getAttribute('viewBox') || '0 0 612 792').split(/\s+/);
+    vbW = parseFloat(vb[2]); vbH = parseFloat(vb[3]);
+    canvas.innerHTML = '';
+    canvas.appendChild(svg);
+    capT.textContent = btn.getAttribute('data-title');
+    capS.textContent = btn.getAttribute('data-sub');
+    lens.classList.add('open');
+    requestAnimationFrame(function(){
+      lFit();
+      requestAnimationFrame(function(){ lens.classList.add('in'); });
+    });
+    document.body.style.overflow = 'hidden';
+    lensClose.focus();
+  }
+  function lCloseFn(){
+    lens.classList.remove('in');
+    setTimeout(function(){
+      lens.classList.remove('open');
+      canvas.innerHTML = '';
+      document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+      if (lastFocus) lastFocus.focus();
+    }, 300);
+  }
+  document.querySelectorAll('.aframe').forEach(function(b){
+    b.addEventListener('click', function(){ lOpen(b); });
+  });
+  lensClose.addEventListener('click', lCloseFn);
+  lens.addEventListener('click', function(e){
+    if (e.target === lens || e.target === stage) lCloseFn();
+  });
+  document.addEventListener('keydown', function(e){
+    if (!lens.classList.contains('open')) return;
+    if (e.key === 'Escape') lCloseFn();
+    if (e.key === '+' || e.key === '=') lZoomAt(stage.clientWidth/2, stage.clientHeight/2, 1.25);
+    if (e.key === '-') lZoomAt(stage.clientWidth/2, stage.clientHeight/2, .8);
+  });
+  lens.querySelector('[data-zoom="in"]').addEventListener('click', function(){ lZoomAt(stage.clientWidth/2, stage.clientHeight/2, 1.35); });
+  lens.querySelector('[data-zoom="out"]').addEventListener('click', function(){ lZoomAt(stage.clientWidth/2, stage.clientHeight/2, 1/1.35); });
+  lens.querySelector('[data-zoom="reset"]').addEventListener('click', lFit);
+  stage.addEventListener('wheel', function(e){
+    e.preventDefault();
+    lZoomAt(e.clientX, e.clientY, Math.exp(-e.deltaY * 0.0016));
+  }, {passive:false});
+  var lPointers = new Map(), lPan = null, lPinch = null, lLastTap = 0;
+  stage.addEventListener('pointerdown', function(e){
+    stage.setPointerCapture(e.pointerId);
+    lPointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    if (lPointers.size === 1) { lPan = {x:e.clientX, y:e.clientY, tx:tx, ty:ty}; stage.classList.add('panning'); }
+    else if (lPointers.size === 2) {
+      var pts = Array.from(lPointers.values());
+      lPinch = { d: Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y), s: s,
+                 cx: (pts[0].x+pts[1].x)/2, cy: (pts[0].y+pts[1].y)/2 };
+      lPan = null;
+    }
+  });
+  stage.addEventListener('pointermove', function(e){
+    if (!lPointers.has(e.pointerId)) return;
+    lPointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
+    if (lPointers.size === 2 && lPinch) {
+      var pts = Array.from(lPointers.values());
+      var d = Math.hypot(pts[0].x-pts[1].x, pts[0].y-pts[1].y);
+      lZoomAt(lPinch.cx, lPinch.cy, (lPinch.s * (d / lPinch.d)) / s);
+    } else if (lPan) {
+      tx = lPan.tx + (e.clientX - lPan.x);
+      ty = lPan.ty + (e.clientY - lPan.y);
+      if (s > 1) lClamp();
+      lApply();
+    }
+  });
+  function lEnd(e){
+    lPointers.delete(e.pointerId);
+    if (lPointers.size < 2) lPinch = null;
+    if (lPointers.size === 0) { lPan = null; stage.classList.remove('panning'); }
+  }
+  stage.addEventListener('pointerup', function(e){
+    var now = Date.now();
+    if (now - lLastTap < 320 && lPointers.size === 1) {
+      lZoomAt(e.clientX, e.clientY, s > 1.6 ? MIN / s : 2.4 / s);
+    }
+    lLastTap = now;
+    lEnd(e);
+  });
+  stage.addEventListener('pointercancel', lEnd);
+  window.addEventListener('resize', function(){ if (lens.classList.contains('open')) lFit(); });
+
+
+
+  // ---- in-hand drawer ----
+  var drawer = document.getElementById('drawer');
+  var drawerOpenBtn = document.getElementById('inhand-open');
+  var drawerClose = drawer.querySelector('.drawer-close');
+  var drawerScroll = drawer.querySelector('.drawer-scroll');
+  function openDrawer(){
+    drawer.classList.add('open');
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ drawer.classList.add('in'); }); });
+    document.body.style.overflow = 'hidden';
+    drawerScroll.scrollTop = 0;
+    drawerClose.focus();
+  }
+  function closeDrawer(){
+    drawer.classList.remove('in');
+    setTimeout(function(){
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+      if (drawerOpenBtn) drawerOpenBtn.focus();
+    }, 380);
+  }
+  if (drawerOpenBtn) drawerOpenBtn.addEventListener('click', openDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && drawer.classList.contains('open') && !lens.classList.contains('open')) closeDrawer();
+  });
+
 })();
 </script>
 </body>
