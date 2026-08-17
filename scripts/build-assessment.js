@@ -208,7 +208,7 @@ ${qs}
 
 // ------------------------------------------------------------ result pages
 const RESULT_CSS = `
-  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025)}
+  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025);max-width:520px}
   .viz svg{display:block;width:100%;height:auto}
   .viz .sv-draw{transition:stroke-dashoffset 1.9s cubic-bezier(.3,.6,.3,1)}
   .viz .sv-pop{opacity:0;transition:opacity .6s ease 1.7s}
@@ -230,8 +230,8 @@ function resultPage(band) {
   <p class="band">Your result</p>
   <h1>${esc(band.label)}</h1>
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
-  <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <p class="verdict">${esc(band.text)}</p>
+  <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <div class="next">
     <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
     <p>${band.atRisk
@@ -260,7 +260,7 @@ function resultPage(band) {
 
 // The drawing on a result page: same module the email uses, dark theme, drawn
 // in over ~2s (stroke-dashoffset), the number counting up alongside.
-const SHORT = { why: 'Why', owner: 'Owner', ninety: '90 days', baseline: 'Measures', board: 'Direction', facts: 'Facts', heard: 'Heard', declined: 'Declined', members: 'Members', people: 'People' };
+const SHORT = { why: 'Why', owner: 'Ownership', ninety: 'Timeline', baseline: 'Measures', board: 'Direction', facts: 'Facts', heard: 'Understood', declined: 'Trade-offs', members: 'Members', people: 'People' };
 const VIZ_SNIPPET = `if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === ${set.questions.length}) {
       var fig = document.getElementById('viz');
       fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ${JSON.stringify(set.questions.map((q) => SHORT[q.key] || q.key))}, bands: ${JSON.stringify(set.bands.map((b) => ({ label: b.label, min: b.min })))}, theme: 'dark', animate: true });

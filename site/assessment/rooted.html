@@ -25,7 +25,7 @@
   .lede{font-size:19px;line-height:1.55;color:rgba(237,234,217,.8);margin:0 0 12px;max-width:34em}
   .fine{font-size:14px;line-height:1.5;color:rgba(237,234,217,.5);margin:0 0 40px;max-width:36em}
   
-  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025)}
+  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025);max-width:520px}
   .viz svg{display:block;width:100%;height:auto}
   .viz .sv-draw{transition:stroke-dashoffset 1.9s cubic-bezier(.3,.6,.3,1)}
   .viz .sv-pop{opacity:0;transition:opacity .6s ease 1.7s}
@@ -49,8 +49,8 @@
   <p class="band">Your result</p>
   <h1>Rooted</h1>
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
-  <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <p class="verdict">Whatever form your strategic plan takes, it's alive: people can say why, the work has owners and dates, and leadership and the board see the same picture each quarter. That's rarer than you'd think. What we'd look at with you is the ground under it — which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's what carries a plan through a change of leadership, and it's usually a short piece of work.</p>
+  <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <div class="next">
     <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
     <p>If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.</p>
@@ -71,7 +71,7 @@
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
     if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 10) {
       var fig = document.getElementById('viz');
-      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Owner","90 days","Measures","Direction","Facts","Heard","Declined","Members","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
+      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction","Facts","Understood","Trade-offs","Members","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
       fig.hidden = false;
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       requestAnimationFrame(function () { requestAnimationFrame(function () {

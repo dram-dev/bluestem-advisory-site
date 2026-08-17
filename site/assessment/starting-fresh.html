@@ -25,7 +25,7 @@
   .lede{font-size:19px;line-height:1.55;color:rgba(237,234,217,.8);margin:0 0 12px;max-width:34em}
   .fine{font-size:14px;line-height:1.5;color:rgba(237,234,217,.5);margin:0 0 40px;max-width:36em}
   
-  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025)}
+  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025);max-width:520px}
   .viz svg{display:block;width:100%;height:auto}
   .viz .sv-draw{transition:stroke-dashoffset 1.9s cubic-bezier(.3,.6,.3,1)}
   .viz .sv-pop{opacity:0;transition:opacity .6s ease 1.7s}
@@ -72,7 +72,7 @@
     if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('bl').textContent = labels[b] || ''; document.getElementById('score').hidden = false; }
     if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 10) {
       var fig = document.getElementById('viz');
-      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Owner","90 days","Measures","Direction","Facts","Heard","Declined","Members","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
+      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction","Facts","Understood","Trade-offs","Members","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
       fig.hidden = false;
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       requestAnimationFrame(function () { requestAnimationFrame(function () {
