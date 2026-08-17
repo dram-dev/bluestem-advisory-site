@@ -115,7 +115,7 @@ function quizPage() {
   return HEAD(set.title, QUIZ_CSS) + `<main>
   <h1>${esc(set.title)}</h1>
   <p class="lede">Ten questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Three minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.</p>
-  <p class="fine">What you write here comes to the two of us and stops there. There's no account to make and no list you're joining.</p>
+  <p class="fine">What you write here comes to us and stops there. There's no account to make and no list you're joining.</p>
   <p class="err" id="err" hidden>That didn't go through. Please try again, or <a href="/#contact">write to us instead</a>.</p>
   <form method="post" action="/.netlify/functions/assessment" id="assess" novalidate>
     <input type="hidden" name="version" value="${esc(set.version)}">
@@ -124,7 +124,7 @@ ${ctx}
 ${qs}
     <section class="who step" data-step="${set.context.length + set.questions.length}">
       <h2>Where should the written version go?</h2>
-      <p>You'll see your result on the next page. Leave an email and the written version — a line on where your plan lives, your band, and the three answers that pulled the score down — arrives from the two of us within a minute.</p>
+      <p>You'll see your result on the next page. Leave an email and the written version — a line on where your plan lives, your band, and the three answers that pulled the score down — arrives from us within a minute.</p>
       <div class="grid">
         <div><label for="a-name">Your name</label><input id="a-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
         <div><label for="a-email">Email</label><input id="a-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
@@ -226,7 +226,7 @@ function resultPage(band) {
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
   <p class="verdict">${esc(band.text)}</p>
   <div class="next">
-    <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from the two of us, and replying to it reaches us directly.</p>
+    <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
     <p>${band.atRisk
       ? 'If you\'d rather just talk, <a href="/#contact">say so here</a> — a paragraph is plenty, and we\'ll be honest about whether we\'re the right fit.'
       : 'If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.'}</p>
@@ -259,7 +259,7 @@ function freshPage() {
   <p class="verdict">${esc(f.text)}</p>
   <div class="next">
     <p class="score" id="score" hidden>On the ten questions you scored <b id="s"></b> of <span id="m"></span> — <b id="bl"></b>.</p>
-    <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the three places we'd start. It comes from the two of us, and replying to it reaches us directly.</p>
+    <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the three places we'd start. It comes from us, and replying to it reaches us directly.</p>
     <p>If you'd like to talk it through, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
     <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
   </div>
