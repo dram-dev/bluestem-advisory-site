@@ -208,6 +208,12 @@ ${qs}
 
 // ------------------------------------------------------------ result pages
 const RESULT_CSS = `
+  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025)}
+  .viz svg{display:block;width:100%;height:auto}
+  .viz .sv-draw{transition:stroke-dashoffset 1.9s cubic-bezier(.3,.6,.3,1)}
+  .viz .sv-pop{opacity:0;transition:opacity .6s ease 1.7s}
+  .viz .sv-fade{opacity:.7}
+  @media (prefers-reduced-motion:reduce){.viz .sv-draw,.viz .sv-pop{transition:none}}
   .band{font-family:'Karla',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--straw);margin:0 0 14px}
   .score{font-family:'Newsreader',serif;font-size:18px;color:rgba(237,234,217,.6);margin:0 0 26px}
   .verdict{font-size:19px;line-height:1.6;color:rgba(237,234,217,.88);margin:0 0 28px;max-width:34em}
@@ -224,6 +230,7 @@ function resultPage(band) {
   <p class="band">Your result</p>
   <h1>${esc(band.label)}</h1>
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
+  <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <p class="verdict">${esc(band.text)}</p>
   <div class="next">
     <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
@@ -237,17 +244,34 @@ function resultPage(band) {
     ${others.map((o) => `<div class="o"><b>${esc(o.label)}</b><p>${esc(o.text)}</p></div>`).join('\n    ')}
   </details>
 </main>
+<script src="/scoreviz.js"></script>
 <script>
 (function () {
   try {
-    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m');
+    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), a = q.get('a') || '';
     if (s && m && /^\\d+$/.test(s) && /^\\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
+    ${VIZ_SNIPPET}
   } catch (e) {}
 })();
 </script>
 ` + FOOT;
 }
+
+// The drawing on a result page: same module the email uses, dark theme, drawn
+// in over ~2s (stroke-dashoffset), the number counting up alongside.
+const SHORT = { why: 'Why', owner: 'Owner', ninety: '90 days', baseline: 'Measures', board: 'Direction', facts: 'Facts', heard: 'Heard', declined: 'Declined', members: 'Members', people: 'People' };
+const VIZ_SNIPPET = `if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === ${set.questions.length}) {
+      var fig = document.getElementById('viz');
+      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ${JSON.stringify(set.questions.map((q) => SHORT[q.key] || q.key))}, bands: ${JSON.stringify(set.bands.map((b) => ({ label: b.label, min: b.min })))}, theme: 'dark', animate: true });
+      fig.hidden = false;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        fig.querySelectorAll('.sv-draw').forEach(function (p) { if (reduce) p.style.transition = 'none'; p.style.strokeDashoffset = 0; });
+        fig.querySelectorAll('.sv-pop').forEach(function (c) { c.style.opacity = 1; });
+      }); });
+    }`;
+
 
 // The "no strategic plan yet" path: its own page, leading with its own paragraph;
 // the band the answers earned is shown underneath from ?b=<slug>.
@@ -259,6 +283,7 @@ function freshPage() {
   <p class="verdict">${esc(f.text)}</p>
   <div class="next">
     <p class="score" id="score" hidden>On the ten questions you scored <b id="s"></b> of <span id="m"></span> — <b id="bl"></b>.</p>
+    <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
     <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the three places we'd start. It comes from us, and replying to it reaches us directly.</p>
     <p>If you'd like to talk it through, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
     <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
@@ -268,17 +293,26 @@ function freshPage() {
     ${set.bands.map((o) => `<div class="o"><b>${esc(o.label)}</b><p>${esc(o.text)}</p></div>`).join('\n    ')}
   </details>
 </main>
+<script src="/scoreviz.js"></script>
 <script>
 (function () {
   try {
-    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), b = q.get('b');
+    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), b = q.get('b'), a = q.get('a') || '';
     var labels = ${JSON.stringify(Object.fromEntries(set.bands.map((x) => [x.slug, x.label])))};
     if (s && m && /^\\d+$/.test(s) && /^\\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('bl').textContent = labels[b] || ''; document.getElementById('score').hidden = false; }
+    ${VIZ_SNIPPET}
   } catch (e) {}
 })();
 </script>
 ` + FOOT;
 }
+
+// The score drawing is ONE file, owned by Rootbook (it renders the same SVG into
+// the write-up email); the site gets a verbatim copy so the page and the email
+// can never disagree about what the picture looks like.
+const VIZ_SRC = path.join(ROOT, '..', 'rootbook', 'src', 'scoreviz.js');
+if (fs.existsSync(VIZ_SRC)) fs.copyFileSync(VIZ_SRC, path.join(ROOT, 'site', 'scoreviz.js'));
+else console.warn('scoreviz.js: rootbook checkout not found beside this repo — keeping the committed copy');
 
 fs.writeFileSync(path.join(ROOT, 'site', 'assessment.html'), quizPage());
 fs.mkdirSync(path.join(ROOT, 'site', 'assessment'), { recursive: true });

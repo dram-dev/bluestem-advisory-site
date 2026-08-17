@@ -25,6 +25,12 @@
   .lede{font-size:19px;line-height:1.55;color:rgba(237,234,217,.8);margin:0 0 12px;max-width:34em}
   .fine{font-size:14px;line-height:1.5;color:rgba(237,234,217,.5);margin:0 0 40px;max-width:36em}
   
+  .viz{margin:0 0 30px;padding:18px 6px 6px;border:1px solid var(--rule);border-radius:12px;background:rgba(237,234,217,.025)}
+  .viz svg{display:block;width:100%;height:auto}
+  .viz .sv-draw{transition:stroke-dashoffset 1.9s cubic-bezier(.3,.6,.3,1)}
+  .viz .sv-pop{opacity:0;transition:opacity .6s ease 1.7s}
+  .viz .sv-fade{opacity:.7}
+  @media (prefers-reduced-motion:reduce){.viz .sv-draw,.viz .sv-pop{transition:none}}
   .band{font-family:'Karla',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--straw);margin:0 0 14px}
   .score{font-family:'Newsreader',serif;font-size:18px;color:rgba(237,234,217,.6);margin:0 0 26px}
   .verdict{font-size:19px;line-height:1.6;color:rgba(237,234,217,.88);margin:0 0 28px;max-width:34em}
@@ -45,6 +51,7 @@
   <p class="verdict">You don't have a strategic plan yet — and you said so plainly, which is more than most organizations manage. Here's what that means: your answers below still tell us how the organization actually runs — who owns things, how the board and leadership look at direction, how you'd know something is working. That is the ground a plan gets built on, and it's the part that's hard to fake. What we'd do first isn't write a plan. It's a short conversation with you and your board about what the organization is truly for — the root — and then, from that, a plan on a page that people can carry around, with owners and first moves. Most organizations we're proudest of working with started exactly here.</p>
   <div class="next">
     <p class="score" id="score" hidden>On the ten questions you scored <b id="s"></b> of <span id="m"></span> — <b id="bl"></b>.</p>
+    <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
     <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the three places we'd start. It comes from us, and replying to it reaches us directly.</p>
     <p>If you'd like to talk it through, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
     <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
@@ -56,12 +63,23 @@
     <div class="o"><b>Still underground</b><p>The direction is in the soil more than above it — and that's true whether it's a strategic plan nobody opens or a shared understanding nobody has written down. Most of the organizations we're proudest of working with started here. It isn't a strategy problem so much as a ground problem: the why hasn't been said out loud together, so nothing beneath it connects. We'd start at the root — a short conversation about what the organization is truly for — before writing anything. It takes less time than people fear, and it usually goes better than people expect.</p></div>
   </details>
 </main>
+<script src="/scoreviz.js"></script>
 <script>
 (function () {
   try {
-    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), b = q.get('b');
+    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), b = q.get('b'), a = q.get('a') || '';
     var labels = {"rooted":"Rooted","taking-hold":"Taking hold","still-underground":"Still underground"};
     if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('bl').textContent = labels[b] || ''; document.getElementById('score').hidden = false; }
+    if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 10) {
+      var fig = document.getElementById('viz');
+      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Owner","90 days","Measures","Direction","Facts","Heard","Declined","Members","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
+      fig.hidden = false;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        fig.querySelectorAll('.sv-draw').forEach(function (p) { if (reduce) p.style.transition = 'none'; p.style.strokeDashoffset = 0; });
+        fig.querySelectorAll('.sv-pop').forEach(function (c) { c.style.opacity = 1; });
+      }); });
+    }
   } catch (e) {}
 })();
 </script>

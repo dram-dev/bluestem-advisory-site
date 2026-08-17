@@ -53,6 +53,11 @@ exports.handler = async (event) => {
     // the visitor's URL without a log in front of you. Nothing about the visitor.
     return relay.redirect(`${relay.SITE}/assessment?sent=0&why=${r.status || 'net'}`);
   }
-  if (r.body.starting_fresh) return relay.redirect(`${relay.SITE}/assessment/${FRESH}?s=${Number(r.body.score)}&m=${Number(r.body.max)}&b=${slug}`);
-  return relay.redirect(`${relay.SITE}/assessment/${slug}?s=${Number(r.body.score)}&m=${Number(r.body.max)}`);
+  // `a` = per-question points in question order (0–3 each), for the drawing on the
+  // result page. Rootbook is the authority on the score; this is the same arithmetic
+  // (points = answers − 1 − index) and carries nothing about the person.
+  const pts = Array.isArray(r.body.points) ? r.body.points.join('') : '';
+  const tail = `?s=${Number(r.body.score)}&m=${Number(r.body.max)}${pts ? `&a=${pts}` : ''}`;
+  if (r.body.starting_fresh) return relay.redirect(`${relay.SITE}/assessment/${FRESH}${tail}&b=${slug}`);
+  return relay.redirect(`${relay.SITE}/assessment/${slug}${tail}`);
 };
