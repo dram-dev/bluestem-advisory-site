@@ -28,6 +28,6 @@ exports.handler = async (event) => {
   if (!payload.email || !payload.question) return relay.redirect(`${relay.SITE}/#contact?sent=0`);
 
   const r = await relay.forward(relay.INQUIRY_URL, payload, ipHash);
-  if (!r.ok) { console.error(`inquiry relay: ${r.error || `rootbook answered ${r.status}`}`); return relay.redirect(`${relay.SITE}/#contact?sent=0`); }
+  if (!r.ok) { console.error(`inquiry relay: ${r.error || `rootbook answered ${r.status}`}`); return relay.redirect(`${relay.SITE}/?sent=0&why=${r.status || 'net'}#contact`); }
   return relay.redirect(`${relay.SITE}/thanks.html`);
 };

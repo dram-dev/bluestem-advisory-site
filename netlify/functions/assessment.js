@@ -48,7 +48,9 @@ exports.handler = async (event) => {
   const slug = r.ok && r.body ? slugOf(r.body.band) : '';
   if (!slug || !KNOWN.has(slug)) {
     console.error(`assessment relay: ${r.error || `rootbook answered ${r.status}`}${slug ? ` (band ${slug})` : ''}`);
-    return relay.redirect(`${relay.SITE}/assessment?sent=0`);
+    // `why` is a bare status code (or 'net'), so a failure can be diagnosed from
+    // the visitor's URL without a log in front of you. Nothing about the visitor.
+    return relay.redirect(`${relay.SITE}/assessment?sent=0&why=${r.status || 'net'}`);
   }
   return relay.redirect(`${relay.SITE}/assessment/${slug}?s=${Number(r.body.score)}&m=${Number(r.body.max)}`);
 };
