@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rooted — Is your plan alive? · Bluestem Advisory</title>
+<title>Solid ground — Going deeper · Bluestem Advisory</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="A short read on your organization's strategic plan — or on where you'd start if you don't have one: five questions, a straight answer, and the written version by email.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -46,22 +46,21 @@
 <body>
 <div class="top"><a class="brand" href="/">Bluestem Advisory</a><span class="mono">Based in Illinois</span></div>
 <main>
-  <p class="band">Your result</p>
-  <h1>Rooted</h1>
+  <p class="band">Your result · part two</p>
+  <h1>Solid ground</h1>
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
-  <p class="verdict">Whatever form your strategic plan takes, it's alive: people can say why, the work has owners and dates, and leadership and the board see the same picture each quarter. That's rarer than you'd think. What we'd look at with you is the ground under it — which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's what carries a plan through a change of leadership, and it's usually a short piece of work.</p>
+  <p class="verdict">The plan stands on things you can point to: facts with sources, assumptions written down, people who were actually asked, paths declined for reasons someone could repeat, and a name against every person who holds a process together. That is the part most plans skip, and it is what carries one through a change of leadership. What we'd look at with you is whichever of the five is thinnest — there is always one.</p>
   <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <div class="next">
     <p id="mailed">The written version is on its way to your inbox — your band and the two answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
     <p id="talk-yes" hidden>You asked us to get in touch — we will, within a day or two. There is nothing to prepare.</p>
     <p id="talk-no">If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.</p>
-    <p id="deeper"><b>Want the fuller picture?</b> Five more questions, about the ground under your plan rather than the plan itself — what it rests on, who was heard, what was set aside, and who holds it together. <a href="/assessment/deeper">Go deeper →</a></p>
-    <p><a href="/">Back to the site</a></p>
+    <p><a href="/">Back to the site</a> · <a href="/assessment">The first five again</a></p>
   </div>
   <details class="others">
     <summary>The other two bands, for context</summary>
-    <div class="o"><b>Taking hold</b><p>There's a real direction here, and parts of it are working. Where things in this band tend to go quiet is between the intention and the calendar: work that belongs to a team rather than a person, measures without a starting number, a plan the board approved and leadership hasn't looked at since. None of that is hard to fix — and if your plan lives mostly in conversation, writing those few things down is most of the job. We'd start with owners and first moves, ninety days by date, and build the quarterly look-back around them.</p></div>
-    <div class="o"><b>Still underground</b><p>The direction is in the soil more than above it — and that's true whether it's a strategic plan nobody opens or a shared understanding nobody has written down. Most of the organizations we're proudest of working with started here. It isn't a strategy problem so much as a ground problem: the why hasn't been said out loud together, so nothing beneath it connects. We'd start at the root — a short conversation about what the organization is truly for — before writing anything. It takes less time than people fear, and it usually goes better than people expect.</p></div>
+    <div class="o"><b>Partly assumed</b><p>Some of what the plan rests on is known and some is believed, and the difference lives mostly in people's heads. That is normal, and it isn't a weakness until an assumption gets treated as a fact and nobody checks it again. The fix is small: write down which is which, name who wasn't heard from, and say out loud what was set aside and why. An afternoon, usually — and it changes how the next board conversation goes.</p></div>
+    <div class="o"><b>Unexamined</b><p>The plan may well be right, but the ground under it hasn't been looked at: what it rests on is treated as known, the people it affects were mostly the people who wrote it, nothing was ruled out, and the person holding a key process together has no name on paper. None of that shows until something moves — a leader leaves, a member leaves, an assumption turns out wrong. We'd start there, before touching the plan itself: a short pass over these five things, with your board in the room.</p></div>
   </details>
 </main>
 <script src="/scoreviz.js"></script>
@@ -74,7 +73,7 @@
     if (q.get('t') === '1') { document.getElementById('talk-yes').hidden = false; document.getElementById('talk-no').hidden = true; }
     if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 5) {
       var fig = document.getElementById('viz');
-      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction"], bands: [{"label":"Rooted","min":12},{"label":"Taking hold","min":7},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
+      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Facts","Understanding","Trade-offs","Stakeholders","People"], bands: [{"label":"Solid ground","min":12},{"label":"Partly assumed","min":7},{"label":"Unexamined","min":0}], theme: 'dark', animate: true });
       fig.hidden = false;
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       requestAnimationFrame(function () { requestAnimationFrame(function () {

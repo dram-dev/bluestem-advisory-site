@@ -154,14 +154,20 @@ Rootbook's `.env`) and `ROOTBOOK_INQUIRY_URL`; the assessment target is derived 
   `POST /api/site/inquiry`, IMPROVEMENTS 56). Plain HTML form; the mailto stays beside it as
   the fallback; `/thanks` afterwards. Live since 2026-08-16.
 - **The self-assessment** (`/assessment` → `functions/assessment.js` → Rootbook
-  `POST /api/site/assessment`, IMPROVEMENTS 57). Ten questions, four concrete answers each,
-  three bands; the band on screen at `/assessment/<band>`, the written version emailed by
+  `POST /api/site/assessment`, IMPROVEMENTS 57). Two parts of five questions, four concrete
+  answers each, three bands per part: **part one** (`/assessment`, v4 — is the plan alive?)
+  and **Go deeper** (`/assessment/deeper`, v4d — the ground under it), offered on part one's
+  result page; the band on screen at `/assessment/<band>`, the written version emailed by
   Rootbook. **Rootbook's `src/assessment.js` is the authority on the wording and the scoring.**
-  The site's copy is `content/assessment.v1.json`, generated from it, and
-  `scripts/build-assessment.js` renders `site/assessment.html` + the three result pages —
-  edit the JSON only by regenerating (the one-liner is in the script's header), then run the
-  script and commit the outputs. Works with JavaScript off (the whole form renders stacked);
-  the page's script only makes it one question at a time. Approved and public since
-  2026-08-17 (v3 wording; linked from *Start at the root* on the homepage; result pages
-  stay `noindex`). The score is drawn as a root system by `site/scoreviz.js`, a verbatim
+  The site's copy is `content/assessment.v4.json` + `v4d.json`, generated from it, and
+  `scripts/build-assessment.js` renders both quiz pages + the six result pages + the
+  starting-fresh page — edit the JSON only by regenerating (the loop is in the script's
+  header), then run the script and commit the outputs. Works with JavaScript off (the whole
+  form renders stacked); the page's script only makes it one question at a time, remembers
+  who part one was for (sessionStorage) so part two is prefilled, and — on "we don't have a
+  strategic plan" — offers to skip the questions and just be called (`skipped=1`; Rootbook
+  refuses it on any other opener). `?t=1` on a result page (they asked to be called) hides
+  the "write to us" line. Approved and public since 2026-08-17 (v3 wording; halved to v4/v4d
+  the same day; linked from *Start at the root* on the homepage; result pages stay
+  `noindex`). The score is drawn as a root system by `site/scoreviz.js`, a verbatim
   copy of Rootbook's `src/scoreviz.js` (the same drawing goes into the write-up email).

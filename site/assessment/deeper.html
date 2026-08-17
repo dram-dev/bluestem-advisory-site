@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Is your plan alive? · Bluestem Advisory</title>
+<title>Going deeper · Bluestem Advisory</title>
 <meta name="description" content="A short read on your organization's strategic plan — or on where you'd start if you don't have one: five questions, a straight answer, and the written version by email.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
@@ -70,87 +70,73 @@
 <body>
 <div class="top"><a class="brand" href="/">Bluestem Advisory</a><span class="mono">Based in Illinois</span></div>
 <main>
-  <h1>Is your plan alive?</h1>
-  <p class="lede">Five questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Two minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.</p>
+  <p class="mono" style="margin:0 0 10px">Part two</p><h1>Going deeper</h1>
+  <p class="lede">Five more questions — about the ground under your plan rather than the plan itself: what it rests on, who was heard, what was set aside, and who holds it together. Two minutes; the written version follows by email like the first.</p>
   <p class="fine">What you write here comes to us and stops there. There's no account to make and no list you're joining.</p>
   <p class="err" id="err" hidden>That didn't go through. Please try again, or <a href="/#contact">write to us instead</a>.</p>
   <form method="post" action="/.netlify/functions/assessment" id="assess" novalidate>
-    <input type="hidden" name="version" value="v4">
+    <input type="hidden" name="version" value="v4d">
     <input type="hidden" name="skipped" id="skipped" value="">
     <div class="bar" aria-hidden="true"><i id="bar"></i></div>
 
+
     <section class="q step" data-step="0">
-      <p class="n">To start</p>
-      <h2>First — where does your strategic plan live today?</h2>
+      <p class="n">Question 1 of 5</p>
+      <h2>Some of what your strategic plan rests on you know, and some you believe. Could you point to which is which?</h2>
       <ul class="opts">
-        <li><label><input type="radio" name="q_plan_form" value="0" required> <span>In a written strategic plan the board approved.</span></label></li>
-        <li><label><input type="radio" name="q_plan_form" value="1" required> <span>In a slide, a page, or a set of goals we've written down.</span></label></li>
-        <li><label><input type="radio" name="q_plan_form" value="2" required> <span>In conversations — we know what we're about, but it isn't written down.</span></label></li>
-        <li><label><input type="radio" name="q_plan_form" value="3" required> <span>Honestly, we don't have a strategic plan.</span></label></li>
+        <li><label><input type="radio" name="q_facts" value="0" required> <span>Yes — the facts have sources, the assumptions are written down, and someone's checking them.</span></label></li>
+        <li><label><input type="radio" name="q_facts" value="1" required> <span>We know the difference in our heads; it isn't written down.</span></label></li>
+        <li><label><input type="radio" name="q_facts" value="2" required> <span>We treat it all as known.</span></label></li>
+        <li><label><input type="radio" name="q_facts" value="3" required> <span>We haven't asked ourselves that.</span></label></li>
       </ul>
-      <div class="fresh" id="fresh" hidden data-index="3">
-        <p>That's a real starting point — and the five questions that follow assume a plan. Answer them anyway and they'll tell us how the organization actually runs, which is the ground a plan gets built on. Or skip them, leave your details, and we'll get in touch to talk about how an organization gets started.</p>
-        <div class="row"><button class="send" type="button" id="fresh-skip">Skip them — let's talk about getting started</button> <button class="ghost" type="button" id="fresh-go">Answer them anyway</button></div>
-      </div>
     </section>
 
     <section class="q step" data-step="1">
-      <p class="n">Question 1 of 5</p>
-      <h2>If you stopped three people in the hallway — a board member, a manager, someone on the front line — and asked why the organization is heading where it's heading, what would you hear?</h2>
+      <p class="n">Question 2 of 5</p>
+      <h2>Who was asked what they needed before the direction was set — and who was on the list and never heard from?</h2>
       <ul class="opts">
-        <li><label><input type="radio" name="q_why" value="0" required> <span>The same one or two sentences, in their own words.</span></label></li>
-        <li><label><input type="radio" name="q_why" value="1" required> <span>The same idea in different words; someone might need a moment.</span></label></li>
-        <li><label><input type="radio" name="q_why" value="2" required> <span>One of them could say it; the other two would guess.</span></label></li>
-        <li><label><input type="radio" name="q_why" value="3" required> <span>A list of goals — or a friendly shrug.</span></label></li>
+        <li><label><input type="radio" name="q_heard" value="0" required> <span>We can name who was asked, how many answered, and who we missed.</span></label></li>
+        <li><label><input type="radio" name="q_heard" value="1" required> <span>We asked widely; we couldn't tell you the response rate.</span></label></li>
+        <li><label><input type="radio" name="q_heard" value="2" required> <span>Leadership and the board.</span></label></li>
+        <li><label><input type="radio" name="q_heard" value="3" required> <span>Mostly the people who set it.</span></label></li>
       </ul>
     </section>
 
     <section class="q step" data-step="2">
-      <p class="n">Question 2 of 5</p>
-      <h2>Think of one thing in your strategic plan — or one thing the organization has decided to do this year — a project, a change, a push. Who owns it?</h2>
+      <p class="n">Question 3 of 5</p>
+      <h2>What did you decide not to do — and could leadership explain why to the board, or to anyone who asked?</h2>
       <ul class="opts">
-        <li><label><input type="radio" name="q_owner" value="0" required> <span>One named person, and they'd tell you so themselves.</span></label></li>
-        <li><label><input type="radio" name="q_owner" value="1" required> <span>A named person on paper; in practice it's shared.</span></label></li>
-        <li><label><input type="radio" name="q_owner" value="2" required> <span>A team, or a committee.</span></label></li>
-        <li><label><input type="radio" name="q_owner" value="3" required> <span>It's &quot;all of us&quot; — which usually means no one in particular.</span></label></li>
+        <li><label><input type="radio" name="q_declined" value="0" required> <span>Yes — the paths we didn't take, and why, are written down and were shared.</span></label></li>
+        <li><label><input type="radio" name="q_declined" value="1" required> <span>We weighed options; the recommendation is what got shared.</span></label></li>
+        <li><label><input type="radio" name="q_declined" value="2" required> <span>There was one obvious path, so we took it.</span></label></li>
+        <li><label><input type="radio" name="q_declined" value="3" required> <span>We haven't ruled anything out — which may be the problem.</span></label></li>
       </ul>
     </section>
 
     <section class="q step" data-step="3">
-      <p class="n">Question 3 of 5</p>
-      <h2>What has to happen in the next ninety days for that to move — and by when?</h2>
+      <p class="n">Question 4 of 5</p>
+      <h2>When did one of your leaders last have a real conversation with a member or customer they didn't already know personally?</h2>
       <ul class="opts">
-        <li><label><input type="radio" name="q_ninety" value="0" required> <span>We could tell you the first steps and their dates; they're on people's calendars.</span></label></li>
-        <li><label><input type="radio" name="q_ninety" value="1" required> <span>We know the steps; the dates are &quot;this year&quot;.</span></label></li>
-        <li><label><input type="radio" name="q_ninety" value="2" required> <span>We know the direction, not the steps.</span></label></li>
-        <li><label><input type="radio" name="q_ninety" value="3" required> <span>We haven't broken it down that far yet.</span></label></li>
+        <li><label><input type="radio" name="q_members" value="0" required> <span>This quarter — it's a habit with a name.</span></label></li>
+        <li><label><input type="radio" name="q_members" value="1" required> <span>This year, informally.</span></label></li>
+        <li><label><input type="radio" name="q_members" value="2" required> <span>We have survey numbers.</span></label></li>
+        <li><label><input type="radio" name="q_members" value="3" required> <span>We know our members; we haven't felt the need.</span></label></li>
       </ul>
     </section>
 
     <section class="q step" data-step="4">
-      <p class="n">Question 4 of 5</p>
-      <h2>How will you know the plan is working — and do you know where you started?</h2>
-      <ul class="opts">
-        <li><label><input type="radio" name="q_baseline" value="0" required> <span>We have measures with a starting number, a target, and the steps between.</span></label></li>
-        <li><label><input type="radio" name="q_baseline" value="1" required> <span>We have targets; starting numbers for some.</span></label></li>
-        <li><label><input type="radio" name="q_baseline" value="2" required> <span>We'd know it when we saw it.</span></label></li>
-        <li><label><input type="radio" name="q_baseline" value="3" required> <span>We haven't put numbers to it — it's an aim.</span></label></li>
-      </ul>
-    </section>
-
-    <section class="q step" data-step="5">
       <p class="n">Question 5 of 5</p>
-      <h2>When did leadership and the board last look together at where the organization is heading — the direction, not the budget?</h2>
+      <h2>If the one person who holds a key process together left this month, what happens?</h2>
       <ul class="opts">
-        <li><label><input type="radio" name="q_board" value="0" required> <span>Last quarter, in the same shape as the quarter before.</span></label></li>
-        <li><label><input type="radio" name="q_board" value="1" required> <span>Once this year, in whatever form was to hand.</span></label></li>
-        <li><label><input type="radio" name="q_board" value="2" required> <span>When the plan — or the goals — were approved.</span></label></li>
-        <li><label><input type="radio" name="q_board" value="3" required> <span>It doesn't really come up as its own conversation.</span></label></li>
+        <li><label><input type="radio" name="q_people" value="0" required> <span>We've named who those people are, and there's a plan for each.</span></label></li>
+        <li><label><input type="radio" name="q_people" value="1" required> <span>We know who they are; nothing's written down.</span></label></li>
+        <li><label><input type="radio" name="q_people" value="2" required> <span>We'd manage — we always have.</span></label></li>
+        <li><label><input type="radio" name="q_people" value="3" required> <span>I'd rather not think about it.</span></label></li>
       </ul>
     </section>
-    <section class="who step" data-step="6">
-      <h2 id="who-h">Where should the written version go?</h2>
-      <p id="who-p">You'll see your result on the next page. Leave an email and the written version — a line on where your plan lives, your band, and the two answers that pulled the score down — arrives from us within a minute.</p>
+    <section class="who step" data-step="5">
+      <h2 id="who-h">Where should this one go?</h2>
+      <p id="who-p">Same as the first: your result on the next page, and the written version — your band and the two answers that pulled the score down — by email within a minute.</p>
       <div class="grid">
         <div><label for="a-name">Your name</label><input id="a-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
         <div><label for="a-email">Email</label><input id="a-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
@@ -167,7 +153,7 @@
           </select></div>
         <div class="full"><label class="check"><input type="checkbox" name="wants_talk" value="1"> <span>I'd like to talk this through — please get in touch.</span></label></div>
         <div class="hp" aria-hidden="true"><label for="a-web">Website</label><input id="a-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-        <input type="hidden" name="page" value="/assessment"><input type="hidden" name="referrer" value=""><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="utm_content" value="">
+        <input type="hidden" name="page" value="/assessment/deeper"><input type="hidden" name="referrer" value=""><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="utm_content" value="">
         <div class="full nojs-send"><button class="send" type="submit">See my result</button></div>
       </div>
     </section>
@@ -176,7 +162,7 @@
       <button class="send" type="button" id="next">Next →</button>
     </div>
   </form>
-  <p class="fine" style="margin-top:44px">A note on the score: it asks whether your direction is <em>alive</em> — owned, dated, measured, looked at, and understood by more than the people who set it — not whether it's clever, and not whether it's written down. Five questions can't see your organization; they can only ask what you'd say out loud.</p>
+  <p class="fine" style="margin-top:44px">A note on the score: these five ask about the ground under the plan — what it rests on, who was heard, what was set aside, and who holds it together — not about the plan itself. Five questions can't see your organization; they can only ask what you'd say out loud.</p>
 </main>
 <script>
 (function () {
@@ -194,7 +180,8 @@
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) { if (qs.get(k)) form[k].value = qs.get(k).slice(0, 120); });
     if (qs.get('sent') === '0') err.hidden = false;
     // Part two remembers who part one was for — this browser only, this session only.
-    
+    var prev = JSON.parse(sessionStorage.getItem(STORE) || 'null');
+    if (prev) { ['name', 'email', 'organization', 'org_type'].forEach(function (k) { if (prev[k] && form[k]) form[k].value = prev[k]; }); if (prev.wants_talk && form.wants_talk) form.wants_talk.checked = true; }
   } catch (e) {}
   // "We don't have a strategic plan": offer to skip the questions and just talk.
   var fresh = document.getElementById('fresh'), skipField = document.getElementById('skipped');

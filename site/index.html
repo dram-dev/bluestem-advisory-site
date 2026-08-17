@@ -274,6 +274,18 @@ section{padding:110px clamp(24px,7vw,96px);position:relative}
   font-style:italic;color:var(--grass);
 }
 @media(max-width:860px){.offers{grid-template-columns:1fr}}
+/* the five practices: five stems off one horizon line — a name and a line each,
+   no cards, no numbers (they are not a sequence) */
+.practices{display:grid;grid-template-columns:repeat(5,1fr);gap:0 26px;margin:0 0 8px;padding:0;list-style:none;border-top:1px solid rgba(35,42,32,.22)}
+.practice{position:relative;padding:28px 0 12px}
+.practice::before{content:'';position:absolute;top:-1px;left:0;width:30px;height:2px;background:var(--copper)}
+.practice::after{content:'';position:absolute;top:1px;left:14px;width:1px;height:18px;background:linear-gradient(var(--copper),rgba(161,78,36,0))}
+.practice h3{font-size:clamp(19px,1.7vw,22px);line-height:1.2;margin:0 0 10px}
+.practice p{font-size:14.5px;line-height:1.55;color:rgba(35,42,32,.72);margin:0;text-wrap:pretty}
+#work .intro.ways{margin-top:80px}
+@media(max-width:1000px){.practices{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.practices{grid-template-columns:1fr 1fr;gap:0 18px}.practice h3{font-size:19px}}
+@media(max-width:420px){.practices{grid-template-columns:1fr}}
 
 /* ---------- approach ---------- */
 #approach{background:linear-gradient(var(--subsoil), var(--subsoil-2))}
@@ -394,7 +406,7 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
 
 /* ===== in hand: minimized element + drawer ===== */
 .inhand-mini{
-  margin-top:96px;width:100%;display:flex;align-items:center;gap:34px;text-align:left;
+  margin-top:56px;width:100%;display:flex;align-items:center;gap:34px;text-align:left;
   background:var(--paper);border:1px solid rgba(35,42,32,.08);border-radius:22px;
   padding:30px 34px;cursor:pointer;font-family:inherit;color:inherit;
   box-shadow:0 1px 2px rgba(22,27,20,.05),0 12px 28px rgba(22,27,20,.07);
@@ -556,9 +568,9 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
     Bluestem Advisory
   </a>
   <div class="links">
+    <a href="about.html">About us</a>
     <a href="#work">The work</a>
     <a href="#approach">Approach</a>
-    <a href="about.html">About us</a>
     <a href="#story">Why Bluestem Advisory</a>
     <a class="cta-link" href="#contact">Start a conversation</a>
     <button class="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
@@ -569,9 +581,9 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
   </div>
 </nav>
 <div id="mobile-menu">
+  <a href="about.html">About us</a>
   <a href="#work">The work</a>
   <a href="#approach">Approach</a>
-  <a href="about.html">About us</a>
   <a href="#story">Why Bluestem Advisory</a>
   <a class="cta" href="#contact">Start a conversation</a>
 </div>
@@ -584,7 +596,7 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
       <h1><span class="w" style="animation-delay:.1s">The</span> <span class="w" style="animation-delay:.19s">best</span> <span class="w" style="animation-delay:.28s">plans</span> <span class="w" style="animation-delay:.37s">grow</span> <span class="w" style="animation-delay:.46s">from</span> <em><span class="w" style="animation-delay:.58s">deep</span> <span class="w" style="animation-delay:.68s">roots.</span></em></h1>
       <p class="lede rv d2">We’re a management consultancy in Illinois, and we start with what your organization is truly about. From there we do the patient work — clear strategy, honest priorities, structures built to hold — so what you set out to do can stand strong.</p>
       <div class="cta-row rv d3">
-        <a class="btn solid" href="#contact">Start a conversation</a>
+        <a class="btn solid" href="#work">What we do</a>
         <a class="btn ghost" href="#approach">How we work</a>
       </div>
     </div>
@@ -841,27 +853,29 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
   <div class="wrap">
     <div class="horizon mono rv">Topsoil</div>
     <h2 class="rv">The work</h2>
-    <p class="intro rv d1">Three ways to work together. Each one begins with listening, and each one ends with something that lasts.</p>
-    <div class="offers">
-      <article class="offer rv">
-        <span class="tag mono">A first look</span>
-        <h3>The short read</h3>
-        <p>A focused walk through one question — what's actually happening beneath it, and where the healthy ground lies. You leave with a clear picture and a path you could walk without us.</p>
-        <div class="rate">One question, seen clearly</div>
-      </article>
-      <article class="offer rv d1">
-        <span class="tag mono">A season of work</span>
-        <h3>The build</h3>
-        <p>Working alongside you on something that deserves to be built well — a steadier organizational rhythm, a clearer strategic direction, a hard decision made with care. We stay until it stands on its own.</p>
-        <div class="rate">Built to stand on its own</div>
-      </article>
-      <article class="offer rv d2">
-        <span class="tag mono">A standing partnership</span>
-        <h3>The steady hand</h3>
-        <p>An ongoing seat at your table — a familiar outside voice for the questions that don't keep to a calendar. Someone who knows your ground and answers when you call.</p>
-        <div class="rate">There, season after season</div>
-      </article>
-    </div>
+    <p class="intro rv d1">Five kinds of work, one way of doing it: start with what the organization is truly about, then build what will hold.</p>
+    <ul class="practices" aria-label="What we do">
+      <li class="practice rv">
+        <h3>Management consulting</h3>
+        <p>A steady outside hand on the questions leadership can't put down — structure, decisions, and the way the organization actually runs.</p>
+      </li>
+      <li class="practice rv d1">
+        <h3>Strategic planning</h3>
+        <p>A plan that lives: a page people can carry, with owners and dates, and a board that looks at it together each quarter.</p>
+      </li>
+      <li class="practice rv d2">
+        <h3>Talent strategy</h3>
+        <p>Who the work needs, who holds it together today, and what happens when they leave — named, and planned for.</p>
+      </li>
+      <li class="practice rv d3">
+        <h3>Project management</h3>
+        <p>Someone to run the project itself — the scope, the schedule, the budget, the people — and to keep it moving when the unexpected shows up, until it's delivered.</p>
+      </li>
+      <li class="practice rv d3">
+        <h3>Stakeholder engagement</h3>
+        <p>Listening to the people your decisions affect — members, board, staff, community — before the decision is made, and reporting back honestly on what was heard.</p>
+      </li>
+    </ul>
     <button class="inhand-mini rv" id="inhand-open" aria-haspopup="dialog" aria-controls="drawer">
       <span class="fan" aria-hidden="true"><span class="thumb t0"><svg viewBox="0 0 792 612" role="img" aria-label="The scorecard: measure rows against eight quarter columns and a target column, with status marks distinguished by shape as well as color." xmlns="http://www.w3.org/2000/svg">
 <rect x="1" y="1" width="790" height="610" rx="8" fill="#F2F0E6" stroke="rgba(35,42,32,.14)"/>
@@ -897,6 +911,28 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
         <svg width="13" height="13" viewBox="0 0 15 15" fill="none" aria-hidden="true"><circle cx="6.2" cy="6.2" r="4.6" stroke="currentColor" stroke-width="1.6"/><path d="M9.8 9.8 L13.4 13.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </span>
     </button>
+
+    <p class="intro ways rv d1">Three ways to work together. Each one begins with listening, and each one ends with something that lasts.</p>
+    <div class="offers">
+      <article class="offer rv">
+        <span class="tag mono">A first look</span>
+        <h3>The short read</h3>
+        <p>A focused walk through one question — what's actually happening beneath it, and where the healthy ground lies. You leave with a clear picture and a path you could walk without us.</p>
+        <div class="rate">One question, seen clearly</div>
+      </article>
+      <article class="offer rv d1">
+        <span class="tag mono">A season of work</span>
+        <h3>The build</h3>
+        <p>Working alongside you on something that deserves to be built well — a steadier organizational rhythm, a clearer strategic direction, a hard decision made with care. We stay until it stands on its own.</p>
+        <div class="rate">Built to stand on its own</div>
+      </article>
+      <article class="offer rv d2">
+        <span class="tag mono">A standing partnership</span>
+        <h3>The steady hand</h3>
+        <p>An ongoing seat at your table — a familiar outside voice for the questions that don't keep to a calendar. Someone who knows your ground and answers when you call.</p>
+        <div class="rate">There, season after season</div>
+      </article>
+    </div>
 
   </div>
 </section>
@@ -940,7 +976,7 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
   <div class="wrap">
     <h2 class="rv">Start at the root.</h2>
     <p class="rv d1">Tell us what's on your mind — a paragraph is plenty. We'll listen, and we'll be honest about whether we're the right fit. And if we're not, we'll do our best to point you toward someone who is.</p>
-    <p class="assess-cta rv d1">Not sure where to begin? <a href="/assessment">Take the three-minute assessment</a>.</p>
+    <p class="assess-cta rv d1">Not sure where to begin? <a href="/assessment">Take the two-minute assessment</a>.</p>
     <p class="inq-note err rv d2" id="inq-error" hidden>That didn't go through. Please try again, or email us directly below.</p>
     <form class="inq rv d2" method="post" action="/.netlify/functions/inquiry" id="inquiry">
       <div><label for="inq-name">Your name</label><input id="inq-name" name="name" type="text" autocomplete="name" maxlength="120"></div>

@@ -1,0 +1,87 @@
+{
+  "version": "v4d",
+  "title": "Going deeper",
+  "lede": "Five more questions — about the ground under your plan rather than the plan itself: what it rests on, who was heard, what was set aside, and who holds it together. Two minutes; the written version follows by email like the first.",
+  "lowest": 2,
+  "deeper": "",
+  "context": [],
+  "starting_fresh": null,
+  "questions": [
+    {
+      "key": "facts",
+      "text": "Some of what your strategic plan rests on you know, and some you believe. Could you point to which is which?",
+      "answers": [
+        "Yes — the facts have sources, the assumptions are written down, and someone's checking them.",
+        "We know the difference in our heads; it isn't written down.",
+        "We treat it all as known.",
+        "We haven't asked ourselves that."
+      ]
+    },
+    {
+      "key": "heard",
+      "text": "Who was asked what they needed before the direction was set — and who was on the list and never heard from?",
+      "answers": [
+        "We can name who was asked, how many answered, and who we missed.",
+        "We asked widely; we couldn't tell you the response rate.",
+        "Leadership and the board.",
+        "Mostly the people who set it."
+      ]
+    },
+    {
+      "key": "declined",
+      "text": "What did you decide not to do — and could leadership explain why to the board, or to anyone who asked?",
+      "answers": [
+        "Yes — the paths we didn't take, and why, are written down and were shared.",
+        "We weighed options; the recommendation is what got shared.",
+        "There was one obvious path, so we took it.",
+        "We haven't ruled anything out — which may be the problem."
+      ]
+    },
+    {
+      "key": "members",
+      "text": "When did one of your leaders last have a real conversation with a member or customer they didn't already know personally?",
+      "answers": [
+        "This quarter — it's a habit with a name.",
+        "This year, informally.",
+        "We have survey numbers.",
+        "We know our members; we haven't felt the need."
+      ]
+    },
+    {
+      "key": "people",
+      "text": "If the one person who holds a key process together left this month, what happens?",
+      "answers": [
+        "We've named who those people are, and there's a plan for each.",
+        "We know who they are; nothing's written down.",
+        "We'd manage — we always have.",
+        "I'd rather not think about it."
+      ]
+    }
+  ],
+  "bands": [
+    {
+      "key": "solid_ground",
+      "label": "Solid ground",
+      "min": 12,
+      "atRisk": false,
+      "text": "The plan stands on things you can point to: facts with sources, assumptions written down, people who were actually asked, paths declined for reasons someone could repeat, and a name against every person who holds a process together. That is the part most plans skip, and it is what carries one through a change of leadership. What we'd look at with you is whichever of the five is thinnest — there is always one.",
+      "slug": "solid-ground"
+    },
+    {
+      "key": "partly_assumed",
+      "label": "Partly assumed",
+      "min": 7,
+      "atRisk": false,
+      "text": "Some of what the plan rests on is known and some is believed, and the difference lives mostly in people's heads. That is normal, and it isn't a weakness until an assumption gets treated as a fact and nobody checks it again. The fix is small: write down which is which, name who wasn't heard from, and say out loud what was set aside and why. An afternoon, usually — and it changes how the next board conversation goes.",
+      "slug": "partly-assumed"
+    },
+    {
+      "key": "unexamined",
+      "label": "Unexamined",
+      "min": 0,
+      "atRisk": true,
+      "text": "The plan may well be right, but the ground under it hasn't been looked at: what it rests on is treated as known, the people it affects were mostly the people who wrote it, nothing was ruled out, and the person holding a key process together has no name on paper. None of that shows until something moves — a leader leaves, a member leaves, an assumption turns out wrong. We'd start there, before touching the plan itself: a short pass over these five things, with your board in the room.",
+      "slug": "unexamined"
+    }
+  ]
+}

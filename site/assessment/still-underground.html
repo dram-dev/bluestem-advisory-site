@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Still underground — Is your plan alive? · Bluestem Advisory</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="A three-minute read on your organization's strategic plan — or on where you'd start if you don't have one: ten questions, a straight answer, and the written version by email.">
+<meta name="description" content="A short read on your organization's strategic plan — or on where you'd start if you don't have one: five questions, a straight answer, and the written version by email.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,9 +52,11 @@
   <p class="verdict">The direction is in the soil more than above it — and that's true whether it's a strategic plan nobody opens or a shared understanding nobody has written down. Most of the organizations we're proudest of working with started here. It isn't a strategy problem so much as a ground problem: the why hasn't been said out loud together, so nothing beneath it connects. We'd start at the root — a short conversation about what the organization is truly for — before writing anything. It takes less time than people fear, and it usually goes better than people expect.</p>
   <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <div class="next">
-    <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
-    <p>If you'd rather just talk, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
-    <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
+    <p id="mailed">The written version is on its way to your inbox — your band and the two answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
+    <p id="talk-yes" hidden>You asked us to get in touch — we will, within a day or two. There is nothing to prepare.</p>
+    <p id="talk-no">If you'd rather just talk, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
+    <p id="deeper"><b>Want the fuller picture?</b> Five more questions, about the ground under your plan rather than the plan itself — what it rests on, who was heard, what was set aside, and who holds it together. <a href="/assessment/deeper">Go deeper →</a></p>
+    <p><a href="/">Back to the site</a></p>
   </div>
   <details class="others">
     <summary>The other two bands, for context</summary>
@@ -69,9 +71,10 @@
     var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), a = q.get('a') || '';
     if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
-    if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 10) {
+    if (q.get('t') === '1') { document.getElementById('talk-yes').hidden = false; document.getElementById('talk-no').hidden = true; }
+    if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 5) {
       var fig = document.getElementById('viz');
-      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction","Facts","Understanding","Trade-offs","Stakeholders","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
+      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction"], bands: [{"label":"Rooted","min":12},{"label":"Taking hold","min":7},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
       fig.hidden = false;
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       requestAnimationFrame(function () { requestAnimationFrame(function () {

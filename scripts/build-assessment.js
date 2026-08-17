@@ -1,21 +1,26 @@
 #!/usr/bin/env node
-// Builds site/assessment.html and site/assessment/<band>.html from
-// content/assessment.v1.json. The JSON is generated from Rootbook's
-// src/assessment.js (the authority on scoring), so wording and scoring can
-// never drift:
-//   node -e "const A=require('../rootbook/src/assessment.js');const v=A.CURRENT_VERSION,s=A.SETS[v];
-//     require('fs').writeFileSync('content/assessment.'+v+'.json',JSON.stringify({version:v,title:s.title,context:s.context||[],
-//     questions:s.questions,bands:s.bands.map(b=>({...b,slug:b.key.replace(/_/g,'-')}))},null,2)+'\n')"
-//   node scripts/build-assessment.js            (reads content/assessment.<CURRENT>.json — see VERSION below)
+// Builds site/assessment.html (the five-question assessment), site/assessment/
+// deeper.html (the five that go deeper — offered on the result page) and
+// site/assessment/<band>.html for every band of both, from content/assessment.
+// <v>.json. The JSON is generated from Rootbook's src/assessment.js (the
+// authority on scoring), so wording and scoring can never drift:
+//   node -e "const A=require('../rootbook/src/assessment.js');const fs=require('fs');
+//     for (const v of ['v4','v4d']) { const s=A.SETS[v]; fs.writeFileSync('content/assessment.'+v+'.json', JSON.stringify({version:v,title:s.title,
+//     lede:s.lede||'',lowest:s.lowest||3,deeper:s.deeper||'',context:s.context||[],starting_fresh:s.starting_fresh||null,questions:s.questions,
+//     bands:s.bands.map(b=>({...b,slug:b.key.replace(/_/g,'-')}))},null,2)+'\n'); }"
+//   node scripts/build-assessment.js            (reads content/assessment.<VERSION>.json and its `deeper`)
 // No build step on Netlify — run this and commit the outputs.
 'use strict';
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const VERSION = process.env.ASSESSMENT_VERSION || 'v3';
-const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'content', `assessment.${VERSION}.json`), 'utf8'));
-set.context = set.context || [];
+const VERSION = process.env.ASSESSMENT_VERSION || 'v4';
+const loadSet = (v) => { const x = JSON.parse(fs.readFileSync(path.join(ROOT, 'content', `assessment.${v}.json`), 'utf8')); x.context = x.context || []; return x; };
+const set = loadSet(VERSION);
+const deeperSet = set.deeper ? loadSet(set.deeper) : null;
+const NUM = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 10: 'ten' };
+const word = (n) => NUM[n] || String(n);
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const HEAD = (title, extraCss = '') => `<!DOCTYPE html>
@@ -24,7 +29,7 @@ const HEAD = (title, extraCss = '') => `<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Bluestem Advisory</title>
-<meta name="description" content="A three-minute read on your organization's strategic plan — or on where you'd start if you don't have one: ten questions, a straight answer, and the written version by email.">
+<meta name="description" content="A short read on your organization's strategic plan — or on where you'd start if you don't have one: five questions, a straight answer, and the written version by email.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,7 +78,7 @@ const QUIZ_CSS = `
   .grid input,.grid select{width:100%;font:inherit;font-size:16px;color:var(--light);background:rgba(237,234,217,.06);border:1px solid rgba(205,190,147,.28);border-radius:8px;padding:11px 12px}
   .grid input:focus,.grid select:focus{outline:none;border-color:var(--straw);background:rgba(237,234,217,.09)}
   .grid select{appearance:none} .grid select option{color:var(--ink)}
-  .check{display:flex;gap:10px;align-items:flex-start;font-size:16px;line-height:1.45;color:rgba(237,234,217,.85)}
+  .check,.grid label.check{display:flex;gap:10px;align-items:flex-start;font-family:'Literata',Georgia,serif;font-size:16px;letter-spacing:0;text-transform:none;line-height:1.45;color:rgba(237,234,217,.85);margin:6px 0 0}
   .check input{margin:5px 0 0;accent-color:var(--copper-bright)}
   .hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
   .send{font-family:'Karla',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--loam);background:var(--straw);border:1px solid var(--straw);border-radius:999px;padding:13px 26px;cursor:pointer;transition:background .25s,border-color .25s,color .25s}
@@ -91,17 +96,27 @@ const QUIZ_CSS = `
   html.js .bar{display:block} .bar{display:none}
   html.js .nav{display:flex} .nav{display:none}
   html.js .nojs-send{display:none}
+  .fresh{margin-top:16px;padding:18px 20px;border:1px solid var(--rule);border-radius:12px;background:rgba(205,190,147,.08)}
+  .fresh p{margin:0 0 14px;font-size:16px;line-height:1.5;color:rgba(237,234,217,.85)}
+  .fresh .row{display:flex;gap:10px;flex-wrap:wrap}
   @media (max-width:640px){.grid{grid-template-columns:1fr}}
 `;
 
-function quizPage() {
+function quizPage(set, opts = {}) {
+  const deeper = !!opts.deeper;
+  const total = set.context.length + set.questions.length;
+  const lowWord = word(set.lowest || 3);
   const ctx = set.context.map((q, i) => `
     <section class="q step" data-step="${i}">
       <p class="n">To start</p>
       <h2>${esc(q.text)}</h2>
       <ul class="opts">
         ${q.answers.map((a, j) => `<li><label><input type="radio" name="q_${q.key}" value="${j}" required> <span>${esc(a)}</span></label></li>`).join('\n        ')}
-      </ul>
+      </ul>${Number.isInteger(q.starting_fresh_index) ? `
+      <div class="fresh" id="fresh" hidden data-index="${q.starting_fresh_index}">
+        <p>That's a real starting point — and the ${word(set.questions.length)} questions that follow assume a plan. Answer them anyway and they'll tell us how the organization actually runs, which is the ground a plan gets built on. Or skip them, leave your details, and we'll get in touch to talk about how an organization gets started.</p>
+        <div class="row"><button class="send" type="button" id="fresh-skip">Skip them — let's talk about getting started</button> <button class="ghost" type="button" id="fresh-go">Answer them anyway</button></div>
+      </div>` : ''}
     </section>`).join('\n');
   const qs = set.questions.map((q, i) => `
     <section class="q step" data-step="${set.context.length + i}">
@@ -111,19 +126,25 @@ function quizPage() {
         ${q.answers.map((a, j) => `<li><label><input type="radio" name="q_${q.key}" value="${j}" required> <span>${esc(a)}</span></label></li>`).join('\n        ')}
       </ul>
     </section>`).join('\n');
+  const lede = deeper
+    ? (set.lede || `Five more questions about the ground under your plan. Two minutes; the written version follows by email like the first.`)
+    : `${word(set.questions.length)[0].toUpperCase() + word(set.questions.length).slice(1)} questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Two minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.`;
   return HEAD(set.title, QUIZ_CSS) + `<main>
-  <h1>${esc(set.title)}</h1>
-  <p class="lede">Ten questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Three minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.</p>
+  ${deeper ? '<p class="mono" style="margin:0 0 10px">Part two</p>' : ''}<h1>${esc(set.title)}</h1>
+  <p class="lede">${esc(lede)}</p>
   <p class="fine">What you write here comes to us and stops there. There's no account to make and no list you're joining.</p>
   <p class="err" id="err" hidden>That didn't go through. Please try again, or <a href="/#contact">write to us instead</a>.</p>
   <form method="post" action="/.netlify/functions/assessment" id="assess" novalidate>
     <input type="hidden" name="version" value="${esc(set.version)}">
+    <input type="hidden" name="skipped" id="skipped" value="">
     <div class="bar" aria-hidden="true"><i id="bar"></i></div>
 ${ctx}
 ${qs}
-    <section class="who step" data-step="${set.context.length + set.questions.length}">
-      <h2>Where should the written version go?</h2>
-      <p>You'll see your result on the next page. Leave an email and the written version — a line on where your plan lives, your band, and the three answers that pulled the score down — arrives from us within a minute.</p>
+    <section class="who step" data-step="${total}">
+      <h2 id="who-h">${deeper ? 'Where should this one go?' : 'Where should the written version go?'}</h2>
+      <p id="who-p">${deeper
+        ? 'Same as the first: your result on the next page, and the written version — your band and the ' + lowWord + ' answers that pulled the score down — by email within a minute.'
+        : 'You\'ll see your result on the next page. Leave an email and the written version — a line on where your plan lives, your band, and the ' + lowWord + ' answers that pulled the score down — arrives from us within a minute.'}</p>
       <div class="grid">
         <div><label for="a-name">Your name</label><input id="a-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
         <div><label for="a-email">Email</label><input id="a-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
@@ -140,7 +161,7 @@ ${qs}
           </select></div>
         <div class="full"><label class="check"><input type="checkbox" name="wants_talk" value="1"> <span>I'd like to talk this through — please get in touch.</span></label></div>
         <div class="hp" aria-hidden="true"><label for="a-web">Website</label><input id="a-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-        <input type="hidden" name="page" value="/assessment"><input type="hidden" name="referrer" value=""><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="utm_content" value="">
+        <input type="hidden" name="page" value="${deeper ? '/assessment/deeper' : '/assessment'}"><input type="hidden" name="referrer" value=""><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="utm_content" value="">
         <div class="full nojs-send"><button class="send" type="submit">See my result</button></div>
       </div>
     </section>
@@ -149,7 +170,9 @@ ${qs}
       <button class="send" type="button" id="next">Next →</button>
     </div>
   </form>
-  <p class="fine" style="margin-top:44px">A note on the score: it asks whether your direction is <em>alive</em> — owned, dated, measured, looked at, and understood by more than the people who set it — not whether it's clever, and not whether it's written down. Ten questions can't see your organization; they can only ask what you'd say out loud.</p>
+  <p class="fine" style="margin-top:44px">${deeper
+    ? 'A note on the score: these five ask about the ground under the plan — what it rests on, who was heard, what was set aside, and who holds it together — not about the plan itself. Five questions can\'t see your organization; they can only ask what you\'d say out loud.'
+    : 'A note on the score: it asks whether your direction is <em>alive</em> — owned, dated, measured, looked at, and understood by more than the people who set it — not whether it\'s clever, and not whether it\'s written down. Five questions can\'t see your organization; they can only ask what you\'d say out loud.'}</p>
 </main>
 <script>
 (function () {
@@ -159,18 +182,36 @@ ${qs}
   var back = document.getElementById('back'), next = document.getElementById('next'), bar = document.getElementById('bar');
   var err = document.getElementById('err');
   var i = 0, last = steps.length - 1;
+  var STORE = 'bs_assess';
   // Hidden context fields, same as the inquiry form.
   try {
     var qs = new URLSearchParams(location.search);
     form.referrer.value = (document.referrer || '').slice(0, 300);
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) { if (qs.get(k)) form[k].value = qs.get(k).slice(0, 120); });
     if (qs.get('sent') === '0') err.hidden = false;
+    // Part two remembers who part one was for — this browser only, this session only.
+    ${deeper ? `var prev = JSON.parse(sessionStorage.getItem(STORE) || 'null');
+    if (prev) { ['name', 'email', 'organization', 'org_type'].forEach(function (k) { if (prev[k] && form[k]) form[k].value = prev[k]; }); if (prev.wants_talk && form.wants_talk) form.wants_talk.checked = true; }` : ''}
   } catch (e) {}
+  // "We don't have a strategic plan": offer to skip the questions and just talk.
+  var fresh = document.getElementById('fresh'), skipField = document.getElementById('skipped');
+  function freshChosen() { if (!fresh) return false; var r = form.querySelector('input[name=q_plan_form]:checked'); return !!r && r.value === fresh.dataset.index; }
+  function syncFresh() { if (!fresh) return; fresh.hidden = !freshChosen(); if (!freshChosen()) skipField.value = ''; }
+  if (fresh) {
+    document.getElementById('fresh-skip').addEventListener('click', function () {
+      skipField.value = '1';
+      if (form.wants_talk) form.wants_talk.checked = true;
+      document.getElementById('who-h').textContent = 'Where should we reach you?';
+      document.getElementById('who-p').textContent = 'Leave your details and we\\'ll be in touch within a day or two to talk about how an organization gets started. There is nothing to prepare.';
+      show(last);
+    });
+    document.getElementById('fresh-go').addEventListener('click', function () { skipField.value = ''; show(i + 1); });
+  }
   function show(n) {
     i = n;
     steps.forEach(function (s, k) { s.classList.toggle('on', k === i); });
     back.hidden = i === 0;
-    next.textContent = i === last ? 'See my result' : 'Next →';
+    next.textContent = i === last ? (skipField.value ? 'Send' : 'See my result') : 'Next →';
     bar.style.width = Math.round((i / last) * 100) + '%';
     var focus = steps[i].querySelector('input:not([type=hidden]), select');
     if (i === 0 && focus) { /* don't steal focus on load */ } else if (focus) focus.focus();
@@ -188,13 +229,15 @@ ${qs}
     } else {
       var email = form.email;
       if (!email.value || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.value)) { email.focus(); email.style.borderColor = 'var(--copper-bright)'; return; }
-      next.disabled = true; next.textContent = 'Scoring…';
+      next.disabled = true; next.textContent = skipField.value ? 'Sending…' : 'Scoring…';
+      try { sessionStorage.setItem(STORE, JSON.stringify({ name: form.name.value, email: form.email.value, organization: form.organization.value, org_type: form.org_type.value, wants_talk: !!(form.wants_talk && form.wants_talk.checked) })); } catch (e) {}
       form.submit();
     }
   });
-  back.addEventListener('click', function () { if (i > 0) show(i - 1); });
+  back.addEventListener('click', function () { if (i > 0) show(skipField.value && i === last ? 0 : i - 1); });
   // Picking an answer advances after a beat — one hand, one thumb.
   form.addEventListener('change', function (e) {
+    if (e.target.type === 'radio' && e.target.name === 'q_plan_form') { syncFresh(); if (freshChosen()) return; }
     if (e.target.type === 'radio' && i < last - 1) setTimeout(function () { if (answered(steps[i])) show(i + 1); }, 260);
     else if (e.target.type === 'radio' && i === last - 1) setTimeout(function () { show(last); }, 260);
   });
@@ -223,21 +266,31 @@ const RESULT_CSS = `
   .others .o{margin-top:18px} .others .o b{font-family:'Newsreader',serif;font-weight:500;font-size:18px;display:block;margin-bottom:6px}
   .others .o p{font-size:15px;line-height:1.55;color:rgba(237,234,217,.6);margin:0;max-width:34em}
 `;
-function resultPage(band) {
+// The two lines under a result that depend on the visitor: whether they already
+// asked to talk (`t=1` from the relay — then the invitation to write would be
+// redundant) and, on part one, the invitation to go deeper.
+const TALK_LINES = (atRisk) => `
+    <p id="talk-yes" hidden>You asked us to get in touch — we will, within a day or two. There is nothing to prepare.</p>
+    <p id="talk-no">${atRisk
+      ? 'If you\'d rather just talk, <a href="/#contact">say so here</a> — a paragraph is plenty, and we\'ll be honest about whether we\'re the right fit.'
+      : 'If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.'}</p>`;
+const DEEPER_LINE = (set) => set.deeper ? `
+    <p id="deeper"><b>Want the fuller picture?</b> Five more questions, about the ground under your plan rather than the plan itself — what it rests on, who was heard, what was set aside, and who holds it together. <a href="/assessment/deeper">Go deeper →</a></p>` : '';
+const TALK_JS = `if (q.get('t') === '1') { document.getElementById('talk-yes').hidden = false; document.getElementById('talk-no').hidden = true; }`;
+
+function resultPage(set, band, opts = {}) {
   const others = set.bands.filter((b) => b.key !== band.key);
+  const lowWord = word(set.lowest || 3);
   // Result pages stay out of search: they are one person's reading, not a page to find.
   return HEAD(`${band.label} — ${set.title}`, RESULT_CSS).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
-  <p class="band">Your result</p>
+  <p class="band">${opts.deeper ? 'Your result · part two' : 'Your result'}</p>
   <h1>${esc(band.label)}</h1>
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
   <p class="verdict">${esc(band.text)}</p>
   <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <div class="next">
-    <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
-    <p>${band.atRisk
-      ? 'If you\'d rather just talk, <a href="/#contact">say so here</a> — a paragraph is plenty, and we\'ll be honest about whether we\'re the right fit.'
-      : 'If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.'}</p>
-    <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
+    <p id="mailed">The written version is on its way to your inbox — your band and the ${lowWord} answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>${TALK_LINES(band.atRisk)}${DEEPER_LINE(set)}
+    <p><a href="/">Back to the site</a>${opts.deeper ? ' · <a href="/assessment">The first five again</a>' : ''}</p>
   </div>
   <details class="others">
     <summary>The other two bands, for context</summary>
@@ -251,7 +304,8 @@ function resultPage(band) {
     var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), a = q.get('a') || '';
     if (s && m && /^\\d+$/.test(s) && /^\\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
-    ${VIZ_SNIPPET}
+    ${TALK_JS}
+    ${vizSnippet(set)}
   } catch (e) {}
 })();
 </script>
@@ -261,7 +315,7 @@ function resultPage(band) {
 // The drawing on a result page: same module the email uses, dark theme, drawn
 // in over ~2s (stroke-dashoffset), the number counting up alongside.
 const SHORT = { why: 'Why', owner: 'Ownership', ninety: 'Timeline', baseline: 'Measures', board: 'Direction', facts: 'Facts', heard: 'Understanding', declined: 'Trade-offs', members: 'Stakeholders', people: 'People' };
-const VIZ_SNIPPET = `if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === ${set.questions.length}) {
+const vizSnippet = (set) => `if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === ${set.questions.length}) {
       var fig = document.getElementById('viz');
       fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ${JSON.stringify(set.questions.map((q) => SHORT[q.key] || q.key))}, bands: ${JSON.stringify(set.bands.map((b) => ({ label: b.label, min: b.min })))}, theme: 'dark', animate: true });
       fig.hidden = false;
@@ -275,21 +329,24 @@ const VIZ_SNIPPET = `if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.le
 
 // The "no strategic plan yet" path: its own page, leading with its own paragraph;
 // the band the answers earned is shown underneath from ?b=<slug>.
-function freshPage() {
+function freshPage(set) {
   const f = set.starting_fresh;
+  const nWord = word(set.questions.length);
+  const lowWord = word(set.lowest || 3);
   return HEAD(`${f.label} — ${set.title}`, RESULT_CSS).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
   <p class="band">Your result</p>
   <h1>${esc(f.label)}</h1>
-  <p class="verdict">${esc(f.text)}</p>
+  <p class="verdict" id="v-answered">${esc(f.text)}</p>
+  <p class="verdict" id="v-skipped" hidden>${esc(f.skipped || f.text)}</p>
   <div class="next">
-    <p class="score" id="score" hidden>On the ten questions you scored <b id="s"></b> of <span id="m"></span> — <b id="bl"></b>.</p>
+    <p class="score" id="score" hidden>On the ${nWord} questions you scored <b id="s"></b> of <span id="m"></span> — <b id="bl"></b>.</p>
     <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
-    <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the three places we'd start. It comes from us, and replying to it reaches us directly.</p>
-    <p>If you'd like to talk it through, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
-    <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
+    <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the ${lowWord} places we'd start. It comes from us, and replying to it reaches us directly.</p>
+    <p id="mailed-skip" hidden>A short note is on its way to your inbox so you have our address. It comes from us, and replying to it reaches us directly.</p>${TALK_LINES(true)}${DEEPER_LINE(set)}
+    <p><a href="/">Back to the site</a></p>
   </div>
-  <details class="others">
-    <summary>How the ten questions are read</summary>
+  <details class="others" id="others">
+    <summary>How the ${nWord} questions are read</summary>
     ${set.bands.map((o) => `<div class="o"><b>${esc(o.label)}</b><p>${esc(o.text)}</p></div>`).join('\n    ')}
   </details>
 </main>
@@ -300,7 +357,15 @@ function freshPage() {
     var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), b = q.get('b'), a = q.get('a') || '';
     var labels = ${JSON.stringify(Object.fromEntries(set.bands.map((x) => [x.slug, x.label])))};
     if (s && m && /^\\d+$/.test(s) && /^\\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('bl').textContent = labels[b] || ''; document.getElementById('score').hidden = false; }
-    ${VIZ_SNIPPET}
+    ${TALK_JS}
+    if (q.get('skip') === '1') {
+      // Skipped the questions to be called: no score, no drawing, the paragraph for that path.
+      document.getElementById('v-answered').hidden = true; document.getElementById('v-skipped').hidden = false;
+      document.getElementById('mailed').hidden = true; document.getElementById('mailed-skip').hidden = false;
+      var dp = document.getElementById('deeper'); if (dp) dp.hidden = true;
+      document.getElementById('others').hidden = true;
+    }
+    ${vizSnippet(set)}
   } catch (e) {}
 })();
 </script>
@@ -314,8 +379,14 @@ const VIZ_SRC = path.join(ROOT, '..', 'rootbook', 'src', 'scoreviz.js');
 if (fs.existsSync(VIZ_SRC)) fs.copyFileSync(VIZ_SRC, path.join(ROOT, 'site', 'scoreviz.js'));
 else console.warn('scoreviz.js: rootbook checkout not found beside this repo — keeping the committed copy');
 
-fs.writeFileSync(path.join(ROOT, 'site', 'assessment.html'), quizPage());
+fs.writeFileSync(path.join(ROOT, 'site', 'assessment.html'), quizPage(set));
 fs.mkdirSync(path.join(ROOT, 'site', 'assessment'), { recursive: true });
-for (const b of set.bands) fs.writeFileSync(path.join(ROOT, 'site', 'assessment', `${b.slug}.html`), resultPage(b));
-if (set.starting_fresh) fs.writeFileSync(path.join(ROOT, 'site', 'assessment', 'starting-fresh.html'), freshPage());
-console.log(`built site/assessment.html + ${set.bands.length} result pages from ${set.version}`);
+for (const b of set.bands) fs.writeFileSync(path.join(ROOT, 'site', 'assessment', `${b.slug}.html`), resultPage(set, b));
+if (set.starting_fresh) fs.writeFileSync(path.join(ROOT, 'site', 'assessment', 'starting-fresh.html'), freshPage(set));
+let built = `site/assessment.html + ${set.bands.length} result pages from ${set.version}`;
+if (deeperSet) {
+  fs.writeFileSync(path.join(ROOT, 'site', 'assessment', 'deeper.html'), quizPage(deeperSet, { deeper: true }));
+  for (const b of deeperSet.bands) fs.writeFileSync(path.join(ROOT, 'site', 'assessment', `${b.slug}.html`), resultPage(deeperSet, b, { deeper: true }));
+  built += `; site/assessment/deeper.html + ${deeperSet.bands.length} result pages from ${deeperSet.version}`;
+}
+console.log(`built ${built}`);
