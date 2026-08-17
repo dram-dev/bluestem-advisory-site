@@ -35,7 +35,7 @@
              root: '#8A7A4A', tip: '#A14E24', zero: 'rgba(35,42,32,.35)', font: "Georgia,serif", ui: "Helvetica,Arial,sans-serif" }
   };
   var DEFAULT_BANDS = [{ label: 'Rooted', min: 23 }, { label: 'Taking hold', min: 13 }, { label: 'Still underground', min: 0 }];
-  var DEFAULT_LABELS = ['Why', 'Ownership', 'Timeline', 'Measures', 'Direction', 'Facts', 'Understood', 'Trade-offs', 'Members', 'People'];
+  var DEFAULT_LABELS = ['Why', 'Ownership', 'Timeline', 'Measures', 'Direction', 'Facts', 'Understanding', 'Trade-offs', 'Stakeholders', 'People'];
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function r1(n) { return Math.round(n * 10) / 10; }

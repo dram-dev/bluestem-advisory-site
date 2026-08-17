@@ -260,7 +260,7 @@ function resultPage(band) {
 
 // The drawing on a result page: same module the email uses, dark theme, drawn
 // in over ~2s (stroke-dashoffset), the number counting up alongside.
-const SHORT = { why: 'Why', owner: 'Ownership', ninety: 'Timeline', baseline: 'Measures', board: 'Direction', facts: 'Facts', heard: 'Understood', declined: 'Trade-offs', members: 'Members', people: 'People' };
+const SHORT = { why: 'Why', owner: 'Ownership', ninety: 'Timeline', baseline: 'Measures', board: 'Direction', facts: 'Facts', heard: 'Understanding', declined: 'Trade-offs', members: 'Stakeholders', people: 'People' };
 const VIZ_SNIPPET = `if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === ${set.questions.length}) {
       var fig = document.getElementById('viz');
       fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ${JSON.stringify(set.questions.map((q) => SHORT[q.key] || q.key))}, bands: ${JSON.stringify(set.bands.map((b) => ({ label: b.label, min: b.min })))}, theme: 'dark', animate: true });

@@ -71,7 +71,7 @@
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
     if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 10) {
       var fig = document.getElementById('viz');
-      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction","Facts","Understood","Trade-offs","Members","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
+      fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction","Facts","Understanding","Trade-offs","Stakeholders","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
       fig.hidden = false;
       var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       requestAnimationFrame(function () { requestAnimationFrame(function () {
