@@ -155,6 +155,7 @@ Rootbook's `.env`) and `ROOTBOOK_INQUIRY_URL`; the assessment target is derived 
   `scripts/build-assessment.js` renders `site/assessment.html` + the three result pages —
   edit the JSON only by regenerating (the one-liner is in the script's header), then run the
   script and commit the outputs. Works with JavaScript off (the whole form renders stacked);
-  the page's script only makes it one question at a time. Carries `noindex` and is not
-  linked from the homepage until both principals approve the wording (vault:
-  *Self-Assessment — Questions v1*).
+  the page's script only makes it one question at a time. Approved and public since
+  2026-08-17 (v3 wording; linked from *Start at the root* on the homepage; result pages
+  stay `noindex`). The score is drawn as a root system by `site/scoreviz.js`, a verbatim
+  copy of Rootbook's `src/scoreviz.js` (the same drawing goes into the write-up email).

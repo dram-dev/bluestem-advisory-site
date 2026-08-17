@@ -348,6 +348,9 @@ section{padding:110px clamp(24px,7vw,96px);position:relative}
 .inq .send{font-family:'Karla',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--loam);background:var(--straw);border:1px solid var(--straw);border-radius:999px;padding:12px 24px;cursor:pointer;transition:background .25s,border-color .25s,color .25s}
 .inq .send:hover{background:var(--copper-bright);border-color:var(--copper-bright);color:var(--light)}
 .inq .fine{grid-column:1/-1;font-size:13px!important;color:rgba(237,234,217,.5)!important;margin:0!important;max-width:none!important}
+.assess-cta{font-size:16px!important;color:rgba(237,234,217,.75)!important;margin-bottom:26px!important;padding:14px 18px;border:1px solid rgba(205,190,147,.28);border-radius:10px;max-width:640px}
+.assess-cta a{color:var(--straw);border-bottom:2px solid rgba(205,190,147,.35);padding-bottom:2px}
+.assess-cta a:hover{color:var(--copper-bright);border-color:var(--copper-bright)}
 .inq-note{font-size:15px!important;color:rgba(237,234,217,.6)!important;margin-bottom:22px!important}
 .inq-note.err{color:var(--copper-bright)!important}
 @media (max-width:640px){.inq{grid-template-columns:1fr}}
@@ -936,6 +939,7 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
   <div class="wrap">
     <h2 class="rv">Start at the root.</h2>
     <p class="rv d1">Tell us what's on your mind — a paragraph is plenty. We'll listen, and we'll be honest about whether we're the right fit. And if we're not, we'll do our best to point you toward someone who is.</p>
+    <p class="assess-cta rv d1">Not sure where to begin? <a href="/assessment">Take the three-minute assessment</a> — ten questions about where your organization is heading, a straight read on screen, and the written version by email.</p>
     <p class="inq-note err rv d2" id="inq-error" hidden>That didn't go through. Please try again, or email us directly below.</p>
     <form class="inq rv d2" method="post" action="/.netlify/functions/inquiry" id="inquiry">
       <div><label for="inq-name">Your name</label><input id="inq-name" name="name" type="text" autocomplete="name" maxlength="120"></div>

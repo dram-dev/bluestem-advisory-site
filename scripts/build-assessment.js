@@ -24,7 +24,6 @@ const HEAD = (title, extraCss = '') => `<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Bluestem Advisory</title>
-<meta name="robots" content="noindex">
 <meta name="description" content="A three-minute read on your organization's strategic plan — or on where you'd start if you don't have one: ten questions, a straight answer, and the written version by email.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
@@ -226,7 +225,8 @@ const RESULT_CSS = `
 `;
 function resultPage(band) {
   const others = set.bands.filter((b) => b.key !== band.key);
-  return HEAD(`${band.label} — ${set.title}`, RESULT_CSS) + `<main>
+  // Result pages stay out of search: they are one person's reading, not a page to find.
+  return HEAD(`${band.label} — ${set.title}`, RESULT_CSS).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
   <p class="band">Your result</p>
   <h1>${esc(band.label)}</h1>
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
@@ -277,7 +277,7 @@ const VIZ_SNIPPET = `if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.le
 // the band the answers earned is shown underneath from ?b=<slug>.
 function freshPage() {
   const f = set.starting_fresh;
-  return HEAD(`${f.label} — ${set.title}`, RESULT_CSS) + `<main>
+  return HEAD(`${f.label} — ${set.title}`, RESULT_CSS).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
   <p class="band">Your result</p>
   <h1>${esc(f.label)}</h1>
   <p class="verdict">${esc(f.text)}</p>
