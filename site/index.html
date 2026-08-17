@@ -315,7 +315,7 @@ section{padding:110px clamp(24px,7vw,96px);position:relative}
 #story .pull .tail{color:var(--copper-bright)}
 
 /* ---------- contact (dark) ---------- */
-#contact{padding-top:60px;padding-bottom:0}
+#contact{padding-top:60px;padding-bottom:36px}
 #contact .wrap{max-width:880px}
 #contact h2{font-size:clamp(28px,3vw,40px);color:var(--light);margin-bottom:18px}
 #contact p{color:rgba(237,234,217,.78);max-width:32em;margin-bottom:36px;font-size:18px}
@@ -325,7 +325,7 @@ section{padding:110px clamp(24px,7vw,96px);position:relative}
   border-radius:2px;padding-bottom:5px;transition:color .3s,border-color .3s;
 }
 #contact .email:hover{color:var(--copper-bright);border-color:var(--copper-bright)}
-#contact .loc{margin-top:30px;color:rgba(237,234,217,.45)}
+#contact .loc{margin-top:30px;margin-bottom:0;color:rgba(237,234,217,.45)} /* the p's bottom margin used to collapse out of the section (padding-bottom:0) and show 36px of page background above the footer */
 #contact .email-row{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap}
 .copy-btn{
   font-family:'Karla',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;
