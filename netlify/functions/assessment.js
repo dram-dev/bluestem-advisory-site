@@ -7,8 +7,10 @@
 // we redirect the visitor to /assessment/<band>?s=&m=. Nothing is stored here.
 const relay = require('../lib/relay');
 
-const SLUG = { rooted: 'rooted', taking_hold: 'taking-hold', on_the_shelf: 'on-the-shelf' };
-const KEYS = ['why', 'owner', 'ninety', 'baseline', 'board', 'facts', 'heard', 'declined', 'members', 'people'];
+// Band key → result page. Rootbook is the authority on which bands exist; a
+// band we have no page for falls back to a generic slug derived from the key.
+const slugOf = (band) => String(band || '').replace(/[^a-z_]/g, '').replace(/_/g, '-');
+const KNOWN = new Set(['rooted', 'taking-hold', 'still-underground', 'on-the-shelf']);
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method not allowed' };
@@ -19,12 +21,17 @@ exports.handler = async (event) => {
   const { get } = relay.readBody(event);
   if (String(get('website') || '').trim()) return relay.redirect(`${relay.SITE}/assessment/taking-hold`); // honeypot
 
+  // Every q_<key> field is an answer index; Rootbook validates the set against
+  // the version, so this stays version-agnostic.
   const answers = {};
-  for (const k of KEYS) {
-    const v = String(get(`q_${k}`) ?? '').trim();
-    if (!/^[0-3]$/.test(v)) return relay.redirect(`${relay.SITE}/assessment?sent=0`);
-    answers[k] = Number(v);
+  const keys = typeof get.keys === 'function' ? get.keys() : null;
+  for (const k of (keys || [])) {
+    if (!k.startsWith('q_')) continue;
+    const v = String(get(k) ?? '').trim();
+    if (!/^[0-9]$/.test(v)) return relay.redirect(`${relay.SITE}/assessment?sent=0`);
+    answers[k.slice(2)] = Number(v);
   }
+  if (!Object.keys(answers).length) return relay.redirect(`${relay.SITE}/assessment?sent=0`);
   const ipHash = relay.ipHashOf(event);
   const payload = {
     version: relay.field(get, 'version', 10) || 'v1',
@@ -38,9 +45,10 @@ exports.handler = async (event) => {
   if (!payload.email) return relay.redirect(`${relay.SITE}/assessment?sent=0`);
 
   const r = await relay.forward(relay.ASSESSMENT_URL, payload, ipHash);
-  if (!r.ok || !r.body || !SLUG[r.body.band]) {
-    console.error(`assessment relay: ${r.error || `rootbook answered ${r.status}`}`);
+  const slug = r.ok && r.body ? slugOf(r.body.band) : '';
+  if (!slug || !KNOWN.has(slug)) {
+    console.error(`assessment relay: ${r.error || `rootbook answered ${r.status}`}${slug ? ` (band ${slug})` : ''}`);
     return relay.redirect(`${relay.SITE}/assessment?sent=0`);
   }
-  return relay.redirect(`${relay.SITE}/assessment/${SLUG[r.body.band]}?s=${Number(r.body.score)}&m=${Number(r.body.max)}`);
+  return relay.redirect(`${relay.SITE}/assessment/${slug}?s=${Number(r.body.score)}&m=${Number(r.body.max)}`);
 };

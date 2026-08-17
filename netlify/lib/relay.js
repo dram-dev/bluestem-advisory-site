@@ -21,10 +21,14 @@ function readBody(event) {
   const raw = event.isBase64Encoded ? Buffer.from(event.body || '', 'base64').toString('utf8') : (event.body || '');
   if (ct.includes('application/json')) {
     let o = {}; try { o = JSON.parse(raw || '{}'); } catch { o = {}; }
-    return { get: (k) => (o[k] == null ? '' : o[k]), json: true };
+    const get = (k) => (o[k] == null ? '' : o[k]);
+    get.keys = () => Object.keys(o);
+    return { get, json: true };
   }
   const p = new URLSearchParams(raw);
-  return { get: (k) => p.get(k) || '', json: false };
+  const get = (k) => p.get(k) || '';
+  get.keys = () => [...new Set([...p.keys()])];
+  return { get, json: false };
 }
 const field = (get, k, max) => String(get(k) || '').replace(/\r/g, '').trim().slice(0, max);
 

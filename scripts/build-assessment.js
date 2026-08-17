@@ -3,17 +3,19 @@
 // content/assessment.v1.json. The JSON is generated from Rootbook's
 // src/assessment.js (the authority on scoring), so wording and scoring can
 // never drift:
-//   node -e "const A=require('../rootbook/src/assessment.js');const s=A.SETS.v1;
-//     require('fs').writeFileSync('content/assessment.v1.json',JSON.stringify({version:'v1',title:s.title,
+//   node -e "const A=require('../rootbook/src/assessment.js');const v=A.CURRENT_VERSION,s=A.SETS[v];
+//     require('fs').writeFileSync('content/assessment.'+v+'.json',JSON.stringify({version:v,title:s.title,context:s.context||[],
 //     questions:s.questions,bands:s.bands.map(b=>({...b,slug:b.key.replace(/_/g,'-')}))},null,2)+'\n')"
-//   node scripts/build-assessment.js
+//   node scripts/build-assessment.js            (reads content/assessment.<CURRENT>.json — see VERSION below)
 // No build step on Netlify — run this and commit the outputs.
 'use strict';
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'content', 'assessment.v1.json'), 'utf8'));
+const VERSION = process.env.ASSESSMENT_VERSION || 'v2';
+const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'content', `assessment.${VERSION}.json`), 'utf8'));
+set.context = set.context || [];
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const HEAD = (title, extraCss = '') => `<!DOCTYPE html>
@@ -94,8 +96,16 @@ const QUIZ_CSS = `
 `;
 
 function quizPage() {
-  const qs = set.questions.map((q, i) => `
+  const ctx = set.context.map((q, i) => `
     <section class="q step" data-step="${i}">
+      <p class="n">To start</p>
+      <h2>${esc(q.text)}</h2>
+      <ul class="opts">
+        ${q.answers.map((a, j) => `<li><label><input type="radio" name="q_${q.key}" value="${j}" required> <span>${esc(a)}</span></label></li>`).join('\n        ')}
+      </ul>
+    </section>`).join('\n');
+  const qs = set.questions.map((q, i) => `
+    <section class="q step" data-step="${set.context.length + i}">
       <p class="n">Question ${i + 1} of ${set.questions.length}</p>
       <h2>${esc(q.text)}</h2>
       <ul class="opts">
@@ -104,16 +114,17 @@ function quizPage() {
     </section>`).join('\n');
   return HEAD(set.title, QUIZ_CSS) + `<main>
   <h1>${esc(set.title)}</h1>
-  <p class="lede">Ten questions about the plan your organisation already has — three minutes, honest answers. You get a straight verdict on screen, and the written version by email if you want it.</p>
+  <p class="lede">Ten questions about where your organisation is heading — whether that lives in a bound plan, a page of goals, or in conversations nobody has written down yet. Three minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email.</p>
   <p class="fine">Nothing you enter goes anywhere but to the two of us. No account, no list, no follow-up you didn't ask for.</p>
   <p class="err" id="err" hidden>That didn't go through. Please try again, or <a href="/#contact">write to us instead</a>.</p>
   <form method="post" action="/.netlify/functions/assessment" id="assess" novalidate>
     <input type="hidden" name="version" value="${esc(set.version)}">
     <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+${ctx}
 ${qs}
-    <section class="who step" data-step="${set.questions.length}">
+    <section class="who step" data-step="${set.context.length + set.questions.length}">
       <h2>Where should the written version go?</h2>
-      <p>You'll see your result on the next page either way. Leave an email and the write-up — your band, and the three answers that pulled the score down — arrives from us within a minute.</p>
+      <p>You'll see your result on the next page. Leave an email and the written version — a line on where your plan lives, your band, and the three answers that pulled the score down — arrives from the two of us within a minute.</p>
       <div class="grid">
         <div><label for="a-name">Your name</label><input id="a-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
         <div><label for="a-email">Email</label><input id="a-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
@@ -138,7 +149,7 @@ ${qs}
       <button class="send" type="button" id="next">Next →</button>
     </div>
   </form>
-  <p class="fine" style="margin-top:44px">A note on the score: it measures whether the plan is <em>alive</em> — owned, dated, measured, reviewed and understood — not whether it's clever. Ten questions can't see your organisation; they can only ask what you'd say out loud.</p>
+  <p class="fine" style="margin-top:44px">A note on the score: it asks whether your direction is <em>alive</em> — owned, dated, measured, looked at, and understood by more than the people who set it — not whether it's clever, and not whether it's written down. Ten questions can't see your organisation; they can only ask what you'd say out loud.</p>
 </main>
 <script>
 (function () {
