@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is your plan alive? · Bluestem Advisory</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A three-minute read on your own strategic plan: ten questions, a straight answer, and the written version if you want it.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--loam:#0F1310;--loam-2:#161B14;--light:#EDEAD9;--straw:#CDBE93;--copper:#A14E24;--copper-bright:#B85D2E;--ink:#232A20;--rule:rgba(205,190,147,.22)}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--loam-2);color:var(--light);font-family:'Literata',Georgia,serif}
+  a{color:var(--straw);text-decoration:none;border-bottom:2px solid rgba(205,190,147,.35);padding-bottom:2px}
+  a:hover{color:var(--copper-bright);border-color:var(--copper-bright)}
+  .top{display:flex;justify-content:space-between;align-items:baseline;max-width:720px;margin:0 auto;padding:22px 24px 0}
+  .brand{font-family:'Newsreader',serif;font-size:18px;letter-spacing:.01em;color:var(--light);border:0}
+  .mono{font-family:'Karla',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(237,234,217,.45)}
+  main{max-width:720px;margin:0 auto;padding:8vh 24px 16vh}
+  h1{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(32px,5vw,48px);line-height:1.08;margin:0 0 18px;text-wrap:balance}
+  .lede{font-size:19px;line-height:1.55;color:rgba(237,234,217,.8);margin:0 0 12px;max-width:34em}
+  .fine{font-size:14px;line-height:1.5;color:rgba(237,234,217,.5);margin:0 0 40px;max-width:36em}
+  
+  .q{border-top:1px solid var(--rule);padding:30px 0 26px}
+  .q:first-of-type{border-top:0;padding-top:0}
+  .q .n{font-family:'Karla',sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--straw);margin:0 0 10px}
+  .q h2{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(21px,2.6vw,26px);line-height:1.3;margin:0 0 18px;text-wrap:balance}
+  .opts{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+  .opts label{display:flex;gap:14px;align-items:flex-start;padding:13px 16px;border:1px solid var(--rule);border-radius:10px;background:rgba(237,234,217,.04);cursor:pointer;font-size:16.5px;line-height:1.45;transition:border-color .2s,background .2s}
+  .opts label:hover{border-color:var(--straw);background:rgba(237,234,217,.07)}
+  .opts input{margin:5px 0 0;flex:none;accent-color:var(--copper-bright)}
+  .opts label:has(input:checked){border-color:var(--straw);background:rgba(205,190,147,.12)}
+  .who{border-top:1px solid var(--rule);padding:30px 0 0}
+  .who h2{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(21px,2.6vw,26px);margin:0 0 6px}
+  .who p{color:rgba(237,234,217,.7);font-size:16px;line-height:1.5;margin:0 0 20px;max-width:34em}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;max-width:640px}
+  .grid .full{grid-column:1/-1}
+  .grid label{display:block;font-family:'Karla',sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(237,234,217,.55);margin-bottom:6px}
+  .grid input,.grid select{width:100%;font:inherit;font-size:16px;color:var(--light);background:rgba(237,234,217,.06);border:1px solid rgba(205,190,147,.28);border-radius:8px;padding:11px 12px}
+  .grid input:focus,.grid select:focus{outline:none;border-color:var(--straw);background:rgba(237,234,217,.09)}
+  .grid select{appearance:none} .grid select option{color:var(--ink)}
+  .check{display:flex;gap:10px;align-items:flex-start;font-size:16px;line-height:1.45;color:rgba(237,234,217,.85)}
+  .check input{margin:5px 0 0;accent-color:var(--copper-bright)}
+  .hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+  .send{font-family:'Karla',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--loam);background:var(--straw);border:1px solid var(--straw);border-radius:999px;padding:13px 26px;cursor:pointer;transition:background .25s,border-color .25s,color .25s}
+  .send:hover{background:var(--copper-bright);border-color:var(--copper-bright);color:var(--light)}
+  .send[disabled]{opacity:.5;cursor:default}
+  .err{color:var(--copper-bright);font-size:15px;margin:0 0 18px}
+  .nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px}
+  .ghost{font-family:'Karla',sans-serif;font-size:14px;font-weight:600;color:var(--straw);background:none;border:1px solid var(--rule);border-radius:999px;padding:11px 20px;cursor:pointer}
+  .ghost:hover{border-color:var(--straw)}
+  .bar{height:2px;background:var(--rule);border-radius:2px;margin:0 0 34px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--straw);transition:width .35s}
+  /* JavaScript on: one step at a time. Off: everything stacked, still a form. */
+  html.js .step{display:none} html.js .step.on{display:block}
+  html.js .q{border-top:0;padding-top:0}
+  html.js .bar{display:block} .bar{display:none}
+  html.js .nav{display:flex} .nav{display:none}
+  html.js .nojs-send{display:none}
+  @media (max-width:640px){.grid{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="top"><a class="brand" href="/">Bluestem Advisory</a><span class="mono">Based in Illinois</span></div>
+<main>
+  <h1>Is your plan alive?</h1>
+  <p class="lede">Ten questions about the plan your organisation already has — three minutes, honest answers. You get a straight verdict on screen, and the written version by email if you want it.</p>
+  <p class="fine">Nothing you enter goes anywhere but to the two of us. No account, no list, no follow-up you didn't ask for.</p>
+  <p class="err" id="err" hidden>That didn't go through. Please try again, or <a href="/#contact">write to us instead</a>.</p>
+  <form method="post" action="/.netlify/functions/assessment" id="assess" novalidate>
+    <input type="hidden" name="version" value="v1">
+    <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+
+    <section class="q step" data-step="0">
+      <p class="n">Question 1 of 10</p>
+      <h2>If you stopped three people in the corridor — a board member, a manager, someone on the front line — and asked why the plan exists, what would you hear?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_why" value="0" required> <span>The same one or two sentences, in their own words.</span></label></li>
+        <li><label><input type="radio" name="q_why" value="1" required> <span>The same idea in different words; someone would need a moment.</span></label></li>
+        <li><label><input type="radio" name="q_why" value="2" required> <span>The board member could say it; the other two would guess.</span></label></li>
+        <li><label><input type="radio" name="q_why" value="3" required> <span>A list of goals, or a shrug.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="1">
+      <p class="n">Question 2 of 10</p>
+      <h2>Pick any initiative in the plan. Who owns it?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_owner" value="0" required> <span>One named person — and they'd say so themselves.</span></label></li>
+        <li><label><input type="radio" name="q_owner" value="1" required> <span>A named person on paper; in practice it's shared.</span></label></li>
+        <li><label><input type="radio" name="q_owner" value="2" required> <span>A team, or a committee.</span></label></li>
+        <li><label><input type="radio" name="q_owner" value="3" required> <span>We'd have to look it up, or it's &quot;all of us&quot;.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="2">
+      <p class="n">Question 3 of 10</p>
+      <h2>What has to happen in the next ninety days, by date?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_ninety" value="0" required> <span>Every initiative has dated first moves, and they're on people's calendars.</span></label></li>
+        <li><label><input type="radio" name="q_ninety" value="1" required> <span>Most do; a few say &quot;this year&quot;.</span></label></li>
+        <li><label><input type="radio" name="q_ninety" value="2" required> <span>The plan has years, not dates.</span></label></li>
+        <li><label><input type="radio" name="q_ninety" value="3" required> <span>The plan has intentions.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="3">
+      <p class="n">Question 4 of 10</p>
+      <h2>For the measures in the plan, do you know where you started?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_baseline" value="0" required> <span>Every measure has a baseline, a target, and the quarterly steps between them.</span></label></li>
+        <li><label><input type="radio" name="q_baseline" value="1" required> <span>Targets, yes; baselines for some.</span></label></li>
+        <li><label><input type="radio" name="q_baseline" value="2" required> <span>We have measures, but no numbers against them yet.</span></label></li>
+        <li><label><input type="radio" name="q_baseline" value="3" required> <span>The plan doesn't have measures — it has aims.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="4">
+      <p class="n">Question 5 of 10</p>
+      <h2>When did the board last look at progress against the plan — not the budget, the plan?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_board" value="0" required> <span>Last quarter, in the same format as the quarter before.</span></label></li>
+        <li><label><input type="radio" name="q_board" value="1" required> <span>Once this year, in whatever form was to hand.</span></label></li>
+        <li><label><input type="radio" name="q_board" value="2" required> <span>When it approved the plan.</span></label></li>
+        <li><label><input type="radio" name="q_board" value="3" required> <span>There isn't a plan the board would recognise as theirs.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="5">
+      <p class="n">Question 6 of 10</p>
+      <h2>The plan rests on some things you know and some you believe. Could you point to which is which?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_facts" value="0" required> <span>Yes — the findings name their sources, the assumptions are listed, and someone is checking them.</span></label></li>
+        <li><label><input type="radio" name="q_facts" value="1" required> <span>We know the difference in our heads; it isn't written down.</span></label></li>
+        <li><label><input type="radio" name="q_facts" value="2" required> <span>We treat it all as known.</span></label></li>
+        <li><label><input type="radio" name="q_facts" value="3" required> <span>The plan doesn't say what it's built on.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="6">
+      <p class="n">Question 7 of 10</p>
+      <h2>Who was asked before the plan was written — and who was on the list and never heard from?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_heard" value="0" required> <span>We can name who was asked, how many answered, and who we missed.</span></label></li>
+        <li><label><input type="radio" name="q_heard" value="1" required> <span>We asked widely; we couldn't tell you the response rate.</span></label></li>
+        <li><label><input type="radio" name="q_heard" value="2" required> <span>Leadership and the board.</span></label></li>
+        <li><label><input type="radio" name="q_heard" value="3" required> <span>The people who wrote it.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="7">
+      <p class="n">Question 8 of 10</p>
+      <h2>What did you decide not to do — and does the board know why?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_declined" value="0" required> <span>The board saw the paths we didn't take, and why each was declined.</span></label></li>
+        <li><label><input type="radio" name="q_declined" value="1" required> <span>We weighed options; the board saw the recommendation.</span></label></li>
+        <li><label><input type="radio" name="q_declined" value="2" required> <span>There was one obvious plan, and we wrote it.</span></label></li>
+        <li><label><input type="radio" name="q_declined" value="3" required> <span>Honestly, it's last year's plan with new dates.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="8">
+      <p class="n">Question 9 of 10</p>
+      <h2>When did someone in leadership last sit down with a member or customer nobody in the room already knew?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_members" value="0" required> <span>This quarter — it's a habit with a name.</span></label></li>
+        <li><label><input type="radio" name="q_members" value="1" required> <span>This year, informally.</span></label></li>
+        <li><label><input type="radio" name="q_members" value="2" required> <span>We have survey numbers.</span></label></li>
+        <li><label><input type="radio" name="q_members" value="3" required> <span>We know our members; we don't need to ask.</span></label></li>
+      </ul>
+    </section>
+
+    <section class="q step" data-step="9">
+      <p class="n">Question 10 of 10</p>
+      <h2>If the one person who holds a key process together left this month, what happens?</h2>
+      <ul class="opts">
+        <li><label><input type="radio" name="q_people" value="0" required> <span>We've named who those people are, and there's a plan for each.</span></label></li>
+        <li><label><input type="radio" name="q_people" value="1" required> <span>We know who they are; nothing is written down.</span></label></li>
+        <li><label><input type="radio" name="q_people" value="2" required> <span>We'd manage — we always have.</span></label></li>
+        <li><label><input type="radio" name="q_people" value="3" required> <span>I'd rather not think about it.</span></label></li>
+      </ul>
+    </section>
+    <section class="who step" data-step="10">
+      <h2>Where should the written version go?</h2>
+      <p>You'll see your result on the next page either way. Leave an email and the write-up — your band, and the three answers that pulled the score down — arrives from us within a minute.</p>
+      <div class="grid">
+        <div><label for="a-name">Your name</label><input id="a-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
+        <div><label for="a-email">Email</label><input id="a-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
+        <div><label for="a-org">Organisation</label><input id="a-org" name="organization" type="text" autocomplete="organization" maxlength="200"></div>
+        <div><label for="a-type">It's a…</label>
+          <select id="a-type" name="org_type">
+            <option value="">— choose —</option>
+            <option value="mutual">Mutual insurer</option>
+            <option value="cooperative">Cooperative</option>
+            <option value="nonprofit">Nonprofit</option>
+            <option value="association">Association</option>
+            <option value="other">Something else</option>
+          </select></div>
+        <div class="full"><label class="check"><input type="checkbox" name="wants_talk" value="1"> <span>I'd like to talk this through — please get in touch.</span></label></div>
+        <div class="hp" aria-hidden="true"><label for="a-web">Website</label><input id="a-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <input type="hidden" name="page" value="/assessment"><input type="hidden" name="referrer" value=""><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="utm_content" value="">
+        <div class="full nojs-send"><button class="send" type="submit">See my result</button></div>
+      </div>
+    </section>
+    <div class="nav">
+      <button class="ghost" type="button" id="back" hidden>← Back</button>
+      <button class="send" type="button" id="next">Next →</button>
+    </div>
+  </form>
+  <p class="fine" style="margin-top:44px">A note on the score: it measures whether the plan is <em>alive</em> — owned, dated, measured, reviewed and understood — not whether it's clever. Ten questions can't see your organisation; they can only ask what you'd say out loud.</p>
+</main>
+<script>
+(function () {
+  document.documentElement.classList.add('js');
+  var form = document.getElementById('assess');
+  var steps = Array.prototype.slice.call(form.querySelectorAll('.step'));
+  var back = document.getElementById('back'), next = document.getElementById('next'), bar = document.getElementById('bar');
+  var err = document.getElementById('err');
+  var i = 0, last = steps.length - 1;
+  // Hidden context fields, same as the inquiry form.
+  try {
+    var qs = new URLSearchParams(location.search);
+    form.referrer.value = (document.referrer || '').slice(0, 300);
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].forEach(function (k) { if (qs.get(k)) form[k].value = qs.get(k).slice(0, 120); });
+    if (qs.get('sent') === '0') err.hidden = false;
+  } catch (e) {}
+  function show(n) {
+    i = n;
+    steps.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+    back.hidden = i === 0;
+    next.textContent = i === last ? 'See my result' : 'Next →';
+    bar.style.width = Math.round((i / last) * 100) + '%';
+    var focus = steps[i].querySelector('input:not([type=hidden]), select');
+    if (i === 0 && focus) { /* don't steal focus on load */ } else if (focus) focus.focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function answered(s) {
+    var radios = s.querySelectorAll('input[type=radio]');
+    if (!radios.length) return true;
+    return Array.prototype.some.call(radios, function (r) { return r.checked; });
+  }
+  next.addEventListener('click', function () {
+    if (i < last) {
+      if (!answered(steps[i])) { steps[i].querySelector('.opts').animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-4px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(0)' }], { duration: 240 }); return; }
+      show(i + 1);
+    } else {
+      var email = form.email;
+      if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { email.focus(); email.style.borderColor = 'var(--copper-bright)'; return; }
+      next.disabled = true; next.textContent = 'Scoring…';
+      form.submit();
+    }
+  });
+  back.addEventListener('click', function () { if (i > 0) show(i - 1); });
+  // Picking an answer advances after a beat — one hand, one thumb.
+  form.addEventListener('change', function (e) {
+    if (e.target.type === 'radio' && i < last - 1) setTimeout(function () { if (answered(steps[i])) show(i + 1); }, 260);
+    else if (e.target.type === 'radio' && i === last - 1) setTimeout(function () { show(last); }, 260);
+  });
+  form.addEventListener('keydown', function (e) { if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); next.click(); } });
+  show(0);
+})();
+</script>
+</body>
+</html>

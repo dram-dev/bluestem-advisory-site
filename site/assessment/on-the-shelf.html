@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On the shelf — Is your plan alive? · Bluestem Advisory</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A three-minute read on your own strategic plan: ten questions, a straight answer, and the written version if you want it.">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400..600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--loam:#0F1310;--loam-2:#161B14;--light:#EDEAD9;--straw:#CDBE93;--copper:#A14E24;--copper-bright:#B85D2E;--ink:#232A20;--rule:rgba(205,190,147,.22)}
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--loam-2);color:var(--light);font-family:'Literata',Georgia,serif}
+  a{color:var(--straw);text-decoration:none;border-bottom:2px solid rgba(205,190,147,.35);padding-bottom:2px}
+  a:hover{color:var(--copper-bright);border-color:var(--copper-bright)}
+  .top{display:flex;justify-content:space-between;align-items:baseline;max-width:720px;margin:0 auto;padding:22px 24px 0}
+  .brand{font-family:'Newsreader',serif;font-size:18px;letter-spacing:.01em;color:var(--light);border:0}
+  .mono{font-family:'Karla',ui-monospace,monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(237,234,217,.45)}
+  main{max-width:720px;margin:0 auto;padding:8vh 24px 16vh}
+  h1{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(32px,5vw,48px);line-height:1.08;margin:0 0 18px;text-wrap:balance}
+  .lede{font-size:19px;line-height:1.55;color:rgba(237,234,217,.8);margin:0 0 12px;max-width:34em}
+  .fine{font-size:14px;line-height:1.5;color:rgba(237,234,217,.5);margin:0 0 40px;max-width:36em}
+  
+  .band{font-family:'Karla',sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--straw);margin:0 0 14px}
+  .score{font-family:'Newsreader',serif;font-size:18px;color:rgba(237,234,217,.6);margin:0 0 26px}
+  .verdict{font-size:19px;line-height:1.6;color:rgba(237,234,217,.88);margin:0 0 28px;max-width:34em}
+  .next{border-top:1px solid var(--rule);padding-top:26px;margin-top:10px}
+  .next p{font-size:16.5px;line-height:1.55;color:rgba(237,234,217,.72);max-width:34em;margin:0 0 14px}
+  .others{margin-top:44px}
+  .others summary{cursor:pointer;color:var(--straw);font-family:'Karla',sans-serif;font-size:13px;letter-spacing:.04em}
+  .others .o{margin-top:18px} .others .o b{font-family:'Newsreader',serif;font-weight:500;font-size:18px;display:block;margin-bottom:6px}
+  .others .o p{font-size:15px;line-height:1.55;color:rgba(237,234,217,.6);margin:0;max-width:34em}
+
+</style>
+</head>
+<body>
+<div class="top"><a class="brand" href="/">Bluestem Advisory</a><span class="mono">Based in Illinois</span></div>
+<main>
+  <p class="band">Your result</p>
+  <h1>On the shelf</h1>
+  <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
+  <p class="verdict">The plan is more document than practice — and if that's true, you probably knew it before you answered, which is why you're here. This is the most common state we meet, and it's rarely a strategy problem. It's a ground problem: the why isn't said out loud, so nothing beneath it connects. We'd start at the root — a short conversation about what the organisation is truly for — before touching the plan itself. It's the work we do most, and it takes less time than people fear.</p>
+  <div class="next">
+    <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from the two of us, and replying to it reaches us directly.</p>
+    <p>If you'd rather just talk, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
+    <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
+  </div>
+  <details class="others">
+    <summary>The other two bands, for context</summary>
+    <div class="o"><b>Rooted</b><p>Your plan is doing what a plan is for. People can say why it exists, the work has owners and dates, and the board sees the same picture each quarter. What we'd look at with you is the ground under it: which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's the difference between a plan that holds this year and one that holds through a change of leadership — and it's usually a short piece of work.</p></div>
+    <div class="o"><b>Taking hold</b><p>There's a real plan here, and parts of it are working. Where plans in this band go quiet is between the intention and the calendar: initiatives that belong to a team rather than a person, measures without a starting number, a board that saw it once. None of that is hard to fix, and fixing it is what turns a document into a rhythm. We'd start with owners and first moves — ninety days, by date — and build the quarterly review around them.</p></div>
+  </details>
+</main>
+<script>
+(function () {
+  try {
+    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m');
+    if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
+    if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
+  } catch (e) {}
+})();
+</script>
+</body>
+</html>

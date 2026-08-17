@@ -136,11 +136,25 @@ caches can be force-refreshed with their sharing debugger tools.
 3. Deploy via Option A or push via Option B.
 4. Spot-check: hero illustration, depth ruler, mobile menu, `/about` link, favicon in tab.
 
-## Planned (2026-08-16)
+## The two things the site sends to Rootbook (2026-08-16)
 
-The site's one interactive element today is `mailto:admin@…`. Two additions are planned
-and specified in Rootbook's `IMPROVEMENTS.md` items 56–57 (and the *Delivery Plan — Suite
-Gaps* note in the vault): a real inquiry form relayed by a Netlify Function to a signed
-Rootbook route (lead + note + task, source tracking, honeypot + rate limit), and a scored
-self-assessment page (SurveyJS, own-origin, band shown free, written recommendations
-emailed). Both wait on decisions D1–D3 in that note.
+Both go through Netlify Functions in `netlify/functions/`, which share `netlify/lib/relay.js`:
+honeypot, hashed visitor IP (never the raw address), HMAC-SHA256 over the exact bytes with
+`SITE_INQUIRY_SECRET`, forward to Rootbook, redirect. Nothing is stored on Netlify. Env vars
+(Netlify → Site configuration → Environment variables): `SITE_INQUIRY_SECRET` (same value as
+Rootbook's `.env`) and `ROOTBOOK_INQUIRY_URL`; the assessment target is derived from the latter.
+
+- **The inquiry form** (`#contact` on the homepage → `functions/inquiry.js` → Rootbook
+  `POST /api/site/inquiry`, IMPROVEMENTS 56). Plain HTML form; the mailto stays beside it as
+  the fallback; `/thanks` afterwards. Live since 2026-08-16.
+- **The self-assessment** (`/assessment` → `functions/assessment.js` → Rootbook
+  `POST /api/site/assessment`, IMPROVEMENTS 57). Ten questions, four concrete answers each,
+  three bands; the band on screen at `/assessment/<band>`, the written version emailed by
+  Rootbook. **Rootbook's `src/assessment.js` is the authority on the wording and the scoring.**
+  The site's copy is `content/assessment.v1.json`, generated from it, and
+  `scripts/build-assessment.js` renders `site/assessment.html` + the three result pages —
+  edit the JSON only by regenerating (the one-liner is in the script's header), then run the
+  script and commit the outputs. Works with JavaScript off (the whole form renders stacked);
+  the page's script only makes it one question at a time. Carries `noindex` and is not
+  linked from the homepage until both principals approve the wording (vault:
+  *Self-Assessment — Questions v1*).

@@ -1,0 +1,132 @@
+{
+  "version": "v1",
+  "title": "Is your plan alive?",
+  "questions": [
+    {
+      "key": "why",
+      "text": "If you stopped three people in the corridor — a board member, a manager, someone on the front line — and asked why the plan exists, what would you hear?",
+      "answers": [
+        "The same one or two sentences, in their own words.",
+        "The same idea in different words; someone would need a moment.",
+        "The board member could say it; the other two would guess.",
+        "A list of goals, or a shrug."
+      ]
+    },
+    {
+      "key": "owner",
+      "text": "Pick any initiative in the plan. Who owns it?",
+      "answers": [
+        "One named person — and they'd say so themselves.",
+        "A named person on paper; in practice it's shared.",
+        "A team, or a committee.",
+        "We'd have to look it up, or it's \"all of us\"."
+      ]
+    },
+    {
+      "key": "ninety",
+      "text": "What has to happen in the next ninety days, by date?",
+      "answers": [
+        "Every initiative has dated first moves, and they're on people's calendars.",
+        "Most do; a few say \"this year\".",
+        "The plan has years, not dates.",
+        "The plan has intentions."
+      ]
+    },
+    {
+      "key": "baseline",
+      "text": "For the measures in the plan, do you know where you started?",
+      "answers": [
+        "Every measure has a baseline, a target, and the quarterly steps between them.",
+        "Targets, yes; baselines for some.",
+        "We have measures, but no numbers against them yet.",
+        "The plan doesn't have measures — it has aims."
+      ]
+    },
+    {
+      "key": "board",
+      "text": "When did the board last look at progress against the plan — not the budget, the plan?",
+      "answers": [
+        "Last quarter, in the same format as the quarter before.",
+        "Once this year, in whatever form was to hand.",
+        "When it approved the plan.",
+        "There isn't a plan the board would recognise as theirs."
+      ]
+    },
+    {
+      "key": "facts",
+      "text": "The plan rests on some things you know and some you believe. Could you point to which is which?",
+      "answers": [
+        "Yes — the findings name their sources, the assumptions are listed, and someone is checking them.",
+        "We know the difference in our heads; it isn't written down.",
+        "We treat it all as known.",
+        "The plan doesn't say what it's built on."
+      ]
+    },
+    {
+      "key": "heard",
+      "text": "Who was asked before the plan was written — and who was on the list and never heard from?",
+      "answers": [
+        "We can name who was asked, how many answered, and who we missed.",
+        "We asked widely; we couldn't tell you the response rate.",
+        "Leadership and the board.",
+        "The people who wrote it."
+      ]
+    },
+    {
+      "key": "declined",
+      "text": "What did you decide not to do — and does the board know why?",
+      "answers": [
+        "The board saw the paths we didn't take, and why each was declined.",
+        "We weighed options; the board saw the recommendation.",
+        "There was one obvious plan, and we wrote it.",
+        "Honestly, it's last year's plan with new dates."
+      ]
+    },
+    {
+      "key": "members",
+      "text": "When did someone in leadership last sit down with a member or customer nobody in the room already knew?",
+      "answers": [
+        "This quarter — it's a habit with a name.",
+        "This year, informally.",
+        "We have survey numbers.",
+        "We know our members; we don't need to ask."
+      ]
+    },
+    {
+      "key": "people",
+      "text": "If the one person who holds a key process together left this month, what happens?",
+      "answers": [
+        "We've named who those people are, and there's a plan for each.",
+        "We know who they are; nothing is written down.",
+        "We'd manage — we always have.",
+        "I'd rather not think about it."
+      ]
+    }
+  ],
+  "bands": [
+    {
+      "key": "rooted",
+      "label": "Rooted",
+      "min": 23,
+      "atRisk": false,
+      "text": "Your plan is doing what a plan is for. People can say why it exists, the work has owners and dates, and the board sees the same picture each quarter. What we'd look at with you is the ground under it: which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's the difference between a plan that holds this year and one that holds through a change of leadership — and it's usually a short piece of work.",
+      "slug": "rooted"
+    },
+    {
+      "key": "taking_hold",
+      "label": "Taking hold",
+      "min": 13,
+      "atRisk": false,
+      "text": "There's a real plan here, and parts of it are working. Where plans in this band go quiet is between the intention and the calendar: initiatives that belong to a team rather than a person, measures without a starting number, a board that saw it once. None of that is hard to fix, and fixing it is what turns a document into a rhythm. We'd start with owners and first moves — ninety days, by date — and build the quarterly review around them.",
+      "slug": "taking-hold"
+    },
+    {
+      "key": "on_the_shelf",
+      "label": "On the shelf",
+      "min": 0,
+      "atRisk": true,
+      "text": "The plan is more document than practice — and if that's true, you probably knew it before you answered, which is why you're here. This is the most common state we meet, and it's rarely a strategy problem. It's a ground problem: the why isn't said out loud, so nothing beneath it connects. We'd start at the root — a short conversation about what the organisation is truly for — before touching the plan itself. It's the work we do most, and it takes less time than people fear.",
+      "slug": "on-the-shelf"
+    }
+  ]
+}

@@ -35,3 +35,14 @@
   from = "/thanks"
   to = "/thanks.html"
   status = 200
+
+# Item 57 — the self-assessment: clean URLs for the page and the three result pages.
+[[redirects]]
+  from = "/assessment"
+  to = "/assessment.html"
+  status = 200
+
+[[redirects]]
+  from = "/assessment/:band"
+  to = "/assessment/:band.html"
+  status = 200
