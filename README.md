@@ -54,7 +54,7 @@ from the domain (see the gotcha below — this has bitten us before).
 
 ## Netlify configuration
 
-### Option A — drag-and-drop deploy (current workflow)
+### Option A — drag-and-drop deploy (the original workflow; superseded by B)
 
 1. Log in to Netlify → open the site → **Deploys** tab.
 2. Drag the **`site/` folder** (the folder itself, not the repo root) into the drop zone.
@@ -64,7 +64,13 @@ Every drag-and-drop is a full replacement deploy. Netlify keeps deploy history, 
 deploy can be instantly rolled back from the Deploys tab (**⋯ → Publish deploy** on any
 older entry).
 
-### Option B — Git-connected deploy (recommended once this repo lives on GitHub)
+### Option B — Git-connected deploy — THIS IS THE CURRENT WORKFLOW (2026-08-17)
+
+The site is connected to this GitHub repo: **every push to `main` is a Netlify deploy**, and
+every deploy spends Netlify credits/build minutes, so pushes are batched — several changes,
+one push — rather than one push per tweak. `netlify.toml` carries an `ignore` rule that skips
+the deploy when a push touched nothing under `site/`, `netlify/` or `netlify.toml`.
+
 
 1. Netlify → **Add new site → Import an existing project → GitHub** → pick this repo.
 2. Settings when prompted (also encoded in `netlify.toml`, which Netlify reads
