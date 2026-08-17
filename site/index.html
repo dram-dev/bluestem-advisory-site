@@ -940,14 +940,15 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
     <form class="inq rv d2" method="post" action="/.netlify/functions/inquiry" id="inquiry">
       <div><label for="inq-name">Your name</label><input id="inq-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
       <div><label for="inq-email">Email</label><input id="inq-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
-      <div><label for="inq-org">Organisation</label><input id="inq-org" name="organization" type="text" autocomplete="organization" maxlength="200"></div>
+      <div><label for="inq-org">Organization</label><input id="inq-org" name="organization" type="text" autocomplete="organization" maxlength="200"></div>
       <div><label for="inq-type">It's a…</label>
         <select id="inq-type" name="org_type">
           <option value="">— choose —</option>
-          <option value="mutual">Mutual insurer</option>
           <option value="cooperative">Cooperative</option>
           <option value="nonprofit">Nonprofit</option>
           <option value="association">Association</option>
+          <option value="membership">Membership organization</option>
+          <option value="agency">Agency</option>
           <option value="other">Something else</option>
         </select></div>
       <div class="full"><label for="inq-q">What's on your mind</label><textarea id="inq-q" name="question" required maxlength="5000" placeholder="A paragraph is plenty."></textarea></div>

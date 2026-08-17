@@ -1,0 +1,155 @@
+{
+  "version": "v3",
+  "title": "Is your plan alive?",
+  "context": [
+    {
+      "key": "plan_form",
+      "text": "First — where does your strategic plan live today?",
+      "answers": [
+        "In a written strategic plan the board approved.",
+        "In a slide, a page, or a set of goals we've written down.",
+        "In conversations — we know what we're about, but it isn't written down.",
+        "Honestly, we don't have a strategic plan."
+      ],
+      "reflect": [
+        "You told us your strategic plan lives in a document the board approved.",
+        "You told us your plan lives in a page or a set of written goals.",
+        "You told us your plan lives in conversation rather than on paper — which is where most of the organizations we work with begin.",
+        "You told us you don't have a strategic plan yet."
+      ],
+      "starting_fresh_index": 3
+    }
+  ],
+  "starting_fresh": {
+    "label": "Starting fresh",
+    "text": "You don't have a strategic plan yet — and you said so plainly, which is more than most organizations manage. Here's what that means: your answers below still tell us how the organization actually runs — who owns things, how the board and leadership look at direction, how you'd know something is working. That is the ground a plan gets built on, and it's the part that's hard to fake. What we'd do first isn't write a plan. It's a short conversation with you and your board about what the organization is truly for — the root — and then, from that, a plan on a page that people can carry around, with owners and first moves. Most organizations we're proudest of working with started exactly here."
+  },
+  "questions": [
+    {
+      "key": "why",
+      "text": "If you stopped three people in the hallway — a board member, a manager, someone on the front line — and asked why the organization is heading where it's heading, what would you hear?",
+      "answers": [
+        "The same one or two sentences, in their own words.",
+        "The same idea in different words; someone might need a moment.",
+        "One of them could say it; the other two would guess.",
+        "A list of goals — or a friendly shrug."
+      ]
+    },
+    {
+      "key": "owner",
+      "text": "Think of one thing in your strategic plan — or one thing the organization has decided to do this year — a project, a change, a push. Who owns it?",
+      "answers": [
+        "One named person, and they'd tell you so themselves.",
+        "A named person on paper; in practice it's shared.",
+        "A team, or a committee.",
+        "It's \"all of us\" — which usually means no one in particular."
+      ]
+    },
+    {
+      "key": "ninety",
+      "text": "What has to happen in the next ninety days for that to move — and by when?",
+      "answers": [
+        "We could tell you the first steps and their dates; they're on people's calendars.",
+        "We know the steps; the dates are \"this year\".",
+        "We know the direction, not the steps.",
+        "We haven't broken it down that far yet."
+      ]
+    },
+    {
+      "key": "baseline",
+      "text": "How will you know the plan is working — and do you know where you started?",
+      "answers": [
+        "We have measures with a starting number, a target, and the steps between.",
+        "We have targets; starting numbers for some.",
+        "We'd know it when we saw it.",
+        "We haven't put numbers to it — it's an aim."
+      ]
+    },
+    {
+      "key": "board",
+      "text": "When did leadership and the board last look together at where the organization is heading — the direction, not the budget?",
+      "answers": [
+        "Last quarter, in the same shape as the quarter before.",
+        "Once this year, in whatever form was to hand.",
+        "When the plan — or the goals — were approved.",
+        "It doesn't really come up as its own conversation."
+      ]
+    },
+    {
+      "key": "facts",
+      "text": "Some of what your strategic plan rests on you know, and some you believe. Could you point to which is which?",
+      "answers": [
+        "Yes — the facts have sources, the assumptions are written down, and someone's checking them.",
+        "We know the difference in our heads; it isn't written down.",
+        "We treat it all as known.",
+        "We haven't asked ourselves that."
+      ]
+    },
+    {
+      "key": "heard",
+      "text": "Who was asked what they needed before the direction was set — and who was on the list and never heard from?",
+      "answers": [
+        "We can name who was asked, how many answered, and who we missed.",
+        "We asked widely; we couldn't tell you the response rate.",
+        "Leadership and the board.",
+        "Mostly the people who set it."
+      ]
+    },
+    {
+      "key": "declined",
+      "text": "What did you decide not to do — and could leadership explain why to the board, or to anyone who asked?",
+      "answers": [
+        "Yes — the paths we didn't take, and why, are written down and were shared.",
+        "We weighed options; the recommendation is what got shared.",
+        "There was one obvious path, so we took it.",
+        "We haven't ruled anything out — which may be the problem."
+      ]
+    },
+    {
+      "key": "members",
+      "text": "When did one of your leaders last have a real conversation with a member or customer they didn't already know personally?",
+      "answers": [
+        "This quarter — it's a habit with a name.",
+        "This year, informally.",
+        "We have survey numbers.",
+        "We know our members; we haven't felt the need."
+      ]
+    },
+    {
+      "key": "people",
+      "text": "If the one person who holds a key process together left this month, what happens?",
+      "answers": [
+        "We've named who those people are, and there's a plan for each.",
+        "We know who they are; nothing's written down.",
+        "We'd manage — we always have.",
+        "I'd rather not think about it."
+      ]
+    }
+  ],
+  "bands": [
+    {
+      "key": "rooted",
+      "label": "Rooted",
+      "min": 23,
+      "atRisk": false,
+      "text": "Whatever form your strategic plan takes, it's alive: people can say why, the work has owners and dates, and leadership and the board see the same picture each quarter. That's rarer than you'd think. What we'd look at with you is the ground under it — which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's what carries a plan through a change of leadership, and it's usually a short piece of work.",
+      "slug": "rooted"
+    },
+    {
+      "key": "taking_hold",
+      "label": "Taking hold",
+      "min": 13,
+      "atRisk": false,
+      "text": "There's a real direction here, and parts of it are working. Where things in this band tend to go quiet is between the intention and the calendar: work that belongs to a team rather than a person, measures without a starting number, a plan the board approved and leadership hasn't looked at since. None of that is hard to fix — and if your plan lives mostly in conversation, writing those few things down is most of the job. We'd start with owners and first moves, ninety days by date, and build the quarterly look-back around them.",
+      "slug": "taking-hold"
+    },
+    {
+      "key": "still_underground",
+      "label": "Still underground",
+      "min": 0,
+      "atRisk": true,
+      "text": "The direction is in the soil more than above it — and that's true whether it's a strategic plan nobody opens or a shared understanding nobody has written down. Most of the organizations we're proudest of working with started here. It isn't a strategy problem so much as a ground problem: the why hasn't been said out loud together, so nothing beneath it connects. We'd start at the root — a short conversation about what the organization is truly for — before writing anything. It takes less time than people fear, and it usually goes better than people expect.",
+      "slug": "still-underground"
+    }
+  ]
+}

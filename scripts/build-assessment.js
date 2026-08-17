@@ -13,7 +13,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const VERSION = process.env.ASSESSMENT_VERSION || 'v2';
+const VERSION = process.env.ASSESSMENT_VERSION || 'v3';
 const set = JSON.parse(fs.readFileSync(path.join(ROOT, 'content', `assessment.${VERSION}.json`), 'utf8'));
 set.context = set.context || [];
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -25,7 +25,7 @@ const HEAD = (title, extraCss = '') => `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Bluestem Advisory</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="A three-minute read on your own strategic plan: ten questions, a straight answer, and the written version if you want it.">
+<meta name="description" content="A three-minute read on your organization's strategic plan — or on where you'd start if you don't have one: ten questions, a straight answer, and the written version by email.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,7 +114,7 @@ function quizPage() {
     </section>`).join('\n');
   return HEAD(set.title, QUIZ_CSS) + `<main>
   <h1>${esc(set.title)}</h1>
-  <p class="lede">Ten questions about where your organisation is heading — whether that lives in a bound plan, a page of goals, or in conversations nobody has written down yet. Three minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email.</p>
+  <p class="lede">Ten questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Three minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.</p>
   <p class="fine">Nothing you enter goes anywhere but to the two of us. No account, no list, no follow-up you didn't ask for.</p>
   <p class="err" id="err" hidden>That didn't go through. Please try again, or <a href="/#contact">write to us instead</a>.</p>
   <form method="post" action="/.netlify/functions/assessment" id="assess" novalidate>
@@ -128,14 +128,15 @@ ${qs}
       <div class="grid">
         <div><label for="a-name">Your name</label><input id="a-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
         <div><label for="a-email">Email</label><input id="a-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
-        <div><label for="a-org">Organisation</label><input id="a-org" name="organization" type="text" autocomplete="organization" maxlength="200"></div>
+        <div><label for="a-org">Organization</label><input id="a-org" name="organization" type="text" autocomplete="organization" maxlength="200"></div>
         <div><label for="a-type">It's a…</label>
           <select id="a-type" name="org_type">
             <option value="">— choose —</option>
-            <option value="mutual">Mutual insurer</option>
             <option value="cooperative">Cooperative</option>
             <option value="nonprofit">Nonprofit</option>
             <option value="association">Association</option>
+            <option value="membership">Membership organization</option>
+            <option value="agency">Agency</option>
             <option value="other">Something else</option>
           </select></div>
         <div class="full"><label class="check"><input type="checkbox" name="wants_talk" value="1"> <span>I'd like to talk this through — please get in touch.</span></label></div>
@@ -149,7 +150,7 @@ ${qs}
       <button class="send" type="button" id="next">Next →</button>
     </div>
   </form>
-  <p class="fine" style="margin-top:44px">A note on the score: it asks whether your direction is <em>alive</em> — owned, dated, measured, looked at, and understood by more than the people who set it — not whether it's clever, and not whether it's written down. Ten questions can't see your organisation; they can only ask what you'd say out loud.</p>
+  <p class="fine" style="margin-top:44px">A note on the score: it asks whether your direction is <em>alive</em> — owned, dated, measured, looked at, and understood by more than the people who set it — not whether it's clever, and not whether it's written down. Ten questions can't see your organization; they can only ask what you'd say out loud.</p>
 </main>
 <script>
 (function () {
@@ -248,7 +249,39 @@ function resultPage(band) {
 ` + FOOT;
 }
 
+// The "no strategic plan yet" path: its own page, leading with its own paragraph;
+// the band the answers earned is shown underneath from ?b=<slug>.
+function freshPage() {
+  const f = set.starting_fresh;
+  return HEAD(`${f.label} — ${set.title}`, RESULT_CSS) + `<main>
+  <p class="band">Your result</p>
+  <h1>${esc(f.label)}</h1>
+  <p class="verdict">${esc(f.text)}</p>
+  <div class="next">
+    <p class="score" id="score" hidden>On the ten questions you scored <b id="s"></b> of <span id="m"></span> — <b id="bl"></b>.</p>
+    <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the three places we'd start. It comes from the two of us, and replying to it reaches us directly.</p>
+    <p>If you'd like to talk it through, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
+    <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
+  </div>
+  <details class="others">
+    <summary>How the ten questions are read</summary>
+    ${set.bands.map((o) => `<div class="o"><b>${esc(o.label)}</b><p>${esc(o.text)}</p></div>`).join('\n    ')}
+  </details>
+</main>
+<script>
+(function () {
+  try {
+    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), b = q.get('b');
+    var labels = ${JSON.stringify(Object.fromEntries(set.bands.map((x) => [x.slug, x.label])))};
+    if (s && m && /^\\d+$/.test(s) && /^\\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('bl').textContent = labels[b] || ''; document.getElementById('score').hidden = false; }
+  } catch (e) {}
+})();
+</script>
+` + FOOT;
+}
+
 fs.writeFileSync(path.join(ROOT, 'site', 'assessment.html'), quizPage());
 fs.mkdirSync(path.join(ROOT, 'site', 'assessment'), { recursive: true });
 for (const b of set.bands) fs.writeFileSync(path.join(ROOT, 'site', 'assessment', `${b.slug}.html`), resultPage(b));
+if (set.starting_fresh) fs.writeFileSync(path.join(ROOT, 'site', 'assessment', 'starting-fresh.html'), freshPage());
 console.log(`built site/assessment.html + ${set.bands.length} result pages from ${set.version}`);

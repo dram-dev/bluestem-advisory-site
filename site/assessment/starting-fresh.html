@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Taking hold — Is your plan alive? · Bluestem Advisory</title>
+<title>Starting fresh — Is your plan alive? · Bluestem Advisory</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="A three-minute read on your organization's strategic plan — or on where you'd start if you don't have one: ten questions, a straight answer, and the written version by email.">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -41,26 +41,27 @@
 <div class="top"><a class="brand" href="/">Bluestem Advisory</a><span class="mono">Based in Illinois</span></div>
 <main>
   <p class="band">Your result</p>
-  <h1>Taking hold</h1>
-  <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
-  <p class="verdict">There's a real direction here, and parts of it are working. Where things in this band tend to go quiet is between the intention and the calendar: work that belongs to a team rather than a person, measures without a starting number, a plan the board approved and leadership hasn't looked at since. None of that is hard to fix — and if your plan lives mostly in conversation, writing those few things down is most of the job. We'd start with owners and first moves, ninety days by date, and build the quarterly look-back around them.</p>
+  <h1>Starting fresh</h1>
+  <p class="verdict">You don't have a strategic plan yet — and you said so plainly, which is more than most organizations manage. Here's what that means: your answers below still tell us how the organization actually runs — who owns things, how the board and leadership look at direction, how you'd know something is working. That is the ground a plan gets built on, and it's the part that's hard to fake. What we'd do first isn't write a plan. It's a short conversation with you and your board about what the organization is truly for — the root — and then, from that, a plan on a page that people can carry around, with owners and first moves. Most organizations we're proudest of working with started exactly here.</p>
   <div class="next">
-    <p id="mailed">The written version is on its way to your inbox — your band and the three answers that pulled the score down. It comes from the two of us, and replying to it reaches us directly.</p>
-    <p>If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.</p>
+    <p class="score" id="score" hidden>On the ten questions you scored <b id="s"></b> of <span id="m"></span> — <b id="bl"></b>.</p>
+    <p id="mailed">The written version is on its way to your inbox — this note, your answers, and the three places we'd start. It comes from the two of us, and replying to it reaches us directly.</p>
+    <p>If you'd like to talk it through, <a href="/#contact">say so here</a> — a paragraph is plenty, and we'll be honest about whether we're the right fit.</p>
     <p><a href="/">Back to the site</a> · <a href="/assessment">Take it again</a></p>
   </div>
   <details class="others">
-    <summary>The other two bands, for context</summary>
+    <summary>How the ten questions are read</summary>
     <div class="o"><b>Rooted</b><p>Whatever form your strategic plan takes, it's alive: people can say why, the work has owners and dates, and leadership and the board see the same picture each quarter. That's rarer than you'd think. What we'd look at with you is the ground under it — which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's what carries a plan through a change of leadership, and it's usually a short piece of work.</p></div>
+    <div class="o"><b>Taking hold</b><p>There's a real direction here, and parts of it are working. Where things in this band tend to go quiet is between the intention and the calendar: work that belongs to a team rather than a person, measures without a starting number, a plan the board approved and leadership hasn't looked at since. None of that is hard to fix — and if your plan lives mostly in conversation, writing those few things down is most of the job. We'd start with owners and first moves, ninety days by date, and build the quarterly look-back around them.</p></div>
     <div class="o"><b>Still underground</b><p>The direction is in the soil more than above it — and that's true whether it's a strategic plan nobody opens or a shared understanding nobody has written down. Most of the organizations we're proudest of working with started here. It isn't a strategy problem so much as a ground problem: the why hasn't been said out loud together, so nothing beneath it connects. We'd start at the root — a short conversation about what the organization is truly for — before writing anything. It takes less time than people fear, and it usually goes better than people expect.</p></div>
   </details>
 </main>
 <script>
 (function () {
   try {
-    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m');
-    if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
-    if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
+    var q = new URLSearchParams(location.search), s = q.get('s'), m = q.get('m'), b = q.get('b');
+    var labels = {"rooted":"Rooted","taking-hold":"Taking hold","still-underground":"Still underground"};
+    if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('bl').textContent = labels[b] || ''; document.getElementById('score').hidden = false; }
   } catch (e) {}
 })();
 </script>

@@ -11,6 +11,7 @@ const relay = require('../lib/relay');
 // band we have no page for falls back to a generic slug derived from the key.
 const slugOf = (band) => String(band || '').replace(/[^a-z_]/g, '').replace(/_/g, '-');
 const KNOWN = new Set(['rooted', 'taking-hold', 'still-underground', 'on-the-shelf']);
+const FRESH = 'starting-fresh'; // the "no strategic plan yet" path (v3+): its own page, band underneath
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method not allowed' };
@@ -52,5 +53,6 @@ exports.handler = async (event) => {
     // the visitor's URL without a log in front of you. Nothing about the visitor.
     return relay.redirect(`${relay.SITE}/assessment?sent=0&why=${r.status || 'net'}`);
   }
+  if (r.body.starting_fresh) return relay.redirect(`${relay.SITE}/assessment/${FRESH}?s=${Number(r.body.score)}&m=${Number(r.body.max)}&b=${slug}`);
   return relay.redirect(`${relay.SITE}/assessment/${slug}?s=${Number(r.body.score)}&m=${Number(r.body.max)}`);
 };
