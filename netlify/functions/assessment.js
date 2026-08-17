@@ -66,7 +66,12 @@ exports.handler = async (event) => {
   // result page. Rootbook is the authority on the score; this is the same arithmetic
   // (points = answers − 1 − index) and carries nothing about the person.
   const pts = Array.isArray(r.body.points) ? r.body.points.join('') : '';
-  const tail = `?s=${Number(r.body.score)}&m=${Number(r.body.max)}${pts ? `&a=${pts}` : ''}${talk}`;
+  // Part two read with part one (`combined`, when Rootbook found part one for this email):
+  // the ten-question score, max, points and band, so the result page draws the fuller picture.
+  const c = r.body.combined;
+  const cpts = c && Array.isArray(c.points) ? c.points.join('') : '';
+  const comb = c ? `&cs=${Number(c.score)}&cm=${Number(c.max)}${cpts ? `&ca=${cpts}` : ''}&cb=${slugOf(c.band)}` : '';
+  const tail = `?s=${Number(r.body.score)}&m=${Number(r.body.max)}${pts ? `&a=${pts}` : ''}${talk}${comb}`;
   if (r.body.starting_fresh) return relay.redirect(`${relay.SITE}/assessment/${FRESH}${tail}&b=${slug}`);
   return relay.redirect(`${relay.SITE}/assessment/${slug}${tail}`);
 };

@@ -79,6 +79,8 @@ const QUIZ_CSS = `
   .grid input:focus,.grid select:focus{outline:none;border-color:var(--straw);background:rgba(237,234,217,.09)}
   .grid select{appearance:none} .grid select option{color:var(--ink)}
   .check,.grid label.check{display:flex;gap:10px;align-items:flex-start;font-family:'Literata',Georgia,serif;font-size:16px;letter-spacing:0;text-transform:none;line-height:1.45;color:rgba(237,234,217,.85);margin:6px 0 0}
+  .grid .check input,.grid input[type=checkbox]{width:auto;flex:none;margin:5px 0 0}
+  .check span{flex:1;min-width:0}
   .check input{margin:5px 0 0;accent-color:var(--copper-bright)}
   .hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
   .send{font-family:'Karla',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--loam);background:var(--straw);border:1px solid var(--straw);border-radius:999px;padding:13px 26px;cursor:pointer;transition:background .25s,border-color .25s,color .25s}
@@ -183,6 +185,7 @@ ${qs}
   var err = document.getElementById('err');
   var i = 0, last = steps.length - 1;
   var STORE = 'bs_assess';
+  var known = null;   // part two: who part one was for, from this browser session
   // Hidden context fields, same as the inquiry form.
   try {
     var qs = new URLSearchParams(location.search);
@@ -191,7 +194,13 @@ ${qs}
     if (qs.get('sent') === '0') err.hidden = false;
     // Part two remembers who part one was for — this browser only, this session only.
     ${deeper ? `var prev = JSON.parse(sessionStorage.getItem(STORE) || 'null');
-    if (prev) { ['name', 'email', 'organization', 'org_type'].forEach(function (k) { if (prev[k] && form[k]) form[k].value = prev[k]; }); if (prev.wants_talk && form.wants_talk) form.wants_talk.checked = true; }` : ''}
+    if (prev && prev.email) {
+      ['name', 'email', 'organization', 'org_type'].forEach(function (k) { if (prev[k] && form[k]) form[k].value = prev[k]; });
+      if (prev.wants_talk && form.wants_talk) form.wants_talk.checked = true;
+      // They gave their details on part one; do not ask twice. The who-step stays in
+      // the form (its fields carry the answer) but is never shown; the last question submits.
+      known = prev; last = steps.length - 2;
+    }` : ''}
   } catch (e) {}
   // "We don't have a strategic plan": offer to skip the questions and just talk.
   var fresh = document.getElementById('fresh'), skipField = document.getElementById('skipped');
@@ -228,7 +237,8 @@ ${qs}
       show(i + 1);
     } else {
       var email = form.email;
-      if (!email.value || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.value)) { email.focus(); email.style.borderColor = 'var(--copper-bright)'; return; }
+      if (known && !answered(steps[i])) { steps[i].querySelector('.opts').animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-4px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(0)' }], { duration: 240 }); return; }
+      if (!email.value || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.value)) { if (known) { known = null; last = steps.length - 1; show(last); } email.focus(); email.style.borderColor = 'var(--copper-bright)'; return; }
       next.disabled = true; next.textContent = skipField.value ? 'Sending…' : 'Scoring…';
       try { sessionStorage.setItem(STORE, JSON.stringify({ name: form.name.value, email: form.email.value, organization: form.organization.value, org_type: form.org_type.value, wants_talk: !!(form.wants_talk && form.wants_talk.checked) })); } catch (e) {}
       form.submit();
@@ -275,17 +285,21 @@ const TALK_LINES = (atRisk) => `
       ? 'If you\'d rather just talk, <a href="/#contact">say so here</a> — a paragraph is plenty, and we\'ll be honest about whether we\'re the right fit.'
       : 'If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.'}</p>`;
 const DEEPER_LINE = (set) => set.deeper ? `
-    <p id="deeper"><b>Want the fuller picture?</b> Five more questions, about the ground under your plan rather than the plan itself — what it rests on, who was heard, what was set aside, and who holds it together. <a href="/assessment/deeper">Go deeper →</a></p>` : '';
+    <p id="deeper"><a href="/assessment/deeper">Interested in going deeper? Answer a few more questions →</a></p>` : '';
 const TALK_JS = `if (q.get('t') === '1') { document.getElementById('talk-yes').hidden = false; document.getElementById('talk-no').hidden = true; }`;
 
 function resultPage(set, band, opts = {}) {
   const others = set.bands.filter((b) => b.key !== band.key);
   const lowWord = word(set.lowest || 3);
   // Result pages stay out of search: they are one person's reading, not a page to find.
+  const comb = opts.deeper && set.combined ? set.combined : null;
   return HEAD(`${band.label} — ${set.title}`, RESULT_CSS).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
-  <p class="band">${opts.deeper ? 'Your result · part two' : 'Your result'}</p>
-  <h1>${esc(band.label)}</h1>
-  <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
+  <p class="band" id="eyebrow">${opts.deeper ? 'Your result · part two' : 'Your result'}</p>
+  <h1 id="h1">${esc(band.label)}</h1>${comb ? `
+  <p class="score" id="cscore" hidden>Across all ten questions you scored <b id="cs"></b> of <span id="cm"></span>.</p>
+  <p class="verdict" id="cverdict" hidden></p>
+  <p class="band" id="sub2" hidden>On the ground under the plan · ${esc(band.label)}</p>` : ''}
+  <p class="score" id="score" hidden>${comb ? 'On these five you scored' : 'You scored'} <b id="s"></b> of <span id="m"></span>.</p>
   <p class="verdict">${esc(band.text)}</p>
   <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <div class="next">
@@ -305,6 +319,31 @@ function resultPage(set, band, opts = {}) {
     if (s && m && /^\\d+$/.test(s) && /^\\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
     ${TALK_JS}
+    ${comb ? `
+    // Part two read with part one: the ten-question band leads, the drawing shows all ten
+    // laterals on the original thresholds, and this part's reading follows underneath.
+    var cs = q.get('cs'), cm = q.get('cm'), ca = q.get('ca') || '', cb = q.get('cb') || '';
+    var CB = ${JSON.stringify(Object.fromEntries(comb.bands.map((b) => [b.slug, { label: b.label, text: b.text }])))};
+    if (cs && cm && /^\\d+$/.test(cs) && /^\\d+$/.test(cm) && CB[cb]) {
+      document.getElementById('eyebrow').textContent = 'Your fuller picture · all ten questions';
+      document.getElementById('h1').textContent = CB[cb].label;
+      document.getElementById('cs').textContent = cs; document.getElementById('cm').textContent = cm;
+      document.getElementById('cscore').hidden = false;
+      document.getElementById('cverdict').textContent = CB[cb].text; document.getElementById('cverdict').hidden = false;
+      document.getElementById('sub2').hidden = false;
+      document.title = CB[cb].label + ' — ' + ${JSON.stringify(comb.title)} + ' · Bluestem Advisory';
+      if (window.ScoreViz && /^[0-9]+$/.test(ca) && ca.length === 10) {
+        var figc = document.getElementById('viz');
+        figc.innerHTML = window.ScoreViz.scoreSvg({ score: Number(cs), max: Number(cm), answers: ca.split('').map(Number), labels: ${JSON.stringify(['Why', 'Ownership', 'Timeline', 'Measures', 'Direction', 'Facts', 'Understanding', 'Trade-offs', 'Stakeholders', 'People'])}, bands: ${JSON.stringify(comb.bands.map((b) => ({ label: b.label, min: b.min })))}, theme: 'dark', animate: true });
+        figc.hidden = false;
+        var reduceC = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        requestAnimationFrame(function () { requestAnimationFrame(function () {
+          figc.querySelectorAll('.sv-draw').forEach(function (p) { if (reduceC) p.style.transition = 'none'; p.style.strokeDashoffset = 0; });
+          figc.querySelectorAll('.sv-pop').forEach(function (c) { c.style.opacity = 1; });
+        }); });
+        a = '';   // the five-only drawing below must not replace the ten
+      }
+    }` : ''}
     ${vizSnippet(set)}
   } catch (e) {}
 })();

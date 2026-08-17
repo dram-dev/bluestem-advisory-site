@@ -83,5 +83,35 @@
       "text": "The plan may well be right, but the ground under it hasn't been looked at: what it rests on is treated as known, the people it affects were mostly the people who wrote it, nothing was ruled out, and the person holding a key process together has no name on paper. None of that shows until something moves — a leader leaves, a member leaves, an assumption turns out wrong. We'd start there, before touching the plan itself: a short pass over these five things, with your board in the room.",
       "slug": "unexamined"
     }
-  ]
+  ],
+  "combined": {
+    "with": "v4",
+    "title": "Is your plan alive?",
+    "bands": [
+      {
+        "key": "rooted",
+        "label": "Rooted",
+        "min": 23,
+        "atRisk": false,
+        "text": "Whatever form your strategic plan takes, it's alive: people can say why, the work has owners and dates, and leadership and the board see the same picture each quarter. That's rarer than you'd think. What we'd look at with you is the ground under it — which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's what carries a plan through a change of leadership, and it's usually a short piece of work.",
+        "slug": "rooted"
+      },
+      {
+        "key": "taking_hold",
+        "label": "Taking hold",
+        "min": 13,
+        "atRisk": false,
+        "text": "There's a real direction here, and parts of it are working. Where things in this band tend to go quiet is between the intention and the calendar: work that belongs to a team rather than a person, measures without a starting number, a plan the board approved and leadership hasn't looked at since. None of that is hard to fix — and if your plan lives mostly in conversation, writing those few things down is most of the job. We'd start with owners and first moves, ninety days by date, and build the quarterly look-back around them.",
+        "slug": "taking-hold"
+      },
+      {
+        "key": "still_underground",
+        "label": "Still underground",
+        "min": 0,
+        "atRisk": true,
+        "text": "The direction is in the soil more than above it — and that's true whether it's a strategic plan nobody opens or a shared understanding nobody has written down. Most of the organizations we're proudest of working with started here. It isn't a strategy problem so much as a ground problem: the why hasn't been said out loud together, so nothing beneath it connects. We'd start at the root — a short conversation about what the organization is truly for — before writing anything. It takes less time than people fear, and it usually goes better than people expect.",
+        "slug": "still-underground"
+      }
+    ]
+  }
 }

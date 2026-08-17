@@ -46,9 +46,12 @@
 <body>
 <div class="top"><a class="brand" href="/">Bluestem Advisory</a><span class="mono">Based in Illinois</span></div>
 <main>
-  <p class="band">Your result · part two</p>
-  <h1>Partly assumed</h1>
-  <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
+  <p class="band" id="eyebrow">Your result · part two</p>
+  <h1 id="h1">Partly assumed</h1>
+  <p class="score" id="cscore" hidden>Across all ten questions you scored <b id="cs"></b> of <span id="cm"></span>.</p>
+  <p class="verdict" id="cverdict" hidden></p>
+  <p class="band" id="sub2" hidden>On the ground under the plan · Partly assumed</p>
+  <p class="score" id="score" hidden>On these five you scored <b id="s"></b> of <span id="m"></span>.</p>
   <p class="verdict">Some of what the plan rests on is known and some is believed, and the difference lives mostly in people's heads. That is normal, and it isn't a weakness until an assumption gets treated as a fact and nobody checks it again. The fix is small: write down which is which, name who wasn't heard from, and say out loud what was set aside and why. An afternoon, usually — and it changes how the next board conversation goes.</p>
   <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
   <div class="next">
@@ -71,6 +74,31 @@
     if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
     if (q.get('t') === '1') { document.getElementById('talk-yes').hidden = false; document.getElementById('talk-no').hidden = true; }
+    
+    // Part two read with part one: the ten-question band leads, the drawing shows all ten
+    // laterals on the original thresholds, and this part's reading follows underneath.
+    var cs = q.get('cs'), cm = q.get('cm'), ca = q.get('ca') || '', cb = q.get('cb') || '';
+    var CB = {"rooted":{"label":"Rooted","text":"Whatever form your strategic plan takes, it's alive: people can say why, the work has owners and dates, and leadership and the board see the same picture each quarter. That's rarer than you'd think. What we'd look at with you is the ground under it — which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's what carries a plan through a change of leadership, and it's usually a short piece of work."},"taking-hold":{"label":"Taking hold","text":"There's a real direction here, and parts of it are working. Where things in this band tend to go quiet is between the intention and the calendar: work that belongs to a team rather than a person, measures without a starting number, a plan the board approved and leadership hasn't looked at since. None of that is hard to fix — and if your plan lives mostly in conversation, writing those few things down is most of the job. We'd start with owners and first moves, ninety days by date, and build the quarterly look-back around them."},"still-underground":{"label":"Still underground","text":"The direction is in the soil more than above it — and that's true whether it's a strategic plan nobody opens or a shared understanding nobody has written down. Most of the organizations we're proudest of working with started here. It isn't a strategy problem so much as a ground problem: the why hasn't been said out loud together, so nothing beneath it connects. We'd start at the root — a short conversation about what the organization is truly for — before writing anything. It takes less time than people fear, and it usually goes better than people expect."}};
+    if (cs && cm && /^\d+$/.test(cs) && /^\d+$/.test(cm) && CB[cb]) {
+      document.getElementById('eyebrow').textContent = 'Your fuller picture · all ten questions';
+      document.getElementById('h1').textContent = CB[cb].label;
+      document.getElementById('cs').textContent = cs; document.getElementById('cm').textContent = cm;
+      document.getElementById('cscore').hidden = false;
+      document.getElementById('cverdict').textContent = CB[cb].text; document.getElementById('cverdict').hidden = false;
+      document.getElementById('sub2').hidden = false;
+      document.title = CB[cb].label + ' — ' + "Is your plan alive?" + ' · Bluestem Advisory';
+      if (window.ScoreViz && /^[0-9]+$/.test(ca) && ca.length === 10) {
+        var figc = document.getElementById('viz');
+        figc.innerHTML = window.ScoreViz.scoreSvg({ score: Number(cs), max: Number(cm), answers: ca.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction","Facts","Understanding","Trade-offs","Stakeholders","People"], bands: [{"label":"Rooted","min":23},{"label":"Taking hold","min":13},{"label":"Still underground","min":0}], theme: 'dark', animate: true });
+        figc.hidden = false;
+        var reduceC = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        requestAnimationFrame(function () { requestAnimationFrame(function () {
+          figc.querySelectorAll('.sv-draw').forEach(function (p) { if (reduceC) p.style.transition = 'none'; p.style.strokeDashoffset = 0; });
+          figc.querySelectorAll('.sv-pop').forEach(function (c) { c.style.opacity = 1; });
+        }); });
+        a = '';   // the five-only drawing below must not replace the ten
+      }
+    }
     if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 5) {
       var fig = document.getElementById('viz');
       fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Facts","Understanding","Trade-offs","Stakeholders","People"], bands: [{"label":"Solid ground","min":12},{"label":"Partly assumed","min":7},{"label":"Unexamined","min":0}], theme: 'dark', animate: true });

@@ -43,6 +43,8 @@
   .grid input:focus,.grid select:focus{outline:none;border-color:var(--straw);background:rgba(237,234,217,.09)}
   .grid select{appearance:none} .grid select option{color:var(--ink)}
   .check,.grid label.check{display:flex;gap:10px;align-items:flex-start;font-family:'Literata',Georgia,serif;font-size:16px;letter-spacing:0;text-transform:none;line-height:1.45;color:rgba(237,234,217,.85);margin:6px 0 0}
+  .grid .check input,.grid input[type=checkbox]{width:auto;flex:none;margin:5px 0 0}
+  .check span{flex:1;min-width:0}
   .check input{margin:5px 0 0;accent-color:var(--copper-bright)}
   .hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
   .send{font-family:'Karla',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--loam);background:var(--straw);border:1px solid var(--straw);border-radius:999px;padding:13px 26px;cursor:pointer;transition:background .25s,border-color .25s,color .25s}
@@ -187,6 +189,7 @@
   var err = document.getElementById('err');
   var i = 0, last = steps.length - 1;
   var STORE = 'bs_assess';
+  var known = null;   // part two: who part one was for, from this browser session
   // Hidden context fields, same as the inquiry form.
   try {
     var qs = new URLSearchParams(location.search);
@@ -231,7 +234,8 @@
       show(i + 1);
     } else {
       var email = form.email;
-      if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { email.focus(); email.style.borderColor = 'var(--copper-bright)'; return; }
+      if (known && !answered(steps[i])) { steps[i].querySelector('.opts').animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-4px)' }, { transform: 'translateX(4px)' }, { transform: 'translateX(0)' }], { duration: 240 }); return; }
+      if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { if (known) { known = null; last = steps.length - 1; show(last); } email.focus(); email.style.borderColor = 'var(--copper-bright)'; return; }
       next.disabled = true; next.textContent = skipField.value ? 'Sending…' : 'Scoring…';
       try { sessionStorage.setItem(STORE, JSON.stringify({ name: form.name.value, email: form.email.value, organization: form.organization.value, org_type: form.org_type.value, wants_talk: !!(form.wants_talk && form.wants_talk.checked) })); } catch (e) {}
       form.submit();

@@ -46,8 +46,8 @@
 <body>
 <div class="top"><a class="brand" href="/">Bluestem Advisory</a><span class="mono">Based in Illinois</span></div>
 <main>
-  <p class="band">Your result</p>
-  <h1>Rooted</h1>
+  <p class="band" id="eyebrow">Your result</p>
+  <h1 id="h1">Rooted</h1>
   <p class="score" id="score" hidden>You scored <b id="s"></b> of <span id="m"></span>.</p>
   <p class="verdict">Whatever form your strategic plan takes, it's alive: people can say why, the work has owners and dates, and leadership and the board see the same picture each quarter. That's rarer than you'd think. What we'd look at with you is the ground under it — which of the things it rests on are still assumptions rather than facts, and who you haven't heard from lately. That's what carries a plan through a change of leadership, and it's usually a short piece of work.</p>
   <figure class="viz" id="viz" hidden aria-label="Your score, drawn as a root system"></figure>
@@ -55,7 +55,7 @@
     <p id="mailed">The written version is on its way to your inbox — your band and the two answers that pulled the score down. It comes from us, and replying to it reaches us directly.</p>
     <p id="talk-yes" hidden>You asked us to get in touch — we will, within a day or two. There is nothing to prepare.</p>
     <p id="talk-no">If any of this is worth a conversation, <a href="/#contact">write to us</a> — a paragraph is plenty.</p>
-    <p id="deeper"><b>Want the fuller picture?</b> Five more questions, about the ground under your plan rather than the plan itself — what it rests on, who was heard, what was set aside, and who holds it together. <a href="/assessment/deeper">Go deeper →</a></p>
+    <p id="deeper"><a href="/assessment/deeper">Interested in going deeper? Answer a few more questions →</a></p>
     <p><a href="/">Back to the site</a></p>
   </div>
   <details class="others">
@@ -72,6 +72,7 @@
     if (s && m && /^\d+$/.test(s) && /^\d+$/.test(m)) { document.getElementById('s').textContent = s; document.getElementById('m').textContent = m; document.getElementById('score').hidden = false; }
     if (q.get('e') === '0') document.getElementById('mailed').hidden = true;
     if (q.get('t') === '1') { document.getElementById('talk-yes').hidden = false; document.getElementById('talk-no').hidden = true; }
+    
     if (window.ScoreViz && s && m && /^[0-9]+$/.test(a) && a.length === 5) {
       var fig = document.getElementById('viz');
       fig.innerHTML = window.ScoreViz.scoreSvg({ score: Number(s), max: Number(m), answers: a.split('').map(Number), labels: ["Why","Ownership","Timeline","Measures","Direction"], bands: [{"label":"Rooted","min":12},{"label":"Taking hold","min":7},{"label":"Still underground","min":0}], theme: 'dark', animate: true });

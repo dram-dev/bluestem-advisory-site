@@ -164,7 +164,9 @@ Rootbook's `.env`) and `ROOTBOOK_INQUIRY_URL`; the assessment target is derived 
   starting-fresh page — edit the JSON only by regenerating (the loop is in the script's
   header), then run the script and commit the outputs. Works with JavaScript off (the whole
   form renders stacked); the page's script only makes it one question at a time, remembers
-  who part one was for (sessionStorage) so part two is prefilled, and — on "we don't have a
+  who part one was for (sessionStorage) so part two never asks again (its who-step stays in the
+  form, unseen), reads part two WITH part one when Rootbook answers `combined` (the result page
+  draws all ten on the original thresholds — `?cs=&cm=&ca=&cb=`), and — on "we don't have a
   strategic plan" — offers to skip the questions and just be called (`skipped=1`; Rootbook
   refuses it on any other opener). `?t=1` on a result page (they asked to be called) hides
   the "write to us" line. Approved and public since 2026-08-17 (v3 wording; halved to v4/v4d
