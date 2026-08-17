@@ -135,3 +135,12 @@ caches can be force-refreshed with their sharing debugger tools.
 2. If nav links change, update them in **both** files (each page has its own nav + mobile menu).
 3. Deploy via Option A or push via Option B.
 4. Spot-check: hero illustration, depth ruler, mobile menu, `/about` link, favicon in tab.
+
+## Planned (2026-08-16)
+
+The site's one interactive element today is `mailto:admin@…`. Two additions are planned
+and specified in Rootbook's `IMPROVEMENTS.md` items 56–57 (and the *Delivery Plan — Suite
+Gaps* note in the vault): a real inquiry form relayed by a Netlify Function to a signed
+Rootbook route (lead + note + task, source tracking, honeypot + rate limit), and a scored
+self-assessment page (SurveyJS, own-origin, band shown free, written recommendations
+emailed). Both wait on decisions D1–D3 in that note.
