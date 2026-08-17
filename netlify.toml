@@ -25,3 +25,13 @@
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# Item 56 — the inquiry relay. Node functions; env vars are set in the Netlify UI.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/thanks"
+  to = "/thanks.html"
+  status = 200

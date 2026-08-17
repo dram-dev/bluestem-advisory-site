@@ -335,6 +335,22 @@ section{padding:110px clamp(24px,7vw,96px);position:relative}
 }
 .copy-btn:hover{color:var(--copper-bright);border-color:var(--copper-bright)}
 .copy-btn.copied{color:var(--loam);background:var(--straw);border-color:var(--straw)}
+/* inquiry form (Rootbook item 56) — plain HTML POST to the Netlify relay */
+.inq{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;max-width:640px;margin-bottom:26px}
+.inq .full{grid-column:1/-1}
+.inq label{display:block;font-family:'Karla',sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(237,234,217,.55);margin-bottom:6px}
+.inq input,.inq select,.inq textarea{width:100%;font:inherit;font-size:16px;color:var(--light);background:rgba(237,234,217,.06);border:1px solid rgba(205,190,147,.28);border-radius:8px;padding:11px 12px;transition:border-color .25s,background .25s}
+.inq input:focus,.inq select:focus,.inq textarea:focus{outline:none;border-color:var(--straw);background:rgba(237,234,217,.09)}
+.inq select{appearance:none;background-image:none}
+.inq select option{color:var(--ink)}
+.inq textarea{min-height:120px;resize:vertical}
+.inq .hp{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+.inq .send{font-family:'Karla',sans-serif;font-size:14px;font-weight:700;letter-spacing:.04em;color:var(--loam);background:var(--straw);border:1px solid var(--straw);border-radius:999px;padding:12px 24px;cursor:pointer;transition:background .25s,border-color .25s,color .25s}
+.inq .send:hover{background:var(--copper-bright);border-color:var(--copper-bright);color:var(--light)}
+.inq .fine{grid-column:1/-1;font-size:13px!important;color:rgba(237,234,217,.5)!important;margin:0!important;max-width:none!important}
+.inq-note{font-size:15px!important;color:rgba(237,234,217,.6)!important;margin-bottom:22px!important}
+.inq-note.err{color:var(--copper-bright)!important}
+@media (max-width:640px){.inq{grid-template-columns:1fr}}
 
 /* ---------- footer w/ roots ---------- */
 footer{background:var(--loam-2);position:relative;overflow:hidden}
@@ -920,8 +936,29 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
   <div class="wrap">
     <h2 class="rv">Start at the root.</h2>
     <p class="rv d1">Tell us what's on your mind — a paragraph is plenty. We'll listen, and we'll be honest about whether we're the right fit. And if we're not, we'll do our best to point you toward someone who is.</p>
-    <div class="email-row rv d2">
-      <a class="email" href="mailto:admin@bluestemadvisoryllc.com">Email us a question</a>
+    <p class="inq-note err rv d2" id="inq-error" hidden>That didn't go through. Please try again, or email us directly below.</p>
+    <form class="inq rv d2" method="post" action="/.netlify/functions/inquiry" id="inquiry">
+      <div><label for="inq-name">Your name</label><input id="inq-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
+      <div><label for="inq-email">Email</label><input id="inq-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
+      <div><label for="inq-org">Organisation</label><input id="inq-org" name="organization" type="text" autocomplete="organization" maxlength="200"></div>
+      <div><label for="inq-type">It's a…</label>
+        <select id="inq-type" name="org_type">
+          <option value="">— choose —</option>
+          <option value="mutual">Mutual insurer</option>
+          <option value="cooperative">Cooperative</option>
+          <option value="nonprofit">Nonprofit</option>
+          <option value="association">Association</option>
+          <option value="other">Something else</option>
+        </select></div>
+      <div class="full"><label for="inq-q">What's on your mind</label><textarea id="inq-q" name="question" required maxlength="5000" placeholder="A paragraph is plenty."></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="inq-web">Website</label><input id="inq-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <input type="hidden" name="page" value="/"><input type="hidden" name="referrer" value=""><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="utm_content" value="">
+      <div class="full"><button class="send" type="submit">Send</button></div>
+      <p class="fine">Goes straight to the two of us. We reply within a business day, and we don't add you to anything.</p>
+    </form>
+    <div class="email-row rv d3">
+      <span class="mono" style="font-size:12px;color:rgba(237,234,217,.45)">Prefer email?</span>
+      <a class="email" style="font-size:18px" href="mailto:admin@bluestemadvisoryllc.com">admin@bluestemadvisoryllc.com</a>
       <button class="copy-btn" type="button" data-email="admin@bluestemadvisoryllc.com">Copy address</button>
     </div>
     <p class="loc mono rv d3" style="font-size:12px">Based in Illinois · Working across the Midwest</p>
@@ -1202,6 +1239,7 @@ footer{background:var(--loam-2);position:relative;overflow:hidden}
 </div>
 
 <script>
+(function(){try{var f=document.getElementById('inquiry');if(!f)return;var q=new URLSearchParams(location.search);var set=function(n,v){var el=f.querySelector('[name="'+n+'"]');if(el&&v)el.value=String(v).slice(0,300)};set('page',location.pathname+location.hash);set('referrer',document.referrer);['utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(k){set(k,q.get(k))});if(q.get('sent')==='0'){var e=document.getElementById('inq-error');if(e){e.hidden=false;}}}catch(e){}})();
 (function(){
   var nav = document.getElementById('nav');
   var darkZones = {story:1, contact:1};
