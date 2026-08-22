@@ -333,12 +333,14 @@ section{padding:110px clamp(24px,7vw,96px);position:relative}
 #contact p{color:rgba(237,234,217,.78);max-width:32em;margin-bottom:36px;font-size:18px}
 #contact .email{
   font-family:'Literata',serif;font-size:clamp(20px,2.6vw,30px);
-  color:var(--straw);border-bottom:2px solid rgba(205,190,147,.35);
-  border-radius:2px;padding-bottom:5px;transition:color .3s,border-color .3s;
+  color:var(--straw);background:none;border:none;border-bottom:2px solid rgba(205,190,147,.35);
+  border-radius:2px;padding:0 0 5px;cursor:pointer;transition:color .3s,border-color .3s;
 }
 #contact .email:hover{color:var(--copper-bright);border-color:var(--copper-bright)}
 #contact .loc{margin-top:30px;margin-bottom:0;color:rgba(237,234,217,.45)} /* the p's bottom margin used to collapse out of the section (padding-bottom:0) and show 36px of page background above the footer */
 #contact .email-row{display:flex;align-items:baseline;gap:22px;flex-wrap:wrap}
+#inq-openrow{margin-bottom:26px} /* the gap the form used to carry above the Prefer-email row */
+#inq-openrow[hidden]{display:none} /* .email-row's display:flex would otherwise beat the hidden attribute */
 .copy-btn{
   font-family:'Karla',sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;
   color:var(--straw);background:transparent;border:1px solid rgba(205,190,147,.4);
@@ -349,6 +351,9 @@ section{padding:110px clamp(24px,7vw,96px);position:relative}
 .copy-btn.copied{color:var(--loam);background:var(--straw);border-color:var(--straw)}
 /* inquiry form (Rootbook item 56) — plain HTML POST to the Netlify relay */
 .inq{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;max-width:640px;margin-bottom:26px}
+#inq-mount .inq{animation:inq-in .45s ease} /* mounted on click; a small entrance so it doesn't pop */
+@keyframes inq-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){#inq-mount .inq{animation:none}}
 .inq .full{grid-column:1/-1}
 .inq label{display:block;font-family:'Karla',sans-serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:rgba(237,234,217,.55);margin-bottom:6px}
 .inq input,.inq select,.inq textarea{width:100%;font:inherit;font-size:16px;color:var(--light);background:rgba(237,234,217,.06);border:1px solid rgba(205,190,147,.28);border-radius:8px;padding:11px 12px;transition:border-color .25s,background .25s}
@@ -978,7 +983,19 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
     <p class="rv d1">Tell us what's on your mind — a paragraph is plenty. We'll listen, and we'll be honest about whether we're the right fit. And if we're not, we'll do our best to point you toward someone who is.</p>
     <p class="assess-cta rv d1">Not sure where to begin? <a href="/assessment">Take the two-minute assessment</a>.</p>
     <p class="inq-note err rv d2" id="inq-error" hidden>That didn't go through. Please try again, or email us directly below.</p>
-    <form class="inq rv d2" method="post" action="/.netlify/functions/inquiry" id="inquiry">
+    <!-- The ask-a-question trigger: the pre-form "Email us a question" link (turned off in
+         33b9973) restored as a button that reveals the form. The form itself lives in the
+         <template> below and is MOUNTED ON CLICK — it is not a live form in the DOM at load,
+         and the endpoint rides in data-action until the reveal, because the 2026-08 spam wave
+         came from bots that parse the static HTML for a form and POST it. Keep the honeypot:
+         it still catches whatever drives a real browser this far. A visitor without
+         JavaScript still has the email row below. -->
+    <div class="email-row rv d2" id="inq-openrow">
+      <button class="email" type="button" id="inq-open" aria-expanded="false" aria-controls="inq-mount">Ask us a question</button>
+    </div>
+    <div id="inq-mount"></div>
+    <template id="inq-tpl">
+    <form class="inq" method="post" data-action="/.netlify/functions/inquiry" id="inquiry">
       <div><label for="inq-name">Your name</label><input id="inq-name" name="name" type="text" autocomplete="name" maxlength="120"></div>
       <div><label for="inq-email">Email</label><input id="inq-email" name="email" type="email" required autocomplete="email" maxlength="200"></div>
       <div><label for="inq-org">Organization</label><input id="inq-org" name="organization" type="text" autocomplete="organization" maxlength="200"></div>
@@ -998,6 +1015,7 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
       <div class="full"><button class="send" type="submit">Send</button></div>
       <p class="fine">Comes straight to us. We reply within a business day, and we don't add you to anything.</p>
     </form>
+    </template>
     <div class="email-row rv d3">
       <span class="mono" style="font-size:12px;color:rgba(237,234,217,.45)">Prefer email?</span>
       <a class="email" style="font-size:18px" href="mailto:admin@bluestemadvisoryllc.com">admin@bluestemadvisoryllc.com</a>
@@ -1283,7 +1301,28 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
 </div>
 
 <script>
-(function(){try{var f=document.getElementById('inquiry');if(!f)return;var q=new URLSearchParams(location.search);var set=function(n,v){var el=f.querySelector('[name="'+n+'"]');if(el&&v)el.value=String(v).slice(0,300)};set('page',location.pathname+location.hash);set('referrer',document.referrer);['utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(k){set(k,q.get(k))});if(q.get('sent')==='0'){var e=document.getElementById('inq-error');if(e){e.hidden=false;}}}catch(e){}})();
+(function(){try{
+  // The inquiry form mounts from its <template> on the trigger click (or when a failed
+  // submit comes back with ?sent=0, so the retry lands on an open form). The action
+  // attribute is applied here, from data-action — the parsed page holds no postable form.
+  var q=new URLSearchParams(location.search);
+  var btn=document.getElementById('inq-open'),row=document.getElementById('inq-openrow'),
+      mount=document.getElementById('inq-mount'),tpl=document.getElementById('inq-tpl');
+  if(!btn||!row||!mount||!tpl)return;
+  function open(focus){
+    if(document.getElementById('inquiry'))return;
+    var f=tpl.content.firstElementChild.cloneNode(true);
+    f.setAttribute('action',f.getAttribute('data-action'));f.removeAttribute('data-action');
+    mount.appendChild(f);
+    btn.setAttribute('aria-expanded','true');row.hidden=true;
+    var set=function(n,v){var el=f.querySelector('[name="'+n+'"]');if(el&&v)el.value=String(v).slice(0,300)};
+    set('page',location.pathname+location.hash);set('referrer',document.referrer);
+    ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(function(k){set(k,q.get(k))});
+    if(focus){var first=f.querySelector('input[name="name"]');if(first)first.focus();}
+  }
+  btn.addEventListener('click',function(){open(true)});
+  if(q.get('sent')==='0'){var e=document.getElementById('inq-error');if(e)e.hidden=false;open(false);}
+}catch(e){}})();
 (function(){
   var nav = document.getElementById('nav');
   var darkZones = {story:1, contact:1};

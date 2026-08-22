@@ -152,7 +152,13 @@ Rootbook's `.env`) and `ROOTBOOK_INQUIRY_URL`; the assessment target is derived 
 
 - **The inquiry form** (`#contact` on the homepage → `functions/inquiry.js` → Rootbook
   `POST /api/site/inquiry`, IMPROVEMENTS 56). Plain HTML form; the mailto stays beside it as
-  the fallback; `/thanks` afterwards. Live since 2026-08-16.
+  the fallback; `/thanks` afterwards. Live since 2026-08-16. **Hidden behind "Ask us a
+  question" since 2026-08-22**: the form sits in a `<template>` and mounts on the trigger
+  click (or on a `?sent=0` bounce), with the endpoint applied from `data-action` at mount —
+  the parsed page holds no postable form, because the 2026-08 spam wave ("Robert*" price
+  probes in rotating languages) came from bots that read the static HTML and POST the form
+  they find. The honeypot stays for whatever drives a real browser. No JavaScript = the
+  email row; the function is unchanged.
 - **The self-assessment** (`/assessment` → `functions/assessment.js` → Rootbook
   `POST /api/site/assessment`, IMPROVEMENTS 57). Two parts of five questions, four concrete
   answers each, three bands per part: **part one** (`/assessment`, v4 — is the plan alive?)
