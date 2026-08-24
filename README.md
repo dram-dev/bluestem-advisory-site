@@ -158,7 +158,11 @@ Rootbook's `.env`) and `ROOTBOOK_INQUIRY_URL`; the assessment target is derived 
   the parsed page holds no postable form, because the 2026-08 spam wave ("Robert*" price
   probes in rotating languages) came from bots that read the static HTML and POST the form
   they find. The honeypot stays for whatever drives a real browser. No JavaScript = the
-  email row; the function is unchanged.
+  email row. **2026-08-24 (G-02):** the function also enforces a fill-time floor —
+  the mount script stamps `ft` (ms the form was open, a duration so clock skew
+  can't misfire it) and submissions without it or under 3s get the honeypot's
+  silent thanks-and-drop. Rootbook's intake cap (its CLAUDE.md §Inbound) stands
+  behind both for whatever fakes its way past.
 - **The self-assessment** (`/assessment` → `functions/assessment.js` → Rootbook
   `POST /api/site/assessment`, IMPROVEMENTS 57). Two parts of five questions, four concrete
   answers each, three bands per part: **part one** (`/assessment`, v4 — is the plan alive?)

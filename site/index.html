@@ -1011,6 +1011,7 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
         </select></div>
       <div class="full"><label for="inq-q">What's on your mind</label><textarea id="inq-q" name="question" required maxlength="5000" placeholder="A paragraph is plenty."></textarea></div>
       <div class="hp" aria-hidden="true"><label for="inq-web">Website</label><input id="inq-web" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+      <input type="hidden" name="ft" value="">
       <input type="hidden" name="page" value="/"><input type="hidden" name="referrer" value=""><input type="hidden" name="utm_source" value=""><input type="hidden" name="utm_medium" value=""><input type="hidden" name="utm_campaign" value=""><input type="hidden" name="utm_content" value="">
       <div class="full"><button class="send" type="submit">Send</button></div>
       <p class="fine">Comes straight to us. We reply within a business day, and we don't add you to anything.</p>
@@ -1313,6 +1314,12 @@ footer,footer.dark{background:var(--loam-2);position:relative;overflow:hidden} /
     if(document.getElementById('inquiry'))return;
     var f=tpl.content.firstElementChild.cloneNode(true);
     f.setAttribute('action',f.getAttribute('data-action'));f.removeAttribute('data-action');
+    // Fill-time floor (G-02): stamp how long the form was open before submit —
+    // a DURATION measured on one clock, so a fast or slow visitor clock cannot
+    // misfire it. The function drops submissions without it or under 3s; a
+    // human filling name+email+question cannot be that fast, replay bots are.
+    var opened=Date.now();
+    f.addEventListener('submit',function(){var el=f.querySelector('[name="ft"]');if(el)el.value=String(Date.now()-opened)});
     mount.appendChild(f);
     btn.setAttribute('aria-expanded','true');row.hidden=true;
     var set=function(n,v){var el=f.querySelector('[name="'+n+'"]');if(el&&v)el.value=String(v).slice(0,300)};

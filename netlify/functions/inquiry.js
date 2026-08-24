@@ -17,6 +17,17 @@ exports.handler = async (event) => {
   const { get } = relay.readBody(event);
   // Honeypot: a real person never sees this field. Bots fill it; we say thanks and drop it.
   if (String(get('website') || '').trim()) return relay.redirect(`${relay.SITE}/thanks.html`);
+  // Fill-time floor (G-02, 2026-08-24): the page stamps `ft` — milliseconds the
+  // form was open, measured on the visitor's clock alone (a duration, so clock
+  // skew cannot misfire it). The form only exists after the reveal click, so a
+  // real submission always carries it; a bot replaying the endpoint from a
+  // cached URL, or auto-submitting a just-fetched page, does not (or is under
+  // 3s, faster than a person can type a name, an email and a question). Same
+  // exit as the honeypot: say thanks, deliver nothing. Forgeable by a bot that
+  // targets us specifically — this floor prices out the commodity tier, and
+  // Rootbook's intake cap stands behind it for whatever fakes its way past.
+  const ft = Number(get('ft'));
+  if (!Number.isFinite(ft) || ft < 3000) return relay.redirect(`${relay.SITE}/thanks.html`);
 
   const ipHash = relay.ipHashOf(event);
   const payload = {
