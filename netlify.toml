@@ -36,6 +36,14 @@
   status = 301
   force = true
 
+# Netlify's own default address served a full copy too. Deploy previews and branch deploys
+# live on other hostnames (<id>--… and main--…), so this rule doesn't touch them.
+[[redirects]]
+  from = "https://stunning-trifle-b00895.netlify.app/*"
+  to = "https://bluestem-advisory.com/:splat"
+  status = 301
+  force = true
+
 # Clean URL for the About page: /about works alongside /about.html
 [[redirects]]
   from = "/about"

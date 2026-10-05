@@ -60,17 +60,20 @@ real, and Google had picked the LLC domain (URL Inspection that day:
 `bluestem-advisory.com/` was "Duplicate without user-selected canonical" of it). Six
 signals now say otherwise, and they only work together:
 
-1. **301 redirects** from `bluestemadvisoryllc.com`, `www.bluestemadvisoryllc.com` and
-   `www.bluestem-advisory.com`, path and query kept: the first rules in `netlify.toml`.
-   They must stay first.
+1. **301 redirects** from `bluestemadvisoryllc.com`, `www.bluestemadvisoryllc.com`,
+   `www.bluestem-advisory.com` and Netlify's own `stunning-trifle-b00895.netlify.app`, path
+   and query kept: the first rules in `netlify.toml`. They must stay first.
 2. **`rel="canonical"`** on the four pages meant for search: `/`, `/about`,
    `/assessment` and `/assessment/deeper`. The assessment pages get theirs from
    `scripts/build-assessment.js`, so regenerate rather than hand-edit them. Result pages
    and `/thanks` are `noindex` and need none.
-3. **`og:url`** and the preview image URLs name the main address.
+3. **Link previews** (`og:*`, `twitter:*`) on every page name the main address. The
+   assessment pages get theirs from the generator, each with its own description (kept
+   under ~160 characters, where Google cuts one off).
 4. **`sitemap.xml`** and **`robots.txt`** list the main address's URLs.
-5. **WebSite and Organization structured data** on the home page: the site's name, its
-   URL, and the legal name.
+5. **Structured data**: WebSite and Organization on the home page (name, URL, legal name,
+   service area, founder), and AboutPage + Person on the About page, using only facts that
+   page states. The About page's main heading (`h1`) is Lyndsey's name.
 6. **Search Console's Change of address**, filed from the old property to the new one.
    Both domain properties are verified. Keep both: the old one holds what Google filed
    before the move.

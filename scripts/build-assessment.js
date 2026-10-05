@@ -26,14 +26,34 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 // The site's main address (2026-10-05). Pages Google should index name it as their canonical URL;
 // the noindex result pages do not need one.
 const SITE = 'https://bluestem-advisory.com';
-const HEAD = (title, extraCss = '', canonical = '') => `<!DOCTYPE html>
+// Each page's summary for search results and link previews. Under ~160 characters, where Google
+// cuts a description off. The deeper one shortens that set's own lede from Rootbook.
+const DESC = "A short read on your organization's strategic plan, or on where you'd start without one: five questions, a straight answer, and the written version by email.";
+const DEEPER_DESC = 'Five more questions about the ground under your plan: what it rests on, who was heard, what was set aside, and who holds it together.';
+// Link previews (LinkedIn, iMessage, Slack) for every page, so a shared link shows the page
+// rather than a bare address.
+const ogTags = (title, desc, url) => [
+  '<meta property="og:type" content="website">',
+  `<meta property="og:url" content="${url}">`,
+  `<meta property="og:title" content="${esc(title)} · Bluestem Advisory">`,
+  `<meta property="og:description" content="${esc(desc)}">`,
+  '<meta property="og:site_name" content="Bluestem Advisory">',
+  `<meta property="og:image" content="${SITE}/og-image.png">`,
+  '<meta property="og:image:width" content="1200">',
+  '<meta property="og:image:height" content="630">',
+  '<meta name="twitter:card" content="summary_large_image">',
+  `<meta name="twitter:image" content="${SITE}/og-image.png">`,
+].join('\n') + '\n';
+// opts.path: the page's address on the main site. opts.indexable: the two question pages only,
+// which get a canonical URL. opts.description: falls back to DESC.
+const HEAD = (title, extraCss = '', opts = {}) => `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Bluestem Advisory</title>
-<meta name="description" content="A short read on your organization's strategic plan — or on where you'd start if you don't have one: five questions, a straight answer, and the written version by email.">
-${canonical ? `<link rel="canonical" href="${SITE}${canonical}">\n` : ''}<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<meta name="description" content="${esc(opts.description || DESC)}">
+${opts.indexable && opts.path ? `<link rel="canonical" href="${SITE}${opts.path}">\n` : ''}${opts.path ? ogTags(title, opts.description || DESC, SITE + opts.path) : ''}<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -134,7 +154,8 @@ function quizPage(set, opts = {}) {
   const lede = deeper
     ? (set.lede || `Five more questions about the ground under your plan. Two minutes; the written version follows by email like the first.`)
     : `${word(set.questions.length)[0].toUpperCase() + word(set.questions.length).slice(1)} questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Two minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.`;
-  return HEAD(set.title, QUIZ_CSS, deeper ? '/assessment/deeper' : '/assessment') + `<main>
+  return HEAD(set.title, QUIZ_CSS, { path: deeper ? '/assessment/deeper' : '/assessment', indexable: true,
+                                    description: deeper ? DEEPER_DESC : DESC }) + `<main>
   ${deeper ? '<p class="mono" style="margin:0 0 10px">Part two</p>' : ''}<h1>${esc(set.title)}</h1>
   <p class="lede">${esc(lede)}</p>
   <p class="fine">What you write here comes to us and stops there. There's no account to make and no list you're joining.</p>
@@ -296,7 +317,8 @@ function resultPage(set, band, opts = {}) {
   const lowWord = word(set.lowest || 3);
   // Result pages stay out of search: they are one person's reading, not a page to find.
   const comb = opts.deeper && set.combined ? set.combined : null;
-  return HEAD(`${band.label} — ${set.title}`, RESULT_CSS).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
+  return HEAD(`${band.label} — ${set.title}`, RESULT_CSS, { path: `/assessment/${band.slug}`,
+                                    description: opts.deeper ? DEEPER_DESC : DESC }).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
   <p class="band" id="eyebrow">${opts.deeper ? 'Your result · part two' : 'Your result'}</p>
   <h1 id="h1">${esc(band.label)}</h1>${comb ? `
   <p class="score" id="cscore" hidden>Across all ten questions you scored <b id="cs"></b> of <span id="cm"></span>.</p>
@@ -375,7 +397,7 @@ function freshPage(set) {
   const f = set.starting_fresh;
   const nWord = word(set.questions.length);
   const lowWord = word(set.lowest || 3);
-  return HEAD(`${f.label} — ${set.title}`, RESULT_CSS).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
+  return HEAD(`${f.label} — ${set.title}`, RESULT_CSS, { path: '/assessment/starting-fresh' }).replace('<meta name="description"', '<meta name="robots" content="noindex">\n<meta name="description"') + `<main>
   <p class="band">Your result</p>
   <h1>${esc(f.label)}</h1>
   <p class="verdict" id="v-answered">${esc(f.text)}</p>
