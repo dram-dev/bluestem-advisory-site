@@ -41,6 +41,32 @@ Design notes for future edits:
 
 ---
 
+## Who may read the site, and what stops abuse (2026-10-05)
+
+The principals' decision: **AI answer tools may read and cite the site, and must not
+be able to attack it easily.**
+
+- **`site/robots.txt`** admits search engines and AI answer agents (ChatGPT search
+  and ChatGPT-User, Perplexity, Claude-SearchBot and Claude-User, Gemini through
+  Google-Extended, Copilot through Bing) to every page. It keeps all crawlers off
+  `/.netlify/`, the form endpoints. Training-only crawlers (GPTBot, ClaudeBot, CCBot,
+  Applebot-Extended, meta-externalagent, Bytespider) are refused.
+  `Content-Signal: search=yes, ai-input=yes, ai-train=no` states the same thing in
+  Cloudflare's vocabulary; Cloudflare prepends its policy comments to the file. The
+  Disallow line comes BEFORE `Allow: /`, because some parsers take the first match.
+  Leave Google-Extended allowed: blocking it would also stop Gemini citing the site.
+- **Security headers on every response** (`netlify.toml`):
+  - `nosniff`, `X-Frame-Options: DENY`, a strict `Referrer-Policy` and a
+    `Permissions-Policy` that switches off camera, microphone, location and payment.
+  - A narrow CSP: `frame-ancestors 'none'; base-uri 'self'; object-src 'none';
+    form-action 'self'`. It deliberately sets no script or style rules, because the
+    pages are single files with inline CSS and JS. HSTS comes from the edge.
+- **The forms:** the honeypot and the fill-time floor (here), then Rootbook's
+  per-visitor and daily caps. A Cloudflare rate-limit rule on POSTs to
+  `/.netlify/functions/*` is the edge layer.
+- **Rootbook** tells crawlers to stay out entirely (robots.txt and `X-Robots-Tag`),
+  so neither app's sign-in page ends up in a search or AI index.
+
 ## Hosting architecture (who does what)
 
 | Concern | Provider | Notes |

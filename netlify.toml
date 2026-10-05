@@ -50,6 +50,19 @@
   to = "/about.html"
   status = 200
 
+# Hardening on every response (2026-10-05). None of it touches the pages' inline
+# scripts and styles: the policy only says who may frame the site (no one), where its
+# forms may post (here), what <base> may be, and that there are no plugins. HSTS comes
+# from the edge already.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+    Content-Security-Policy = "frame-ancestors 'none'; base-uri 'self'; object-src 'none'; form-action 'self'"
+
 # Long-cache the image assets; HTML always revalidates
 [[headers]]
   for = "/*.png"

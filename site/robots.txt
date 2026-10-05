@@ -1,4 +1,22 @@
+# Search engines and AI answer tools (ChatGPT search, Perplexity, Claude, Gemini,
+# Copilot) may read and cite every page. The form endpoints under /.netlify/ are not
+# pages. Content-Signal follows Cloudflare's Content Signals Policy (the comments
+# Cloudflare adds above this file): search and AI answers yes, model training no.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Disallow: /.netlify/
 Allow: /
+
+# Crawlers that only collect training data. Answer tools use other agents
+# (OAI-SearchBot, ChatGPT-User, PerplexityBot, Claude-SearchBot, Claude-User) and
+# stay allowed above. Google-Extended is left allowed on purpose: blocking it would
+# also keep Gemini from citing the site.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: Bytespider
+Disallow: /
 
 Sitemap: https://bluestem-advisory.com/sitemap.xml
