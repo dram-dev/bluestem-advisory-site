@@ -6,7 +6,11 @@
   # Netlify builds (and bills a deploy) on every push to main. Skip the deploy when
   # the push touched nothing that ships — README, scripts, content JSON that has
   # already been rendered into site/. Exit 0 = skip, 1 = build.
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- site/ netlify/ netlify.toml"
+  # ALWAYS BUILD WHEN THERE IS NOTHING TO COMPARE. Without a build cache Netlify sets
+  # CACHED_COMMIT_REF to COMMIT_REF itself, the diff is empty, and the build is
+  # cancelled: "Canceled build due to no content change". The cache had expired after
+  # six idle weeks, so on 2026-10-05 every push would have been cancelled, for good.
+  ignore = '[ "$CACHED_COMMIT_REF" != "$COMMIT_REF" ] && git diff --quiet "$CACHED_COMMIT_REF" "$COMMIT_REF" -- site/ netlify/ netlify.toml'
 
 # The site's main address is bluestem-advisory.com (the principals' decision, 2026-10-05).
 # Every other name the site answers on forwards there permanently, path and query kept, so

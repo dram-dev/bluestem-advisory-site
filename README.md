@@ -103,7 +103,10 @@ older entry).
 The site is connected to this GitHub repo: **every push to `main` is a Netlify deploy**, and
 every deploy spends Netlify credits/build minutes, so pushes are batched — several changes,
 one push — rather than one push per tweak. `netlify.toml` carries an `ignore` rule that skips
-the deploy when a push touched nothing under `site/`, `netlify/` or `netlify.toml`.
+the deploy when a push touched nothing under `site/`, `netlify/` or `netlify.toml`. It always
+builds when Netlify has no build cache to compare against: in that case Netlify gives both
+commits the same value, and the old rule cancelled every build that way after six idle weeks
+(2026-10-05, "Canceled build due to no content change").
 
 
 1. Netlify → **Add new site → Import an existing project → GitHub** → pick this repo.
