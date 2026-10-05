@@ -1,7 +1,9 @@
 # Bluestem Advisory — Website
 
-Source for **bluestemadvisoryllc.com**, the site for Bluestem Advisory LLC, an Illinois
-management consultancy. The site is fully static — two self-contained HTML pages with all
+Source for **bluestem-advisory.com**, the site for Bluestem Advisory LLC, an Illinois
+management consultancy. The old address, `bluestemadvisoryllc.com`, forwards there and
+stays the email domain (see "The main address" below). The site is fully static — two
+self-contained HTML pages with all
 CSS, JavaScript, illustrations, and the founder portrait embedded inline. No build step,
 no dependencies, no framework.
 
@@ -43,12 +45,44 @@ Design notes for future edits:
 
 | Concern | Provider | Notes |
 |---|---|---|
-| Domain registration | **Wix** | bluestemadvisoryllc.com |
-| DNS records | **Wix** | points the domain at Netlify |
+| Main address | **Cloudflare** | `bluestem-advisory.com`: registrar, DNS, and the proxy in front of Netlify |
+| Old address, email domain | **Wix** | `bluestemadvisoryllc.com`: registrar and DNS; points at Netlify, which forwards it |
 | Hosting / CDN / HTTPS | **Netlify** | serves the static files, free tier |
 
 Wix is **only** the registrar/DNS host. The Wix *site builder* must stay disconnected
 from the domain (see the gotcha below — this has bitten us before).
+
+## The main address, and how search engines are told
+
+**bluestem-advisory.com is the site's main address** — the principals' decision of
+2026-10-05. Until then both domains served identical pages with nothing saying which was
+real, and Google had picked the LLC domain (URL Inspection that day:
+`bluestem-advisory.com/` was "Duplicate without user-selected canonical" of it). Six
+signals now say otherwise, and they only work together:
+
+1. **301 redirects** from `bluestemadvisoryllc.com`, `www.bluestemadvisoryllc.com` and
+   `www.bluestem-advisory.com`, path and query kept: the first rules in `netlify.toml`.
+   They must stay first.
+2. **`rel="canonical"`** on the four pages meant for search: `/`, `/about`,
+   `/assessment` and `/assessment/deeper`. The assessment pages get theirs from
+   `scripts/build-assessment.js`, so regenerate rather than hand-edit them. Result pages
+   and `/thanks` are `noindex` and need none.
+3. **`og:url`** and the preview image URLs name the main address.
+4. **`sitemap.xml`** and **`robots.txt`** list the main address's URLs.
+5. **WebSite and Organization structured data** on the home page: the site's name, its
+   URL, and the legal name.
+6. **Search Console's Change of address**, filed from the old property to the new one.
+   Both domain properties are verified. Keep both: the old one holds what Google filed
+   before the move.
+
+Two consequences that are easy to undo by accident:
+
+- **Keep `bluestemadvisoryllc.com` attached to the Netlify site** (it is still the
+  primary domain in Netlify's dashboard). The forwarding runs on Netlify, so detaching
+  the domain would break every old link instead of forwarding it.
+- **The main address reaches Netlify through Cloudflare's proxy.** Netlify therefore sees
+  Cloudflare's edge as the client, so `netlify/lib/relay.js` reads the visitor's IP from
+  `cf-connecting-ip` before Netlify's own header.
 
 ---
 
@@ -130,7 +164,7 @@ Either approach works; custom nameservers is the more durable one.
 ## Link previews (iMessage / social)
 
 Both pages carry Open Graph + Twitter card tags pointing at
-`https://bluestemadvisoryllc.com/og-image.png`. If a stale preview (e.g. the old Wix
+`https://bluestem-advisory.com/og-image.png`. If a stale preview (e.g. the old Wix
 logo) still shows when texting the link, it's the messaging app's cache — previews
 refresh when the link is shared to a new conversation, or over time. Facebook/LinkedIn
 caches can be force-refreshed with their sharing debugger tools.

@@ -11,7 +11,9 @@ const crypto = require('crypto');
 
 const SECRET = process.env.SITE_INQUIRY_SECRET || '';
 const INQUIRY_URL = process.env.ROOTBOOK_INQUIRY_URL || '';
-const SITE = 'https://bluestemadvisoryllc.com';
+// Where a visitor lands after posting: the site's main address (2026-10-05). The old
+// address would still work, through one more redirect.
+const SITE = 'https://bluestem-advisory.com';
 
 const redirect = (to) => ({ statusCode: 303, headers: { Location: to, 'Cache-Control': 'no-store' }, body: '' });
 
@@ -32,8 +34,15 @@ function readBody(event) {
 }
 const field = (get, k, max) => String(get(k) || '').replace(/\r/g, '').trim().slice(0, max);
 
+// The site's main address reaches Netlify through Cloudflare's proxy, so Netlify's own
+// connection IP is a Cloudflare edge server: every visitor through one edge would share a
+// hash, and Rootbook's per-visitor cap would hold real leads for triage. Cloudflare puts the
+// visitor's address in cf-connecting-ip and overwrites any copy a client sends it. Only a
+// request sent to Netlify directly, past Cloudflare, can forge that header, and all it gains
+// is a fresh hash: Rootbook's daily cap, the honeypot and the fill-time floor still hold.
 function ipHashOf(event) {
-  const ip = String(event.headers['x-nf-client-connection-ip'] || event.headers['client-ip'] || '');
+  const ip = String(event.headers['cf-connecting-ip'] || event.headers['x-nf-client-connection-ip']
+    || event.headers['client-ip'] || '');
   return ip ? crypto.createHmac('sha256', SECRET).update(ip).digest('hex').slice(0, 32) : '';
 }
 

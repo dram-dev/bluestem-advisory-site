@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The pages Google should index, at the site's main address (2026-10-05).
+     The assessment result pages and /thanks are noindex and stay out. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://bluestem-advisory.com/</loc></url>
+  <url><loc>https://bluestem-advisory.com/about</loc></url>
+  <url><loc>https://bluestem-advisory.com/assessment</loc></url>
+  <url><loc>https://bluestem-advisory.com/assessment/deeper</loc></url>
+</urlset>

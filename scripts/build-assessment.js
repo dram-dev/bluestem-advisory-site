@@ -23,14 +23,17 @@ const NUM = { 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 10: 'ten' };
 const word = (n) => NUM[n] || String(n);
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-const HEAD = (title, extraCss = '') => `<!DOCTYPE html>
+// The site's main address (2026-10-05). Pages Google should index name it as their canonical URL;
+// the noindex result pages do not need one.
+const SITE = 'https://bluestem-advisory.com';
+const HEAD = (title, extraCss = '', canonical = '') => `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Bluestem Advisory</title>
 <meta name="description" content="A short read on your organization's strategic plan — or on where you'd start if you don't have one: five questions, a straight answer, and the written version by email.">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+${canonical ? `<link rel="canonical" href="${SITE}${canonical}">\n` : ''}<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -131,7 +134,7 @@ function quizPage(set, opts = {}) {
   const lede = deeper
     ? (set.lede || `Five more questions about the ground under your plan. Two minutes; the written version follows by email like the first.`)
     : `${word(set.questions.length)[0].toUpperCase() + word(set.questions.length).slice(1)} questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Two minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.`;
-  return HEAD(set.title, QUIZ_CSS) + `<main>
+  return HEAD(set.title, QUIZ_CSS, deeper ? '/assessment/deeper' : '/assessment') + `<main>
   ${deeper ? '<p class="mono" style="margin:0 0 10px">Part two</p>' : ''}<h1>${esc(set.title)}</h1>
   <p class="lede">${esc(lede)}</p>
   <p class="fine">What you write here comes to us and stops there. There's no account to make and no list you're joining.</p>
