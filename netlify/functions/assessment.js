@@ -72,7 +72,7 @@ exports.handler = async (event) => {
         body: `I took the assessment on your site, but it didn't go through. ${ask}\n\n${who}\n\n`
           + `Answers (${payload.version}${payload.skipped ? ', skipped' : ''}): ${answers}`,
         shown: `${ask}\n\n${who}`,
-      }, r.status || 'net');
+      }, r.status || 'net', r.body && r.body.error);
     }
     // `why` is a bare status code, so a failure can be diagnosed from the visitor's URL
     // without a log in front of you. Nothing about the visitor.

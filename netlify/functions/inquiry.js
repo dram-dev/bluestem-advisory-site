@@ -47,7 +47,7 @@ exports.handler = async (event) => {
     return relay.rescue({
       subject: 'A question from the website', back: `${relay.SITE}/?sent=0#contact`,
       body: `${payload.question}\n\n${who}`.trim(), shown: payload.question,
-    }, r.status || 'net');
+    }, r.status || 'net', r.body && r.body.error);
   }
   return relay.redirect(`${relay.SITE}/thanks.html`);
 };

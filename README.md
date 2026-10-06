@@ -250,8 +250,10 @@ The same day, `assessment.js` stopped using `backTo` before declaring it. With i
 missing, that was a ReferenceError and the visitor got a 502 instead of the form.
 
 `tests/relay.test.js` covers all of it offline, with a stub standing in for Rootbook:
-`node --test tests/relay.test.js`. Five of its eight tests fail against the relays as they
-were before 2026-10-06.
+`node --test tests/relay.test.js`. Six of its nine tests fail against the relays as they
+were before 2026-10-06. An address Rootbook refuses as incomplete (browsers accept
+`name@company`; Rootbook wants a dot) gets the same email button, under a heading that says
+so rather than "our side didn't answer".
 
 ## The two things the site sends to Rootbook (2026-08-16)
 

@@ -83,6 +83,16 @@ test('a Rootbook error is rescued the same way, and names its status', async () 
   assert.match(r.body, /reference 502/);
 });
 
+test("an address Rootbook won't accept says so, and still offers the email", async () => {
+  const { inquiry } = load(SET);
+  rootbook({ status: 422, body: { ok: false, error: 'email' } });
+  const r = await inquiry.handler(post({ ...question, email: 'ada@prairiecoop' }));
+  assert.equal(r.statusCode, 200);
+  assert.match(r.body, /Your email address looks incomplete/);
+  assert.doesNotMatch(r.body, /Our side didn&#39;t answer/);
+  assert.match(mailtoBody(r.body), /^Can you help our board/);
+});
+
 test('a long message is capped in the email link but kept whole on the page', async () => {
   const { inquiry } = load(SET);
   rootbook(new Error('timeout'));

@@ -86,7 +86,10 @@ const MAILTO = 'admin@bluestemadvisoryllc.com';
 const html = (v) => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
   .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 
-function rescue({ subject, body, shown, back }, why) {
+// `reason` is Rootbook's own word when it answered and refused. 'email' means the address the
+// visitor typed doesn't look complete (browsers accept "name@company"; Rootbook wants a dot), so
+// the page says that instead of "our side didn't answer": it's theirs to fix, or to send by email.
+function rescue({ subject, body, shown, back }, why, reason) {
   const text = body.length > 1800 ? body.slice(0, 1800) + '\n[…the rest is on the page I was sent]' : body;
   const href = `mailto:${MAILTO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
   const page = `<!DOCTYPE html>
@@ -113,8 +116,9 @@ function rescue({ subject, body, shown, back }, why) {
 </head>
 <body>
 <main>
-  <h1>That didn&#39;t reach us — but it can.</h1>
-  <p>Our side didn&#39;t answer just now, so nothing was sent. Your message is below. Press the button and it opens in your own email, addressed to us and ready to send.</p>
+  ${reason === 'email' ? `<h1>Your email address looks incomplete.</h1>
+  <p>We couldn&#39;t have replied to it, so nothing was sent. Your message is below. Press the button and it opens in your own email, addressed to us and ready to send, or go back and correct the address.</p>` : `<h1>That didn&#39;t reach us — but it can.</h1>
+  <p>Our side didn&#39;t answer just now, so nothing was sent. Your message is below. Press the button and it opens in your own email, addressed to us and ready to send.</p>`}
   <p><a class="send" href="${html(href)}">Send it by email</a></p>
   <blockquote>${html(shown)}</blockquote>
   <p>Or write to <a href="mailto:${MAILTO}">${MAILTO}</a> yourself, or <a href="${html(back)}">try again</a> in a few minutes.</p>
