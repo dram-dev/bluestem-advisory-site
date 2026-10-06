@@ -16,13 +16,15 @@ const FRESH = 'starting-fresh'; // the "no strategic plan yet" path (v3+): its o
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method not allowed' };
+  const { get } = relay.readBody(event);
+  // A failure returns the visitor to the page they were on — part one or part two. Read before
+  // the settings check below, which uses it: read after, it was a ReferenceError, and a relay
+  // missing its settings answered 502 instead of sending the visitor back.
+  const backTo = String(get('page') || '') === '/assessment/deeper' ? '/assessment/deeper' : '/assessment';
   if (!relay.SECRET || !relay.INQUIRY_URL) {
     console.error('assessment relay: SITE_INQUIRY_SECRET / ROOTBOOK_INQUIRY_URL not set');
     return relay.redirect(`${relay.SITE}${backTo}?sent=0`);
   }
-  const { get } = relay.readBody(event);
-  // A failure returns the visitor to the page they were on — part one or part two.
-  const backTo = String(get('page') || '') === '/assessment/deeper' ? '/assessment/deeper' : '/assessment';
   if (String(get('website') || '').trim()) return relay.redirect(`${relay.SITE}/assessment/taking-hold`); // honeypot
 
   // Every q_<key> field is an answer index; Rootbook validates the set against
@@ -58,9 +60,23 @@ exports.handler = async (event) => {
   const slug = r.ok && r.body ? slugOf(r.body.band) : '';
   if (!slug || !KNOWN.has(slug)) {
     console.error(`assessment relay: ${r.error || `rootbook answered ${r.status}`}${slug ? ` (band ${slug})` : ''}`);
-    // `why` is a bare status code (or 'net'), so a failure can be diagnosed from
-    // the visitor's URL without a log in front of you. Nothing about the visitor.
-    return relay.redirect(`${relay.SITE}${backTo}?sent=0&why=${r.status || 'net'}`);
+    if (!r.ok) {
+      // Rootbook didn't take it, so nothing was scored and nobody heard. Hand it back with a
+      // one-press email (relay.rescue) carrying who they are and their answers, which Rootbook
+      // can score by hand: the lead, and the talk they may have asked for, still reach us.
+      const who = [payload.name, payload.organization, payload.email].filter(Boolean).join(', ');
+      const answers = Object.entries(payload.answers).map(([k, v]) => `${k} ${v}`).join(', ');
+      const ask = payload.wants_talk ? "I'd like to talk this through." : 'Please send me my read.';
+      return relay.rescue({
+        subject: 'My assessment from the website', back: `${relay.SITE}${backTo}`,
+        body: `I took the assessment on your site, but it didn't go through. ${ask}\n\n${who}\n\n`
+          + `Answers (${payload.version}${payload.skipped ? ', skipped' : ''}): ${answers}`,
+        shown: `${ask}\n\n${who}`,
+      }, r.status || 'net');
+    }
+    // `why` is a bare status code, so a failure can be diagnosed from the visitor's URL
+    // without a log in front of you. Nothing about the visitor.
+    return relay.redirect(`${relay.SITE}${backTo}?sent=0&why=${r.status || 'band'}`);
   }
   // `a` = per-question points in question order (0–3 each), for the drawing on the
   // result page. Rootbook is the authority on the score; this is the same arithmetic

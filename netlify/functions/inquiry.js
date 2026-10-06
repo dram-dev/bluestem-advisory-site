@@ -39,6 +39,15 @@ exports.handler = async (event) => {
   if (!payload.email || !payload.question) return relay.redirect(`${relay.SITE}/#contact?sent=0`);
 
   const r = await relay.forward(relay.INQUIRY_URL, payload, ipHash);
-  if (!r.ok) { console.error(`inquiry relay: ${r.error || `rootbook answered ${r.status}`}`); return relay.redirect(`${relay.SITE}/?sent=0&why=${r.status || 'net'}#contact`); }
+  if (!r.ok) {
+    console.error(`inquiry relay: ${r.error || `rootbook answered ${r.status}`}`);
+    // Rootbook didn't take it. Hand the message back with a one-press email (relay.rescue),
+    // rather than a form page that has already forgotten what they wrote.
+    const who = [payload.name, payload.organization].filter(Boolean).join(', ');
+    return relay.rescue({
+      subject: 'A question from the website', back: `${relay.SITE}/?sent=0#contact`,
+      body: `${payload.question}\n\n${who}`.trim(), shown: payload.question,
+    }, r.status || 'net');
+  }
   return relay.redirect(`${relay.SITE}/thanks.html`);
 };

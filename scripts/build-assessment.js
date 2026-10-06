@@ -45,15 +45,17 @@ const ogTags = (title, desc, url) => [
   `<meta name="twitter:image" content="${SITE}/og-image.png">`,
 ].join('\n') + '\n';
 // opts.path: the page's address on the main site. opts.indexable: the two question pages only,
-// which get a canonical URL. opts.description: falls back to DESC.
+// which get a canonical URL. opts.description: falls back to DESC. opts.searchTitle: what search
+// results and link previews show, when the page's own heading (Rootbook's wording, approved)
+// doesn't say what the page is about on its own: "Is your plan alive?" never says "strategic".
 const HEAD = (title, extraCss = '', opts = {}) => `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)} · Bluestem Advisory</title>
+<title>${esc(opts.searchTitle || title)} · Bluestem Advisory</title>
 <meta name="description" content="${esc(opts.description || DESC)}">
-${opts.indexable && opts.path ? `<link rel="canonical" href="${SITE}${opts.path}">\n` : ''}${opts.path ? ogTags(title, opts.description || DESC, SITE + opts.path) : ''}<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+${opts.indexable && opts.path ? `<link rel="canonical" href="${SITE}${opts.path}">\n` : ''}${opts.path ? ogTags(opts.searchTitle || title, opts.description || DESC, SITE + opts.path) : ''}<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -155,7 +157,8 @@ function quizPage(set, opts = {}) {
     ? (set.lede || `Five more questions about the ground under your plan. Two minutes; the written version follows by email like the first.`)
     : `${word(set.questions.length)[0].toUpperCase() + word(set.questions.length).slice(1)} questions about where your organization is heading — whether that lives in a strategic plan the board approved, a page of goals, or in conversations nobody has written down yet. Two minutes, honest answers. You'll get a straight, kind read on screen, and the written version by email. And if you don't have a strategic plan at all, say so — there's a path for that too.`;
   return HEAD(set.title, QUIZ_CSS, { path: deeper ? '/assessment/deeper' : '/assessment', indexable: true,
-                                    description: deeper ? DEEPER_DESC : DESC }) + `<main>
+                                    description: deeper ? DEEPER_DESC : DESC,
+                                    searchTitle: deeper ? 'Going deeper into your strategic plan' : 'Is your strategic plan alive?' }) + `<main>
   ${deeper ? '<p class="mono" style="margin:0 0 10px">Part two</p>' : ''}<h1>${esc(set.title)}</h1>
   <p class="lede">${esc(lede)}</p>
   <p class="fine">What you write here comes to us and stops there. There's no account to make and no list you're joining.</p>

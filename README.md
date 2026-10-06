@@ -13,6 +13,9 @@ no dependencies, no framework.
 .
 ├── README.md            ← this file
 ├── netlify.toml         ← Netlify deploy configuration
+├── netlify/             ← the two form relays (functions/) and what they share (lib/relay.js)
+├── scripts/             ← build-assessment.js; indexnow.sh (tell Bing a page changed)
+├── tests/               ← relay.test.js: node --test tests/relay.test.js (no dependencies)
 └── site/                ← the publish directory (what actually deploys)
     ├── index.html       ← main page (hero, work, approach, why, contact)
     ├── about.html       ← About us page (founder bio, the practice)
@@ -99,10 +102,30 @@ signals now say otherwise, and they only work together:
 4. **`sitemap.xml`** and **`robots.txt`** list the main address's URLs.
 5. **Structured data**: WebSite and Organization on the home page (name, URL, legal name,
    service area, founder), and AboutPage + Person on the About page, using only facts that
-   page states. The About page's main heading (`h1`) is Lyndsey's name.
+   page states. The About page's main heading (`h1`) is Lyndsey's name. Since 2026-10-06
+   the Organization also says what the firm does, for search engines and AI answer tools:
+   the five services as an offer catalogue with the page's own sentence for each (*The
+   work*), `knowsAbout`, the hero line as `slogan`, and as `audience` the contact form's
+   own list of organization types. Change a service's words on the page, change them here.
 6. **Search Console's Change of address**, filed from the old property to the new one.
    Both domain properties are verified. Keep both: the old one holds what Google filed
    before the move.
+7. **IndexNow** (2026-10-06) tells Bing, and the other engines that share IndexNow, when
+   pages change: `bash scripts/indexnow.sh` after a deploy that changes one. Bing's index
+   is the one ChatGPT search, Copilot and DuckDuckGo answer from, so this is how the AI
+   answer tools the principals allowed hear about a change. The key file
+   `site/679153e4c9a24c051d278ec7e12fec24.txt` is public by design: it proves we own the
+   site, and grants nothing else.
+
+**What the titles say (2026-10-06).** A page's `<title>` is the headline Google shows and
+the strongest single signal of what it's about, so each one names what the page offers in
+the site's own words. The home page: *Strategic Planning & Management Consulting* (two of
+the five services the page lists), and its description now opens with *strategic plans
+that live*, after the page's "A plan that lives". The two question pages keep their
+approved headings (*Is your plan alive?*, *Going deeper*), which never say "strategic", so
+`build-assessment.js` gives their `<title>` and link previews a search title: *Is your
+strategic plan alive?* and *Going deeper into your strategic plan*. The ops console's
+Search page shows whether it worked: impressions and clicks for strategic-planning queries.
 
 Two consequences that are easy to undo by accident:
 
@@ -207,6 +230,28 @@ caches can be force-refreshed with their sharing debugger tools.
 2. If nav links change, update them in **both** files (each page has its own nav + mobile menu).
 3. Deploy via Option A or push via Option B.
 4. Spot-check: hero illustration, depth ruler, mobile menu, `/about` link, favicon in tab.
+
+## When Rootbook can't be reached, the message goes back to its writer (2026-10-06)
+
+Rootbook runs on one Mac behind a tunnel. When the Mac, its connection or the tunnel is down,
+a relay can't deliver, and until 2026-10-06 that lead was simply lost: the form page said
+"that didn't go through" and had already forgotten what the visitor wrote. Now the relay
+answers with a page holding their message and one button that opens their own email, already
+addressed to admin@bluestemadvisoryllc.com and filled in (`relay.rescue` in
+`netlify/lib/relay.js`). For the assessment, the email carries their name, organization,
+address, whether they asked to talk, and their answers by question key, which Rootbook can
+score by hand. The message goes back only to the person who just typed it, in that one
+response: never into a URL, a log or a store. The email link is capped at 1,800 characters
+because some mail apps refuse longer links; the whole message stays on the page to copy.
+A relay missing its settings still sends the visitor back to the form (`?sent=0`): that is a
+configuration fault, and the ops console's daily honeypot test of both forms catches it.
+
+The same day, `assessment.js` stopped using `backTo` before declaring it. With its settings
+missing, that was a ReferenceError and the visitor got a 502 instead of the form.
+
+`tests/relay.test.js` covers all of it offline, with a stub standing in for Rootbook:
+`node --test tests/relay.test.js`. Five of its eight tests fail against the relays as they
+were before 2026-10-06.
 
 ## The two things the site sends to Rootbook (2026-08-16)
 
