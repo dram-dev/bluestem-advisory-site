@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The site's pages at the OLD address, for the move to bluestem-advisory.com (2026-10-05).
+     Every one of these forwards to the same path on the main address. Google's site-move
+     guide asks for this sitemap in the old property: Google re-reads the old addresses,
+     finds the forwards, and re-files the pages; the old property's count of indexed pages
+     falls to zero as it does. Served at bluestemadvisoryllc.com/sitemap-old.xml by the
+     first rule in netlify.toml. Remove it, and that rule, once that count reaches zero. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://bluestemadvisoryllc.com/</loc></url>
+  <url><loc>https://bluestemadvisoryllc.com/about</loc></url>
+  <url><loc>https://bluestemadvisoryllc.com/assessment</loc></url>
+  <url><loc>https://bluestemadvisoryllc.com/assessment/deeper</loc></url>
+</urlset>

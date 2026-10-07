@@ -18,6 +18,19 @@
 # applies the first rule that matches, and the clean-URL rules below would otherwise serve
 # the old address its own copy. bluestemadvisoryllc.com stays the email domain (Google
 # Workspace). bluestem-advisory.com itself reaches Netlify through Cloudflare's proxy.
+#
+# The one exception, and it must come before them: the old address's own sitemap, listing
+# the old URLs (2026-10-07). Google's site-move guide asks for it in the old property, so
+# Google re-reads the old addresses and finds these forwards; until it does, it keeps the
+# old address as the real page and calls the new one a duplicate. Forwarded, it would be a
+# sitemap on another domain, which the old property can't use. Remove both once the old
+# property's sitemap shows no pages indexed.
+[[redirects]]
+  from = "https://bluestemadvisoryllc.com/sitemap-old.xml"
+  to = "/sitemap-old.xml"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "https://bluestemadvisoryllc.com/*"
   to = "https://bluestem-advisory.com/:splat"
@@ -30,6 +43,11 @@
   status = 301
   force = true
 
+# Netlify sends a www name to the site's PRIMARY domain before reading any rule here. While
+# that was bluestemadvisoryllc.com, www.bluestem-advisory.com went to the old address first
+# and only then here: two hops, which Google's site-move guide says to avoid (seen
+# 2026-10-07). The fix is Netlify's setting, not this file: Domain management →
+# bluestem-advisory.com → Set as primary domain.
 [[redirects]]
   from = "https://www.bluestem-advisory.com/*"
   to = "https://bluestem-advisory.com/:splat"

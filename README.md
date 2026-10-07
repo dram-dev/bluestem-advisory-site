@@ -15,7 +15,8 @@ no dependencies, no framework.
 ├── netlify.toml         ← Netlify deploy configuration
 ├── netlify/             ← the two form relays (functions/) and what they share (lib/relay.js)
 ├── scripts/             ← build-assessment.js; indexnow.sh (tell Bing a page changed)
-├── tests/               ← relay.test.js: node --test tests/relay.test.js (no dependencies)
+├── tests/               ← relay.test.js (the form relays) and site.test.js (addresses, canonicals,
+│                          sitemaps): node --test tests/relay.test.js tests/site.test.js
 └── site/                ← the publish directory (what actually deploys)
     ├── index.html       ← main page (hero, work, approach, why, contact)
     ├── about.html       ← About us page (founder bio, the practice)
@@ -86,8 +87,8 @@ from the domain (see the gotcha below — this has bitten us before).
 **bluestem-advisory.com is the site's main address** — the principals' decision of
 2026-10-05. Until then both domains served identical pages with nothing saying which was
 real, and Google had picked the LLC domain (URL Inspection that day:
-`bluestem-advisory.com/` was "Duplicate without user-selected canonical" of it). Six
-signals now say otherwise, and they only work together:
+`bluestem-advisory.com/` was "Duplicate without user-selected canonical" of it). These
+now say otherwise, and they only work together:
 
 1. **301 redirects** from `bluestemadvisoryllc.com`, `www.bluestemadvisoryllc.com`,
    `www.bluestem-advisory.com` and Netlify's own `stunning-trifle-b00895.netlify.app`, path
@@ -116,6 +117,19 @@ signals now say otherwise, and they only work together:
    answer tools the principals allowed hear about a change. The key file
    `site/679153e4c9a24c051d278ec7e12fec24.txt` is public by design: it proves we own the
    site, and grants nothing else.
+8. **The old address's own sitemap** (2026-10-07), `site/sitemap-old.xml`, submitted in
+   the *old* property. Google's site-move guide asks for it: Google keeps an old address
+   as the real page until it re-reads that address and finds the forward, and on 7 Oct it
+   still hadn't. It had last read the old pages between 14 Sep and 1 Oct, so it called
+   three new pages duplicates of them, though it had re-read those new pages, canonical
+   tags and all, the evening before. Netlify serves this one file on the old address
+   instead of forwarding it (the first rule in `netlify.toml`). Remove both once the old
+   property's sitemap report shows no pages indexed.
+
+**Links between pages use the clean address** (`/about`, `/#contact`), never `about.html`
+or `index.html#…`. Those load the same page at a second address, which Google files as a
+copy; until 2026-10-07 every page's menu linked to them. `tests/site.test.js` checks the
+links, the canonical tags and both sitemaps.
 
 **What the titles say (2026-10-06).** A page's `<title>` is the headline Google shows and
 the strongest single signal of what it's about, so each one names what the page offers in
@@ -129,9 +143,15 @@ Search page shows whether it worked: impressions and clicks for strategic-planni
 
 Two consequences that are easy to undo by accident:
 
-- **Keep `bluestemadvisoryllc.com` attached to the Netlify site** (it is still the
-  primary domain in Netlify's dashboard). The forwarding runs on Netlify, so detaching
-  the domain would break every old link instead of forwarding it.
+- **Keep `bluestemadvisoryllc.com` attached to the Netlify site.** The forwarding runs on
+  Netlify, so detaching the domain would break every old link instead of forwarding it.
+- **Netlify's primary domain should be `bluestem-advisory.com`.** Netlify sends a `www`
+  name to the primary domain before it reads `netlify.toml`. While the primary was still
+  `bluestemadvisoryllc.com` (until at least 2026-10-07), `www.bluestem-advisory.com`
+  hopped through the old address on its way home: the two-hop chain Google's site-move
+  guide says to avoid. Set it under Domain management → `bluestem-advisory.com` →
+  Options → Set as primary domain. Afterwards both `www` names should forward to
+  `https://bluestem-advisory.com/` in one hop.
 - **The main address reaches Netlify through Cloudflare's proxy.** Netlify therefore sees
   Cloudflare's edge as the client, so `netlify/lib/relay.js` reads the visitor's IP from
   `cf-connecting-ip` before Netlify's own header.
