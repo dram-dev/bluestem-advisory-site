@@ -145,13 +145,16 @@ Two consequences that are easy to undo by accident:
 
 - **Keep `bluestemadvisoryllc.com` attached to the Netlify site.** The forwarding runs on
   Netlify, so detaching the domain would break every old link instead of forwarding it.
-- **Netlify's primary domain should be `bluestem-advisory.com`.** Netlify sends a `www`
-  name to the primary domain before it reads `netlify.toml`. While the primary was still
-  `bluestemadvisoryllc.com` (until at least 2026-10-07), `www.bluestem-advisory.com`
-  hopped through the old address on its way home: the two-hop chain Google's site-move
-  guide says to avoid. Set it under Domain management → `bluestem-advisory.com` →
-  Options → Set as primary domain. Afterwards both `www` names should forward to
-  `https://bluestem-advisory.com/` in one hop.
+- **Netlify's primary domain is `bluestem-advisory.com`** (since 2026-10-10). Netlify
+  sends a `www` name to the primary domain before it reads `netlify.toml`. While the
+  primary was still `bluestemadvisoryllc.com`, `www.bluestem-advisory.com` went through
+  the old address on its way home: the two-hop chain Google's site-move guide says to
+  avoid.
+- **`www.bluestemadvisoryllc.com` must be its own domain alias.** It was on Netlify's
+  certificate only as the old primary's `www`. Switching the primary reissued the
+  certificate without it, and browsers warned visitors away from it. The fix: Domain
+  management → Add domain alias → `www.bluestemadvisoryllc.com`, then Renew certificate.
+  The ops console now checks both `www` names every 15 minutes.
 - **The main address reaches Netlify through Cloudflare's proxy.** Netlify therefore sees
   Cloudflare's edge as the client, so `netlify/lib/relay.js` reads the visitor's IP from
   `cf-connecting-ip` before Netlify's own header.
